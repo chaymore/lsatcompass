@@ -3,7 +3,7 @@
 
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import worker, { keywordSearch, validateProfile } from '../src/index.ts';
+import worker, { keywordSearch, noDashes, validateProfile } from '../src/index.ts';
 import catalogFile from '../data/resources.json' with { type: 'json' };
 
 const catalog = catalogFile.resources;
@@ -173,4 +173,10 @@ test('resources endpoint and static site', async () => {
 test('keyword fallback favors the weak section', () => {
   const hits = keywordSearch('reading comprehension passages practice', 5);
   assert.ok(hits.every((r) => r.sections.includes('RC') || r.sections.includes('all')));
+});
+
+test('em and en dashes from the model become commas', () => {
+  assert.equal(noDashes('Focus on timing \u2014 it matters'), 'Focus on timing, it matters');
+  assert.equal(noDashes('LR\u2013RC balance'), 'LR, RC balance');
+  assert.equal(noDashes('no dashes here - fine'), 'no dashes here - fine');
 });

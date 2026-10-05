@@ -53,7 +53,7 @@ async function plan(request: Request, env: Env): Promise<Response> {
   const parsed = parseJsonObject(raw) as { diagnosis?: unknown; weeks?: unknown; picks?: unknown };
   const allowedIds = new Set(resources.map((r) => r.id));
   return json({
-    diagnosis: cleanText(parsed.diagnosis, 2500),
+    diagnosis: noDashes(cleanText(parsed.diagnosis, 2500)),
     weeks: cleanWeeks(parsed.weeks, planWeeks(profile)),
     picks: cleanPicks(parsed.picks, allowedIds),
   });
@@ -78,7 +78,7 @@ async function chat(request: Request, env: Env): Promise<Response> {
     messages: [...history, { role: 'user', content: message }],
     maxTokens: 700,
   });
-  return json({ text: reply || 'Sorry, I could not come up with an answer. Try rephrasing?' });
+  return json({ text: noDashes(reply) || 'Sorry, I could not come up with an answer. Try rephrasing?' });
 }
 
 // Searches Pinecone. If Pinecone is down or not set up yet, falls back to a simple
@@ -157,6 +157,11 @@ function cleanText(value: unknown, max: number): string {
   return typeof value === 'string' ? value.trim().slice(0, max) : '';
 }
 
+// Our house style has no em or en dashes, so swap any the model slips in for commas.
+export function noDashes(text: string): string {
+  return text.replace(/\s*[\u2014\u2013]\s*/g, ', ').replace(/ ,/g, ',');
+}
+
 function cleanHistory(value: unknown): ChatMessage[] {
   if (!Array.isArray(value)) return [];
   return value
@@ -174,11 +179,11 @@ function cleanWeeks(value: unknown, maxWeeks: number): StudyWeek[] {
     const tasks = Array.isArray(week.tasks) ? week.tasks : [];
     return {
       week: i + 1,
-      title: cleanText(week.title, 80) || `Week ${i + 1}`,
-      focus: cleanText(week.focus, 60),
+      title: noDashes(cleanText(week.title, 80)) || `Week ${i + 1}`,
+      focus: noDashes(cleanText(week.focus, 60)),
       tasks: tasks.slice(0, 7).map((t) => {
         const task = (t && typeof t === 'object' ? t : {}) as Record<string, unknown>;
-        return { day: cleanText(task.day, 12), task: cleanText(task.task, 200) };
+        return { day: cleanText(task.day, 12), task: noDashes(cleanText(task.task, 200)) };
       }).filter((t) => t.task),
     };
   });
@@ -195,7 +200,7 @@ function cleanPicks(value: unknown, allowedIds: Set<string>): Pick[] {
     // Only accept resources we actually retrieved, so the model can't invent links.
     if (!resource || !allowedIds.has(id) || seen.has(id)) continue;
     seen.add(id);
-    picks.push({ resource, why: cleanText(pick.why, 300) });
+    picks.push({ resource, why: noDashes(cleanText(pick.why, 300)) });
     if (picks.length === 6) break;
   }
   return picks;

@@ -2,1384 +2,615 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>LSAT Compass — Your Personal Study Navigator</title>
-  <!--
-  ═══════════════════════════════════════════════════════════
-  FONT SWAP GUIDE — change the Google Fonts URL and the
-  font-family variables below to restyle the whole app.
-
-  Current fonts:
-    Display (headings) : Playfair Display  → serif, editorial
-    Body               : DM Sans           → clean, modern sans
-    Mono (labels/code) : DM Mono           → techy accents
-
-  Other great pairings to try:
-    Classy   : "Cormorant Garamond" + "Jost" + "Courier Prime"
-    Modern   : "Syne" + "Inter" + "IBM Plex Mono"
-    Warm     : "Lora" + "Nunito" + "DM Mono"
-    Bold     : "Bebas Neue" + "Barlow" + "Space Mono"
-
-  To swap: 1) Replace the Google Fonts URL below
-           2) Update --font-display, --font-body, --font-mono
-  ═══════════════════════════════════════════════════════════
-  -->
-  <link id="googleFonts" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LSAT Compass</title>
+  <meta name="description" content="A free LSAT study plan built around your practice score, your goal and your schedule." />
+  <meta property="og:title" content="LSAT Compass" />
+  <meta property="og:description" content="A free LSAT study plan built around your practice score, your goal and your schedule." />
+  <meta name="theme-color" content="#f5f0e8" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%230f0e0c'/%3E%3Cpolygon points='16,5 18.5,16 16,15 13.5,16' fill='%23c9a84c'/%3E%3Cpolygon points='16,27 13.5,16 16,17 18.5,16' fill='%23f5f0e8'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
-    /* ═══════════════════════════════════════════════════════
-       DESIGN TOKENS — edit this block to restyle everything
-       ═══════════════════════════════════════════════════════ */
+    /* Colors and type. Change these to restyle the whole site. */
     :root {
-      /* FONTS — swap these to change typefaces globally */
-      --font-display: 'Playfair Display', serif;   /* headings, logo */
-      --font-body:    'DM Sans', sans-serif;        /* all body text  */
-      --font-mono:    'DM Mono', monospace;         /* labels, scores */
+      --ink: #0f0e0c;
+      --ink-soft: #3a362f;
+      --paper: #f5f0e8;
+      --surface: #faf7f2;
+      --cream: #ede7d9;
+      --line: #ddd5c6;
+      --muted: #756b5b;
+      --gold: #c9a84c;
+      --gold-deep: #9c7d2c;
+      --gold-wash: #f1e7cb;
+      --forest: #2d5016;
+      --rust: #b85c38;
 
-      /* COLORS — the full palette */
-      --ink:        #0f0e0c;   /* primary text + dark backgrounds */
-      --paper:      #f5f0e8;   /* page background                 */
-      --cream:      #ede7d9;   /* secondary background / rows     */
-      --gold:       #c9a84c;   /* primary accent (CTAs, icons)    */
-      --gold-light: #e8d5a3;   /* lighter gold for hover states   */
-      --rust:       #b85c38;   /* "weak" indicator color          */
-      --forest:     #2d5016;   /* "strong" / LawHub green         */
-      --muted:      #7a7060;   /* secondary text                  */
-      --white:      #ffffff;   /* inputs, pure white elements     */
-      --card:       #faf7f2;   /* card background                 */
-      --border:     #d4cdc0;   /* borders and dividers            */
+      --serif: 'Newsreader', Georgia, serif;
+      --sans: 'Geist', system-ui, -apple-system, sans-serif;
+      --mono: 'Geist Mono', ui-monospace, monospace;
 
-      /* SPACING & SHAPE */
-      --radius-card:   16px;   /* card border radius */
-      --radius-input:  10px;   /* input/button radius */
-      --max-width:    780px;   /* app max width */
+      --radius: 12px;
+      --radius-sm: 8px;
+      --width: 680px;
     }
-    /* ═══════════════════════════════════════════════════════ */
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { -webkit-text-size-adjust: 100%; }
 
     body {
-      font-family: var(--font-body);
-      background: var(--paper);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.55;
       color: var(--ink);
-      min-height: 100vh;
-      overflow-x: hidden;
+      background: var(--paper);
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* Background texture */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: 
-        radial-gradient(ellipse at 20% 20%, rgba(201,168,76,0.08) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 80%, rgba(45,80,22,0.06) 0%, transparent 50%),
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='none'/%3E%3Ccircle cx='1' cy='1' r='0.5' fill='%23c9a84c' opacity='0.15'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 0;
-    }
+    a { color: inherit; }
+    button, input, select, textarea { font: inherit; color: inherit; }
+    button { cursor: pointer; }
+    :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+    h2:focus { outline: none; }
 
-    .app {
-      position: relative;
-      z-index: 1;
-      max-width: 780px;
+    /* Layout */
+    .topbar {
+      max-width: var(--width);
       margin: 0 auto;
-      padding: 40px 24px 80px;
+      padding: 20px 16px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-
-    /* Header */
-    .header {
-      text-align: center;
-      margin-bottom: 56px;
-      animation: fadeDown 0.8s ease both;
-    }
-
-    .logo-mark {
+    .brand {
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 20px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      text-decoration: none;
     }
-
-    .compass-icon {
-      width: 44px;
-      height: 44px;
-    }
-
-    .logo-text {
-      font-family: var(--font-display);
-      font-size: 1.1rem;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--gold);
-    }
-
-    h1 {
-      font-family: var(--font-display);
-      font-size: clamp(2.2rem, 5vw, 3.2rem);
-      font-weight: 900;
-      line-height: 1.1;
-      margin-bottom: 16px;
-      color: var(--ink);
-    }
-
-    h1 em {
-      font-style: italic;
-      color: var(--gold);
-    }
-
-    .subtitle {
-      font-size: 1.05rem;
+    .brand svg { width: 26px; height: 26px; }
+    .restart {
+      font-size: 0.875rem;
       color: var(--muted);
-      font-weight: 300;
-      max-width: 480px;
+      background: none;
+      border: 0;
+      padding: 6px 0;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    [hidden] { display: none !important; }
+
+    main {
+      max-width: var(--width);
       margin: 0 auto;
-      line-height: 1.6;
+      padding: 0 16px 96px;
     }
 
-    /* Progress tracker — single flex row: [step] [line] [step] [line] ... */
-    .progress-track {
-      display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-      margin-bottom: 40px;
-      animation: fadeIn 0.6s 0.3s ease both;
-    }
-
-    /* Each step is a column: dot on top, label below, both centered */
-    .progress-step {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      flex-shrink: 0;
-    }
-
-    .step-dot {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      border: 2px solid var(--border);
-      background: var(--paper);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.7rem;
-      font-weight: 600;
-      color: var(--muted);
-      flex-shrink: 0;
-      transition: all 0.3s ease;
-      font-family: var(--font-mono);
-    }
-
-    .step-dot.active {
-      border-color: var(--gold);
-      background: var(--gold);
-      color: var(--white);
-    }
-
-    .step-dot.done {
-      border-color: var(--forest);
-      background: var(--forest);
-      color: var(--white);
-    }
-
-    /* Line floats between dots with gap on each side, vertically centered on the dot */
-    .step-line {
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-      transition: background 0.3s ease;
-      align-self: flex-start;
-      margin-top: 13px; /* (28px dot / 2) − (1px line / 2) */
-      margin-left: 8px;
-      margin-right: 8px;
-    }
-
-    .step-line.done { background: var(--forest); }
-
-    .step-label {
-      font-size: 0.7rem;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      white-space: nowrap;
-      text-align: center;
-      margin-top: 8px;
-    }
-
-    /* Cards */
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 40px;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 24px rgba(15,14,12,0.06), 0 1px 4px rgba(15,14,12,0.04);
-      animation: fadeUp 0.5s ease both;
-    }
-
-    .card-header {
-      margin-bottom: 28px;
-    }
-
-    .card-eyebrow {
-      font-size: 0.72rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--gold);
-      margin-bottom: 8px;
-      font-family: var(--font-mono);
-    }
-
-    .card-title {
-      font-family: var(--font-display);
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--ink);
-      line-height: 1.3;
-    }
-
-    .card-desc {
-      color: var(--muted);
-      font-size: 0.9rem;
-      margin-top: 8px;
-      line-height: 1.6;
-    }
-
-    /* Form elements */
-    .form-group {
-      margin-bottom: 24px;
-    }
-
-    label {
-      display: block;
-      font-size: 0.85rem;
+    /* Intro */
+    .intro { padding: 56px 0 40px; }
+    h1 {
+      font-family: var(--serif);
       font-weight: 500;
-      color: var(--ink);
-      margin-bottom: 8px;
-      letter-spacing: 0.01em;
+      font-size: clamp(2.25rem, 7vw, 3.25rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      max-width: 14ch;
+    }
+    .lede {
+      margin-top: 16px;
+      max-width: 46ch;
+      font-size: 1.0625rem;
+      color: var(--ink-soft);
     }
 
-    label .hint {
-      font-weight: 300;
+    /* Progress */
+    .progress {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin: 32px 0;
+      list-style: none;
+    }
+    .intro:not([hidden]) + .progress { margin-top: 0; }
+    .progress li {
+      font-size: 0.8125rem;
       color: var(--muted);
-      font-size: 0.8rem;
+      padding-top: 10px;
+      border-top: 2px solid var(--line);
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .progress li.done { border-color: var(--ink); color: var(--ink); }
+    .progress li.current { border-color: var(--gold); color: var(--ink); font-weight: 500; }
+
+    /* Steps */
+    .step { display: none; animation: rise 0.35s ease both; }
+    .step.active { display: block; }
+    @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) { .step, .bar-fill, .loader-bar span { animation: none !important; transition: none !important; } }
+
+    h2 {
+      font-family: var(--serif);
+      font-weight: 500;
+      font-size: 1.75rem;
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+    }
+    .step > h2 + p, .section > h2 + p { margin-top: 8px; color: var(--ink-soft); max-width: 52ch; }
+
+    .panel {
+      margin-top: 28px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px;
     }
 
-    input[type="number"],
-    input[type="text"],
-    select,
-    textarea {
+    /* Choice buttons */
+    .choices { display: grid; gap: 12px; margin-top: 28px; }
+    .choice {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
       width: 100%;
-      padding: 12px 16px;
-      background: var(--white);
-      border: 1.5px solid var(--border);
-      border-radius: var(--radius-input);
-      font-family: var(--font-body);
-      font-size: 0.95rem;
-      color: var(--ink);
-      transition: border-color 0.2s, box-shadow 0.2s;
-      appearance: none;
+      text-align: left;
+      padding: 20px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      transition: border-color 0.15s, background 0.15s;
     }
+    .choice:hover { border-color: var(--ink); }
+    .choice strong { display: block; font-weight: 500; }
+    .choice span { display: block; font-size: 0.9rem; color: var(--muted); margin-top: 2px; }
+    .choice::after { content: '→'; color: var(--muted); font-size: 1.1rem; }
 
+    /* Forms */
+    .field + .field { margin-top: 22px; }
+    label, .label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    .optional { font-weight: 400; color: var(--muted); }
+    input[type=number], input[type=text], select, textarea {
+      width: 100%;
+      padding: 12px 14px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
     input:focus, select:focus, textarea:focus {
       outline: none;
       border-color: var(--gold);
-      box-shadow: 0 0 0 3px rgba(201,168,76,0.15);
+      box-shadow: 0 0 0 3px var(--gold-wash);
     }
-
-    .score-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
+    textarea { resize: vertical; min-height: 84px; }
+    .big-input {
+      font-family: var(--mono);
+      font-size: 2rem !important;
+      padding: 10px 14px !important;
+      max-width: 180px;
     }
+    .hint { font-size: 0.85rem; color: var(--muted); margin-top: 8px; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .row .field + .field { margin-top: 0; }
+    .row + .field { margin-top: 22px; }
+    .trio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .trio label { font-weight: 400; font-size: 0.85rem; color: var(--ink-soft); }
 
-    .score-box {
-      text-align: center;
-    }
-
-    .score-box label {
-      text-align: center;
-      font-size: 0.78rem;
-    }
-
-    .score-box input {
-      text-align: center;
-      font-family: var(--font-mono);
-      font-size: 1.2rem;
-      font-weight: 500;
-      padding: 14px 8px;
-    }
-
-    .score-section-label {
-      font-size: 0.72rem;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-top: 6px;
-      text-align: center;
-    }
-
-    /* Radio / option buttons */
-    .option-group {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .option-btn {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 14px 18px;
-      background: var(--white);
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
+    details.more { margin-top: 22px; border-top: 1px solid var(--line); padding-top: 18px; }
+    details.more summary {
       cursor: pointer;
-      transition: all 0.2s;
-      text-align: left;
-      font-family: var(--font-body);
-      border-color: var(--gold);
-      background: rgba(201,168,76,0.04);
+      font-size: 0.9rem;
+      font-weight: 500;
+      list-style: none;
     }
+    details.more summary::-webkit-details-marker { display: none; }
+    details.more summary::before { content: '+ '; color: var(--gold-deep); }
+    details.more[open] summary::before { content: '− '; }
+    details.more .trio { margin-top: 16px; }
 
-    .option-btn.selected {
-      border-color: var(--gold);
-      background: rgba(201,168,76,0.08);
+    /* Segmented control */
+    .segmented {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      padding: 4px;
+      background: var(--cream);
+      border-radius: var(--radius-sm);
     }
-
-    .option-radio {
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      border: 2px solid var(--border);
-      flex-shrink: 0;
-      transition: all 0.2s;
-      position: relative;
+    .segmented button {
+      padding: 10px 4px;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      font-size: 0.9rem;
+      color: var(--ink-soft);
     }
-
-    .option-btn.selected .option-radio {
-      border-color: var(--gold);
-      background: var(--gold);
-    }
-
-    .option-btn.selected .option-radio::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%,-50%);
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: white;
-    }
+    .segmented button[aria-pressed=true] { background: #fff; color: var(--ink); font-weight: 500; box-shadow: 0 1px 2px rgba(15,14,12,0.12); }
 
     /* Buttons */
+    .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 28px; }
+    .panel .actions { margin-top: 8px; }
     .btn {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 8px;
-      padding: 14px 28px;
-      border-radius: var(--radius-input);
-      font-family: var(--font-body);
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      border: none;
-      text-decoration: none;
-    }
-
-    .btn-primary {
+      padding: 13px 22px;
+      border-radius: 999px;
+      border: 1px solid var(--ink);
       background: var(--ink);
-      color: var(--gold);
-      width: 100%;
-      justify-content: center;
-      font-size: 1rem;
-      padding: 16px 28px;
+      color: var(--paper);
+      font-weight: 500;
+      text-decoration: none;
+      transition: background 0.15s, color 0.15s;
     }
-
-    .btn-primary:hover {
-      background: #1e1c18;
-      transform: translateY(-1px);
-      box-shadow: 0 8px 24px rgba(15,14,12,0.2);
+    .btn:hover { background: var(--ink-soft); }
+    .btn.secondary { background: transparent; color: var(--ink); border-color: var(--line); }
+    .btn.secondary:hover { border-color: var(--ink); }
+    .btn:disabled { opacity: 0.5; cursor: default; }
+    .link-btn {
+      background: none;
+      border: 0;
+      color: var(--ink-soft);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      font-size: 0.95rem;
     }
+    .error { margin-top: 14px; color: var(--rust); font-size: 0.9rem; min-height: 1.2em; }
 
-    .btn-primary:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .btn-secondary {
-      background: transparent;
-      color: var(--muted);
-      border: 1.5px solid var(--border);
-    }
-
-    .btn-secondary:hover {
-      border-color: var(--ink);
-      color: var(--ink);
-    }
-
-    .btn-gold {
-      background: var(--gold);
-      color: var(--ink);
-      width: 100%;
-      justify-content: center;
-      font-size: 1rem;
-      padding: 16px 28px;
-    }
-
-    .btn-gold:hover {
-      background: #b8962e;
-      transform: translateY(-1px);
-      box-shadow: 0 8px 24px rgba(201,168,76,0.3);
-    }
-
-    .btn-lawhub {
-      background: var(--forest);
-      color: var(--white);
-      width: 100%;
-      justify-content: center;
-      font-size: 1rem;
-      padding: 18px 28px;
-    }
-
-    .btn-lawhub:hover {
-      background: #3a6b1e;
-      transform: translateY(-1px);
-      box-shadow: 0 8px 24px rgba(45,80,22,0.25);
-    }
-
-    /* LawHub redirect card */
-    .lawhub-card {
-      text-align: center;
-      padding: 48px 40px;
-    }
-
-    .lawhub-icon {
-      width: 72px;
-      height: 72px;
-      background: rgba(45,80,22,0.1);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 24px;
-      font-size: 2rem;
-    }
-
-    .lawhub-steps {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      text-align: left;
-      margin: 28px 0;
-      padding: 20px;
-      background: rgba(45,80,22,0.04);
-      border-radius: 12px;
-      border: 1px solid rgba(45,80,22,0.12);
-    }
-
-    .lawhub-step {
-      display: flex;
-      gap: 12px;
-      align-items: flex-start;
-      font-size: 0.88rem;
-      color: var(--ink);
-    }
-
-    .step-num {
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background: var(--forest);
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.7rem;
-      font-weight: 600;
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
-
-    .divider {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin: 20px 0;
-      color: var(--muted);
-      font-size: 0.8rem;
-    }
-
-    .divider::before, .divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
-
-    /* AI Loading state */
-    .ai-loading {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 48px 20px;
-      text-align: center;
-      gap: 20px;
-    }
-
-    .thinking-dots {
-      display: flex;
-      gap: 8px;
-    }
-
-    .thinking-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--gold);
-      animation: pulse 1.4s ease-in-out infinite;
-    }
-
-    .thinking-dot:nth-child(2) { animation-delay: 0.2s; }
-    .thinking-dot:nth-child(3) { animation-delay: 0.4s; }
-
-    .ai-status {
+    /* LawHub steps */
+    .numbered { list-style: none; counter-reset: n; display: grid; gap: 14px; }
+    .numbered li { counter-increment: n; display: grid; grid-template-columns: 28px 1fr; gap: 12px; align-items: baseline; }
+    .numbered li::before {
+      content: counter(n);
+      font-family: var(--mono);
       font-size: 0.85rem;
-      color: var(--muted);
-      font-family: var(--font-mono);
+      color: var(--gold-deep);
     }
 
-    .ai-progress-wrap {
-      width: 100%;
-      max-width: 320px;
-      height: 4px;
-      background: var(--border);
-      border-radius: 2px;
-      overflow: hidden;
-    }
-
-    .ai-progress-bar {
-      height: 100%;
-      background: var(--gold);
-      border-radius: 2px;
-      width: 0%;
-      transition: width 0.5s ease;
-    }
+    /* Loading */
+    .loader { padding: 48px 0; }
+    .loader-bar { margin-top: 28px; height: 3px; background: var(--line); border-radius: 3px; overflow: hidden; }
+    .loader-bar span { display: block; height: 100%; width: 35%; background: var(--gold); border-radius: 3px; animation: slide 1.4s ease-in-out infinite; }
+    @keyframes slide { from { transform: translateX(-100%); } to { transform: translateX(300%); } }
+    .loader-status { margin-top: 14px; color: var(--muted); font-size: 0.95rem; }
 
     /* Results */
-    .results-section {
-      animation: fadeUp 0.6s ease both;
-    }
-
-    .score-display {
+    .section { padding-top: 48px; }
+    .section:first-child { padding-top: 8px; }
+    .scoreline {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 24px;
-      background: var(--ink);
-      border-radius: 14px;
-      margin-bottom: 24px;
-      color: var(--gold);
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 12px 16px;
+      font-family: var(--mono);
     }
+    .scoreline .num { font-size: clamp(2.75rem, 12vw, 4rem); line-height: 1; letter-spacing: -0.03em; }
+    .scoreline .arrow { color: var(--muted); font-size: 1.5rem; }
+    .scoreline .target { color: var(--gold-deep); }
+    .gap-note { margin-top: 10px; color: var(--ink-soft); }
 
-    .score-number {
-      font-family: var(--font-display);
-      font-size: 3.5rem;
-      font-weight: 900;
-      line-height: 1;
-    }
-
-    .score-label {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      opacity: 0.7;
-      margin-bottom: 4px;
-    }
-
-    .score-target {
-      text-align: right;
-    }
-
-    .score-target .score-number {
-      font-size: 2.5rem;
-      color: var(--gold-light);
-    }
-
-    .gap-indicator {
-      text-align: center;
-    }
-
-    .gap-number {
-      font-family: var(--font-mono);
-      font-size: 1.8rem;
-      font-weight: 500;
-      color: var(--gold-light);
-    }
-
-    .gap-label {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      opacity: 0.6;
-    }
-
-    /* Section bars */
-    .section-bars {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      margin-bottom: 28px;
-    }
-
-    .section-bar-item {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .section-bar-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .section-name {
-      font-size: 0.82rem;
-      font-weight: 500;
-      color: var(--ink);
-    }
-
-    .section-score-text {
-      font-family: var(--font-mono);
-      font-size: 0.82rem;
-      color: var(--muted);
-    }
-
-    .bar-track {
-      height: 8px;
-      background: var(--cream);
-      border-radius: 4px;
-      overflow: hidden;
-    }
-
-    .bar-fill {
-      height: 100%;
-      border-radius: 4px;
-      transition: width 1s ease;
-      background: var(--gold);
-    }
-
+    .bars { display: grid; gap: 16px; margin-top: 28px; }
+    .bars:empty { display: none; }
+    .bar-head { display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 6px; }
+    .bar-head span:last-child { font-family: var(--mono); color: var(--muted); }
+    .bar-track { height: 6px; background: var(--cream); border-radius: 6px; overflow: hidden; }
+    .bar-fill { height: 100%; width: 0; border-radius: 6px; transition: width 0.8s ease; }
     .bar-fill.weak { background: var(--rust); }
-    .bar-fill.medium { background: var(--gold); }
+    .bar-fill.mid { background: var(--gold); }
     .bar-fill.strong { background: var(--forest); }
 
-    /* Diagnosis output */
-    .diagnosis-output {
-      font-size: 0.92rem;
-      line-height: 1.8;
-      color: var(--ink);
-      white-space: pre-wrap;
-    }
+    .prose { margin-top: 16px; font-size: 1.0625rem; color: var(--ink-soft); max-width: 62ch; }
+    .prose p + p { margin-top: 12px; }
 
-    /* Study plan */
-    .week-card {
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-      margin-bottom: 14px;
-    }
-
-    .week-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 18px;
-      background: var(--cream);
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .week-header:hover { background: var(--gold-light); }
-
-    .week-title {
-      font-family: var(--font-display);
-      font-size: 1rem;
-      font-weight: 700;
-    }
-
-    .week-focus {
-      font-size: 0.78rem;
-      color: var(--muted);
-      font-family: var(--font-mono);
-    }
-
-    .week-body {
-      padding: 18px;
-      background: var(--card);
-      display: none;
-    }
-
-    .week-body.open { display: block; }
-
-    .daily-tasks {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .daily-task {
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-      font-size: 0.85rem;
-      color: var(--ink);
-      padding: 8px 12px;
-      background: var(--white);
-      border-radius: 8px;
-    }
-
-    .task-day {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      color: var(--gold);
-      font-weight: 500;
-      min-width: 32px;
-      margin-top: 1px;
-    }
-
-    /* ── Budget Filter Bar ── */
-    .budget-filter {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-    .budget-label {
-      font-size: 0.72rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--muted);
-      font-family: var(--font-mono);
-      margin-right: 4px;
-      white-space: nowrap;
-    }
-    .budget-btn {
-      padding: 6px 14px;
-      border-radius: 20px;
-      border: 1.5px solid var(--border);
-      background: var(--white);
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      color: var(--muted);
-      cursor: pointer;
-      transition: all 0.18s ease;
-      white-space: nowrap;
-    }
-    .budget-btn:hover { border-color: var(--gold); color: var(--ink); }
-    .budget-btn.active { background: var(--ink); border-color: var(--ink); color: var(--gold); }
-
-    /* ── Resource Tabs ── */
-    .resource-tabs {
-      display: flex;
-      gap: 0;
-      border-bottom: 2px solid var(--border);
-      margin-bottom: 20px;
-      overflow-x: auto;
-      scrollbar-width: none;
-    }
-    .resource-tabs::-webkit-scrollbar { display: none; }
-    .res-tab {
-      padding: 10px 18px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--muted);
-      cursor: pointer;
-      border: none;
-      background: transparent;
-      font-family: var(--font-body);
-      border-bottom: 2px solid transparent;
-      margin-bottom: -2px;
-      white-space: nowrap;
-      transition: all 0.2s;
-      letter-spacing: 0.01em;
-    }
-    .res-tab:hover { color: var(--ink); }
-    .res-tab.active { color: var(--ink); border-bottom-color: var(--gold); }
-    .res-tab-icon { margin-right: 6px; font-size: 0.9rem; }
-
-    /* ── Resource Grid & Cards ── */
-    .resource-grid {
+    /* Weekly plan */
+    .weeks { margin-top: 20px; border-top: 1px solid var(--line); }
+    .week { border-bottom: 1px solid var(--line); }
+    .week summary {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 14px;
+      grid-template-columns: 64px 1fr auto;
+      align-items: baseline;
+      gap: 12px;
+      padding: 16px 0;
+      cursor: pointer;
+      list-style: none;
     }
-    .resource-panel { display: none; }
-    .resource-panel.active { display: block; }
-    .resource-card {
-      padding: 16px;
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      transition: all 0.25s ease;
-      text-decoration: none;
-      color: var(--ink);
+    .week summary::-webkit-details-marker { display: none; }
+    .week summary::after { content: '+'; color: var(--muted); font-size: 1.2rem; line-height: 1; }
+    .week[open] summary::after { content: '−'; }
+    .week-num { font-family: var(--mono); font-size: 0.85rem; color: var(--muted); }
+    .week-title { font-weight: 500; }
+    .week-focus { display: block; font-size: 0.875rem; color: var(--muted); font-weight: 400; }
+    .tasks { list-style: none; padding: 0 0 18px 76px; display: grid; gap: 10px; }
+    .tasks li { display: grid; grid-template-columns: 44px 1fr; gap: 8px; font-size: 0.95rem; }
+    .tasks .day { font-family: var(--mono); font-size: 0.8rem; color: var(--gold-deep); padding-top: 2px; }
+
+    /* Resources */
+    .resource-list { display: grid; gap: 10px; margin-top: 20px; }
+    .resource {
       display: block;
+      padding: 16px 18px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      text-decoration: none;
+      transition: border-color 0.15s;
     }
-    .resource-card:hover {
-      border-color: var(--gold);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(15,14,12,0.08);
+    .resource:hover { border-color: var(--ink); }
+    .resource-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+    .resource-name { font-weight: 500; }
+    .resource-price { font-family: var(--mono); font-size: 0.85rem; color: var(--muted); white-space: nowrap; }
+    .resource-price.free { color: var(--forest); }
+    .resource-why { margin-top: 4px; font-size: 0.925rem; color: var(--ink-soft); }
+    .resource.pick { border-left: 3px solid var(--gold); }
+
+    .filters { display: grid; gap: 12px; margin-top: 20px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      padding: 7px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: transparent;
+      font-size: 0.875rem;
+      color: var(--ink-soft);
     }
-    .resource-card.dimmed {
-      opacity: 0.35;
-      transform: none !important;
-      box-shadow: none !important;
-      order: 999;
-    }
-    .resource-card.dimmed:hover { opacity: 0.5; border-color: var(--border); }
-    .resource-tag {
-      display: inline-block;
-      font-size: 0.68rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      padding: 3px 8px;
-      border-radius: 4px;
-      background: rgba(201,168,76,0.15);
-      color: var(--gold);
-      margin-bottom: 8px;
-      font-family: var(--font-mono);
-    }
-    .resource-tag.free { background: rgba(45,80,22,0.12); color: var(--forest); }
-    .resource-tag.paid { background: rgba(184,92,56,0.12); color: var(--rust); }
-    .resource-tag.freemium { background: rgba(201,168,76,0.15); color: var(--gold); }
-    .resource-price {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: var(--muted);
-      float: right;
-      margin-top: 2px;
-    }
-    .resource-name { font-weight: 600; font-size: 0.9rem; margin-bottom: 4px; clear: both; }
-    .resource-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+    .chip[aria-pressed=true] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+    .count { font-size: 0.85rem; color: var(--muted); margin-top: 16px; }
+    .count + .resource-list { margin-top: 10px; }
+    .more-btn { margin-top: 16px; width: 100%; }
+    .empty { padding: 20px; text-align: center; color: var(--muted); border: 1px dashed var(--line); border-radius: var(--radius); }
 
     /* Chat */
-    .chat-container {
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-    }
+    .chat { margin-top: 20px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); overflow: hidden; }
+    .messages { display: grid; gap: 12px; padding: 18px; max-height: 420px; overflow-y: auto; }
+    .msg { max-width: 85%; padding: 10px 14px; border-radius: 14px; font-size: 0.95rem; white-space: pre-wrap; }
+    .msg.assistant { background: #fff; border: 1px solid var(--line); border-bottom-left-radius: 4px; }
+    .msg.user { justify-self: end; background: var(--ink); color: var(--paper); border-bottom-right-radius: 4px; }
+    .msg.pending { color: var(--muted); }
+    .chat-form { display: flex; gap: 8px; padding: 12px; border-top: 1px solid var(--line); background: var(--paper); }
+    .chat-form input { flex: 1; min-width: 0; border-radius: 999px; }
+    .chat-form .btn { padding: 10px 18px; }
 
-    .chat-messages {
-      height: 320px;
-      overflow-y: auto;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      background: var(--white);
-    }
+    footer { max-width: var(--width); margin: 0 auto; padding: 0 16px 40px; font-size: 0.85rem; color: var(--muted); }
 
-    .message {
-      display: flex;
-      gap: 10px;
-      animation: fadeUp 0.3s ease;
-    }
-
-    .message.user { flex-direction: row-reverse; }
-
-    .message-avatar {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.8rem;
-      font-weight: 600;
-    }
-
-    .message.assistant .message-avatar {
-      background: var(--ink);
-      color: var(--gold);
-    }
-
-    .message.user .message-avatar {
-      background: var(--gold);
-      color: var(--ink);
-    }
-
-    .message-bubble {
-      max-width: 80%;
-      padding: 10px 14px;
-      border-radius: 12px;
-      font-size: 0.88rem;
-      line-height: 1.6;
-    }
-
-    .message.assistant .message-bubble {
-      background: var(--cream);
-      border-bottom-left-radius: 4px;
-    }
-
-    .message.user .message-bubble {
-      background: var(--ink);
-      color: var(--gold-light);
-      border-bottom-right-radius: 4px;
-    }
-
-    .chat-input-row {
-      display: flex;
-      gap: 10px;
-      padding: 14px;
-      background: var(--cream);
-      border-top: 1px solid var(--border);
-    }
-
-    .chat-input-row input {
-      flex: 1;
-      padding: 10px 14px;
-      font-size: 0.88rem;
-    }
-
-    .chat-send {
-      padding: 10px 18px;
-      background: var(--ink);
-      color: var(--gold);
-      border: none;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      font-size: 0.85rem;
-      transition: all 0.2s;
-      font-family: var(--font-body);
-    }
-
-    .chat-send:hover { background: #1e1c18; }
-
-    /* Hidden/shown screens */
-    .screen { display: none; }
-    .screen.active { display: block; }
-
-    /* Utility */
-    .mt-16 { margin-top: 16px; }
-    .mt-24 { margin-top: 24px; }
-    .text-center { text-align: center; }
-    .text-muted { color: var(--muted); font-size: 0.85rem; }
-    .row { display: flex; gap: 12px; }
-    .row .form-group { flex: 1; }
-
-    .badge {
-      display: inline-block;
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 0.72rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      font-family: var(--font-mono);
-    }
-
-    .badge-gold { background: rgba(201,168,76,0.15); color: var(--gold); }
-    .badge-forest { background: rgba(45,80,22,0.12); color: var(--forest); }
-
-    /* Animations */
-    @keyframes fadeDown {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(16px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes pulse {
-      0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
-      40% { transform: scale(1); opacity: 1; }
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    /* Responsive */
-    @media (max-width: 600px) {
-      .card { padding: 24px 20px; }
-      .score-grid { grid-template-columns: 1fr 1fr; }
-      .score-display { flex-direction: column; gap: 16px; text-align: center; }
-      .resource-grid { grid-template-columns: 1fr; }
-      /* Let the step labels wrap so the progress bar fits on a phone */
-      .progress-step { flex-shrink: 1; min-width: 0; max-width: 64px; }
-      .step-label { white-space: normal; text-align: center; }
-      .step-line { margin-left: 4px; margin-right: 4px; }
+    @media (max-width: 520px) {
+      .intro { padding: 40px 0 32px; }
+      .panel { padding: 20px 16px; }
+      .row { grid-template-columns: 1fr; gap: 0; }
+      .row .field + .field { margin-top: 22px; }
+      .segmented { grid-template-columns: repeat(2, 1fr); }
+      .week summary { grid-template-columns: 56px 1fr auto; }
+      .tasks { padding-left: 0; }
     }
   </style>
 </head>
 <body>
-<div class="app">
 
-  <!-- Header -->
-  <div class="header">
-    <div class="logo-mark">
-      <svg class="compass-icon" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="22" cy="22" r="20" stroke="#c9a84c" stroke-width="1.5"/>
-        <circle cx="22" cy="22" r="3" fill="#c9a84c"/>
-        <polygon points="22,6 24.5,20 22,19 19.5,20" fill="#c9a84c"/>
-        <polygon points="22,38 19.5,24 22,25 24.5,24" fill="#7a7060"/>
-        <line x1="6" y1="22" x2="38" y2="22" stroke="#d4cdc0" stroke-width="0.8"/>
-      </svg>
-      <span class="logo-text">LSAT Compass</span>
-    </div>
-    <h1>Your Personal <em>Study Navigator</em></h1>
-    <p class="subtitle">Get a free, AI-powered diagnosis of your LSAT performance and a personalized study plan — no expensive tutors required.</p>
-  </div>
+<header class="topbar">
+  <a class="brand" href="/" aria-label="LSAT Compass home">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="#0f0e0c" />
+      <polygon points="16,5 18.5,16 16,15 13.5,16" fill="#c9a84c" />
+      <polygon points="16,27 13.5,16 16,17 18.5,16" fill="#f5f0e8" />
+    </svg>
+    LSAT Compass
+  </a>
+  <button class="restart" id="restart" type="button" hidden>Start over</button>
+</header>
 
-  <!-- Progress -->
-  <div class="progress-track" id="progressTrack">
-    <div class="progress-step">
-      <div class="step-dot active" id="sd1">01</div>
-      <div class="step-label" id="ps1" style="color:var(--gold);font-weight:600;">Score Check</div>
-    </div>
-    <div class="step-line" id="sl1"></div>
-    <div class="progress-step">
-      <div class="step-dot" id="sd2">02</div>
-      <div class="step-label" id="ps2">Your Goals</div>
-    </div>
-    <div class="step-line" id="sl2"></div>
-    <div class="progress-step">
-      <div class="step-dot" id="sd3">03</div>
-      <div class="step-label" id="ps3">AI Diagnosis</div>
-    </div>
-    <div class="step-line" id="sl3"></div>
-    <div class="progress-step">
-      <div class="step-dot" id="sd4">04</div>
-      <div class="step-label" id="ps4">Study Plan</div>
-    </div>
-  </div>
+<main>
+  <section class="intro" id="intro">
+    <h1>Your LSAT plan, built around you.</h1>
+    <p class="lede">Share your practice score, your goal and how much time you have. You'll get an honest read on where you stand and a week-by-week plan using the best free and paid resources.</p>
+  </section>
 
-  <!-- SCREEN 1: Do you have a score? -->
-  <div class="screen active" id="screen1">
-    <div class="card">
-      <div class="card-header">
-        <div class="card-eyebrow">Step 01 — Getting Started</div>
-        <div class="card-title">Have you taken an LSAT practice test?</div>
-        <div class="card-desc">A real diagnostic score helps me give you the most accurate study plan possible.</div>
+  <ol class="progress" id="progress" aria-label="Progress">
+    <li data-step="1" class="current">Your score</li>
+    <li data-step="2">Your goal</li>
+    <li data-step="3">Your plan</li>
+  </ol>
+
+  <!-- 1. Have a score? -->
+  <section class="step active" id="step-start" aria-labelledby="h-start">
+    <h2 id="h-start">Have you taken a practice test?</h2>
+    <div class="choices">
+      <button class="choice" type="button" data-go="step-score">
+        <div><strong>Yes, I have a score</strong><span>I'll enter it on the next screen</span></div>
+      </button>
+      <button class="choice" type="button" data-go="step-lawhub">
+        <div><strong>Not yet</strong><span>Show me where to take a free one</span></div>
+      </button>
+    </div>
+  </section>
+
+  <!-- 1b. Take a test first -->
+  <section class="step" id="step-lawhub" aria-labelledby="h-lawhub">
+    <h2 id="h-lawhub">Start with a free official test</h2>
+    <p>LSAC, the organization that makes the LSAT, gives you four real past tests for free on LawHub. One of those is the best way to find your starting point.</p>
+    <div class="panel">
+      <ol class="numbered">
+        <li>Make a free account at lawhub.org.</li>
+        <li>Open the LSAT Prep library and pick any free PrepTest.</li>
+        <li>Take the whole thing in one sitting, timed, somewhere quiet.</li>
+        <li>Write down your scaled score and how many you got right in each section.</li>
+      </ol>
+    </div>
+    <div class="actions">
+      <a class="btn" href="https://www.lawhub.org/prepare-for-the-lsat" target="_blank" rel="noopener">Open LawHub</a>
+      <button class="btn secondary" type="button" data-go="step-score">I have my score</button>
+    </div>
+  </section>
+
+  <!-- 2. Score -->
+  <section class="step" id="step-score" aria-labelledby="h-score">
+    <h2 id="h-score">What did you score?</h2>
+    <p>Use your most recent full practice test.</p>
+    <form class="panel" id="score-form" novalidate>
+      <div class="field">
+        <label for="scaledScore">Scaled score</label>
+        <input class="big-input" type="number" id="scaledScore" inputmode="numeric" min="120" max="180" placeholder="152" required />
+        <p class="hint">Between 120 and 180.</p>
       </div>
-      <div class="option-group">
-        <button class="option-btn" onclick="selectOption(this, 'has_score', 'yes')">
-          <div class="option-radio"></div>
+      <details class="more">
+        <summary>Add section scores <span class="optional">(optional, but it sharpens the plan)</span></summary>
+        <div class="trio">
           <div>
-            <strong>Yes, I have a score</strong>
-            <div style="font-size:0.8rem;color:var(--muted);margin-top:2px">I've taken a practice test and have my results</div>
+            <label for="lr1Score">Logical Reasoning 1</label>
+            <input type="number" id="lr1Score" inputmode="numeric" min="0" max="26" placeholder="of 26" />
           </div>
-        </button>
-        <button class="option-btn" onclick="selectOption(this, 'has_score', 'no')">
-          <div class="option-radio"></div>
           <div>
-            <strong>No, I haven't taken one yet</strong>
-            <div style="font-size:0.8rem;color:var(--muted);margin-top:2px">I'll take a free practice test first</div>
+            <label for="lr2Score">Logical Reasoning 2</label>
+            <input type="number" id="lr2Score" inputmode="numeric" min="0" max="26" placeholder="of 26" />
           </div>
-        </button>
-      </div>
-      <button class="btn btn-primary mt-24" id="btn1" onclick="handleScoreCheck()" disabled>
-        Continue →
-      </button>
-    </div>
-  </div>
-
-  <!-- SCREEN 1b: LawHub Redirect -->
-  <div class="screen" id="screenLawhub">
-    <div class="card lawhub-card">
-      <div class="lawhub-icon">📚</div>
-      <div class="card-eyebrow">Free Practice Test</div>
-      <div class="card-title">Take a Free Test on LawHub</div>
-      <p class="card-desc mt-16">LawHub offers free official LSAT practice tests — the same quality as the real exam. This is the gold standard for diagnosing your starting point.</p>
-
-      <div class="lawhub-steps">
-        <div class="lawhub-step">
-          <div class="step-num">1</div>
-          <div>Create a free account at <strong>lawhub.org</strong></div>
-        </div>
-        <div class="lawhub-step">
-          <div class="step-num">2</div>
-          <div>Navigate to <strong>"LSAT Practice Tests"</strong> and select any free test</div>
-        </div>
-        <div class="lawhub-step">
-          <div class="step-num">3</div>
-          <div>Complete the full test in one sitting for the most accurate score</div>
-        </div>
-        <div class="lawhub-step">
-          <div class="step-num">4</div>
-          <div>Note your <strong>scaled score</strong> and section breakdowns, then come back here</div>
-        </div>
-      </div>
-
-      <a href="https://lawhub.org" target="_blank" class="btn btn-lawhub">
-        Go to LawHub →
-      </a>
-
-      <div class="divider">already have your score?</div>
-
-      <button class="btn btn-secondary" onclick="goToScoreInput()" style="width:100%;justify-content:center;">
-        I have my score — enter it now
-      </button>
-    </div>
-  </div>
-
-  <!-- SCREEN 2: Score Input -->
-  <div class="screen" id="screen2">
-    <div class="card">
-      <div class="card-header">
-        <div class="card-eyebrow">Step 01 — Score Check</div>
-        <div class="card-title">Enter Your Practice Test Results</div>
-        <div class="card-desc">Find these on your LawHub score report. Don't worry if you don't have all sections — enter what you have.</div>
-      </div>
-
-      <div class="form-group">
-        <label>Scaled Score <span class="hint">(120–180)</span></label>
-        <input type="number" id="scaledScore" min="120" max="180" placeholder="e.g. 152" />
-      </div>
-
-      <div class="form-group">
-        <label>Raw Section Scores <span class="hint">(number of questions correct per section)</span></label>
-        <div class="score-grid" style="grid-template-columns: repeat(3, 1fr);">
-          <div class="score-box">
-            <label>LR Section 1</label>
-            <input type="number" id="lr1Score" min="0" max="26" placeholder="—" />
-            <div class="score-section-label">Out of 26</div>
-          </div>
-          <div class="score-box">
-            <label>LR Section 2</label>
-            <input type="number" id="lr2Score" min="0" max="26" placeholder="—" />
-            <div class="score-section-label">Out of 26</div>
-          </div>
-          <div class="score-box">
-            <label>Reading Comp</label>
-            <input type="number" id="rcScore" min="0" max="27" placeholder="—" />
-            <div class="score-section-label">Out of 27</div>
+          <div>
+            <label for="rcScore">Reading Comp</label>
+            <input type="number" id="rcScore" inputmode="numeric" min="0" max="27" placeholder="of 27" />
           </div>
         </div>
-        <div style="margin-top:14px;padding:12px 16px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;font-size:0.82rem;color:var(--muted);line-height:1.6;">
-          💡 <strong style="color:var(--ink);">This step is optional</strong> — but entering your section scores lets us give you a much more personalized diagnosis. You can find them in your score report on LawHub.
-        </div>
+        <p class="hint">Number correct in each section, from your LawHub score report.</p>
+      </details>
+      <p class="error" id="score-error" role="alert"></p>
+      <div class="actions">
+        <button class="btn" type="submit">Next</button>
+        <button class="link-btn" type="button" data-go="step-start">Back</button>
       </div>
+    </form>
+  </section>
 
-      <button class="btn btn-primary" onclick="goToGoals()">
-        Continue to Goals →
-      </button>
-    </div>
-  </div>
-
-  <!-- SCREEN 3: Goals -->
-  <div class="screen" id="screen3">
-    <div class="card">
-      <div class="card-header">
-        <div class="card-eyebrow">Step 02 — Your Goals</div>
-        <div class="card-title">Tell Me About Your Target</div>
-        <div class="card-desc">This helps me calibrate how intensive your study plan needs to be.</div>
-      </div>
-
+  <!-- 3. Goals -->
+  <section class="step" id="step-goals" aria-labelledby="h-goals">
+    <h2 id="h-goals">What are you aiming for?</h2>
+    <p>Be realistic about your time. A plan you can keep beats an ambitious one you drop.</p>
+    <form class="panel" id="goals-form" novalidate>
       <div class="row">
-        <div class="form-group">
-          <label>Target Score</label>
-          <input type="number" id="targetScore" min="120" max="180" placeholder="e.g. 165" />
+        <div class="field">
+          <label for="targetScore">Target score</label>
+          <input type="number" id="targetScore" inputmode="numeric" min="120" max="180" placeholder="165" required />
         </div>
-        <div class="form-group">
-          <label>Months Until Test</label>
-          <select id="timeline">
-            <option value="">Select...</option>
+        <div class="field">
+          <label for="timeline">Time until your test</label>
+          <select id="timeline" required>
+            <option value="">Choose one</option>
             <option value="1">1 month</option>
             <option value="2">2 months</option>
             <option value="3">3 months</option>
             <option value="4">4 months</option>
             <option value="6">6 months</option>
-            <option value="9">9+ months</option>
+            <option value="9">9 months or more</option>
           </select>
         </div>
       </div>
-
-      <div class="form-group">
-        <label>Hours available to study per week</label>
-        <div class="option-group" style="flex-direction:row;flex-wrap:wrap;">
-          <button class="option-btn" style="flex:1;min-width:120px" onclick="selectOption(this,'hours','5')">
-            <div class="option-radio"></div> 1–5 hrs
-          </button>
-          <button class="option-btn" style="flex:1;min-width:120px" onclick="selectOption(this,'hours','10')">
-            <div class="option-radio"></div> 5–10 hrs
-          </button>
-          <button class="option-btn" style="flex:1;min-width:120px" onclick="selectOption(this,'hours','15')">
-            <div class="option-radio"></div> 10–20 hrs
-          </button>
-          <button class="option-btn" style="flex:1;min-width:120px" onclick="selectOption(this,'hours','25')">
-            <div class="option-radio"></div> 20+ hrs
-          </button>
+      <div class="field">
+        <span class="label" id="hours-label">Hours you can study each week</span>
+        <div class="segmented" role="group" aria-labelledby="hours-label" id="hours">
+          <button type="button" data-hours="5" aria-pressed="false">Up to 5</button>
+          <button type="button" data-hours="10" aria-pressed="false">5 to 10</button>
+          <button type="button" data-hours="15" aria-pressed="false">10 to 20</button>
+          <button type="button" data-hours="25" aria-pressed="false">20+</button>
         </div>
       </div>
-
-      <div class="form-group">
-        <label>What's your biggest concern? <span class="hint">(optional)</span></label>
-        <textarea id="concern" rows="2" placeholder="e.g. I always run out of time on RC, or I struggle with complex LR question types..." style="resize:none;"></textarea>
+      <div class="field">
+        <label for="concern">Anything giving you trouble? <span class="optional">(optional)</span></label>
+        <textarea id="concern" rows="3" maxlength="400" placeholder="I run out of time on Reading Comp, or flaw questions trip me up."></textarea>
       </div>
+      <p class="error" id="goals-error" role="alert"></p>
+      <div class="actions">
+        <button class="btn" type="submit">Build my plan</button>
+        <button class="link-btn" type="button" data-go="step-score">Back</button>
+      </div>
+    </form>
+  </section>
 
-      <button class="btn btn-primary" onclick="runDiagnosis()">
-        🔍 Run AI Diagnosis →
-      </button>
+  <!-- Loading -->
+  <section class="step" id="step-loading" aria-live="polite">
+    <div class="loader">
+      <h2>Building your plan</h2>
+      <div class="loader-bar"><span></span></div>
+      <p class="loader-status" id="loader-status">Reading your scores</p>
     </div>
-  </div>
+  </section>
 
-  <!-- SCREEN 4: AI Loading -->
-  <div class="screen" id="screenLoading">
-    <div class="card">
-      <div class="ai-loading">
-        <div class="thinking-dots">
-          <div class="thinking-dot"></div>
-          <div class="thinking-dot"></div>
-          <div class="thinking-dot"></div>
+  <!-- Results -->
+  <section class="step" id="step-results">
+    <div class="section">
+      <div class="scoreline" aria-label="Score summary">
+        <span class="num" id="out-current"></span>
+        <span class="arrow" aria-hidden="true">→</span>
+        <span class="num target" id="out-target"></span>
+      </div>
+      <p class="gap-note" id="out-gap"></p>
+      <div class="bars" id="out-bars"></div>
+    </div>
+
+    <div class="section">
+      <h2>Where you stand</h2>
+      <div class="prose" id="out-diagnosis"></div>
+    </div>
+
+    <div class="section">
+      <h2>Your plan</h2>
+      <p>Tap a week to see what to do each day.</p>
+      <div class="weeks" id="out-weeks"></div>
+    </div>
+
+    <div class="section" id="picks-section" hidden>
+      <h2>Start with these</h2>
+      <p>Picked for your score, goal and schedule.</p>
+      <div class="resource-list" id="out-picks"></div>
+    </div>
+
+    <div class="section">
+      <h2>Everything else</h2>
+      <p>Our full library. Prices change, so check each site before you buy.</p>
+      <div class="filters">
+        <div class="chips" id="category-chips" role="group" aria-label="Category">
+          <button class="chip" type="button" data-category="all" aria-pressed="true">All</button>
+          <button class="chip" type="button" data-category="courses" aria-pressed="false">Courses and tutoring</button>
+          <button class="chip" type="button" data-category="practice" aria-pressed="false">Practice and tools</button>
+          <button class="chip" type="button" data-category="books" aria-pressed="false">Books</button>
+          <button class="chip" type="button" data-category="media" aria-pressed="false">Videos and podcasts</button>
         </div>
-        <div>
-          <div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;margin-bottom:8px;">Analyzing your performance...</div>
-          <div class="ai-status" id="loadingStatus">Sending scores to AI...</div>
+        <div class="chips" id="budget-chips" role="group" aria-label="Budget">
+          <button class="chip" type="button" data-budget="Infinity" aria-pressed="true">Any budget</button>
+          <button class="chip" type="button" data-budget="500" aria-pressed="false">Under $500</button>
+          <button class="chip" type="button" data-budget="100" aria-pressed="false">Under $100</button>
+          <button class="chip" type="button" data-budget="0" aria-pressed="false">Free</button>
         </div>
-        <div class="ai-progress-wrap">
-          <div class="ai-progress-bar" id="aiProgressBar"></div>
-        </div>
+      </div>
+      <p class="count" id="library-count"></p>
+      <div class="resource-list" id="out-library"></div>
+      <button class="btn secondary more-btn" type="button" id="library-more" hidden>Show more</button>
+    </div>
+
+    <div class="section">
+      <h2>Questions about your plan?</h2>
+      <p>Ask about a section, a resource, or how to fit studying around work or school.</p>
+      <div class="chat">
+        <div class="messages" id="messages" aria-live="polite"></div>
+        <form class="chat-form" id="chat-form">
+          <input type="text" id="chat-input" placeholder="How do I get faster at Reading Comp?" aria-label="Your question" maxlength="800" autocomplete="off" />
+          <button class="btn" type="submit">Send</button>
+        </form>
       </div>
     </div>
-  </div>
+  </section>
+</main>
 
-  <!-- SCREEN 5: Results -->
-  <div class="screen" id="screen5">
-    <div class="results-section">
-
-      <!-- Score overview -->
-      <div class="card">
-        <div class="card-eyebrow">Your Diagnosis</div>
-        <div class="score-display" id="scoreDisplay">
-          <div>
-            <div class="score-label">Current Score</div>
-            <div class="score-number" id="displayCurrent">—</div>
-          </div>
-          <div class="gap-indicator">
-            <div class="gap-number" id="displayGap">+0</div>
-            <div class="gap-label">points to gain</div>
-          </div>
-          <div class="score-target">
-            <div class="score-label">Target Score</div>
-            <div class="score-number" id="displayTarget">—</div>
-          </div>
-        </div>
-
-        <div class="section-bars" id="sectionBars"></div>
-
-        <div class="card-eyebrow" style="margin-bottom:12px;">AI Analysis</div>
-        <div class="diagnosis-output" id="diagnosisOutput"></div>
-      </div>
-
-      <!-- Study Plan -->
-      <div class="card" id="studyPlanCard">
-        <div class="card-header">
-          <div class="card-eyebrow">Your Study Plan</div>
-          <div class="card-title">Week-by-Week Roadmap</div>
-        </div>
-        <div id="weeklyPlan"></div>
-      </div>
-
-      <!-- Picked for you -->
-      <div class="card" id="picksCard" style="display:none">
-        <div class="card-header">
-          <div class="card-eyebrow">Picked For You</div>
-          <div class="card-title">Start With These</div>
-          <div class="card-desc">Matched to your score, goal and schedule from our researched library of LSAT resources.</div>
-        </div>
-        <div class="resource-grid" id="grid-picks"></div>
-      </div>
-
-      <!-- Resources -->
-      <div class="card">
-        <div class="card-header">
-          <div class="card-eyebrow">Curated Resources</div>
-          <div class="card-title">Find the Right Tools</div>
-          <div class="card-desc">Browse the full library by category and filter by budget. Prices are approximate, so check each site.</div>
-        </div>
-
-        <!-- Budget Filter -->
-        <div class="budget-filter">
-          <span class="budget-label">Budget:</span>
-          <button class="budget-btn active" data-max="Infinity" onclick="setBudget(this)">No Limit</button>
-          <button class="budget-btn" data-max="500" onclick="setBudget(this)">Under $500</button>
-          <button class="budget-btn" data-max="100" onclick="setBudget(this)">Under $100</button>
-          <button class="budget-btn" data-max="0" onclick="setBudget(this)">Free Only</button>
-        </div>
-
-        <!-- Category Tabs -->
-        <div class="resource-tabs">
-          <button class="res-tab active" onclick="setResTab(this,'tab-classes')"><span class="res-tab-icon">🏛️</span>Courses &amp; Help</button>
-          <button class="res-tab" onclick="setResTab(this,'tab-practice')"><span class="res-tab-icon">📝</span>Practice &amp; Tools</button>
-          <button class="res-tab" onclick="setResTab(this,'tab-books')"><span class="res-tab-icon">📖</span>Books</button>
-          <button class="res-tab" onclick="setResTab(this,'tab-videos')"><span class="res-tab-icon">🎬</span>Videos &amp; Podcasts</button>
-        </div>
-
-        <!-- Tab Panels -->
-        <div id="tab-classes" class="resource-panel active">
-          <div class="resource-grid" id="grid-classes"></div>
-        </div>
-        <div id="tab-practice" class="resource-panel">
-          <div class="resource-grid" id="grid-practice"></div>
-        </div>
-        <div id="tab-books" class="resource-panel">
-          <div class="resource-grid" id="grid-books"></div>
-        </div>
-        <div id="tab-videos" class="resource-panel">
-          <div class="resource-grid" id="grid-videos"></div>
-        </div>
-      </div>
-
-      <!-- Chat -->
-      <div class="card">
-        <div class="card-header">
-          <div class="card-eyebrow">AI Tutor</div>
-          <div class="card-title">Ask Follow-Up Questions</div>
-          <div class="card-desc">Adjust your plan, ask about specific sections, or get more advice.</div>
-        </div>
-        <div class="chat-container">
-          <div class="chat-messages" id="chatMessages"></div>
-          <div class="chat-input-row">
-            <input type="text" id="chatInput" placeholder="Ask anything about your study plan..." onkeydown="if(event.key==='Enter')sendChat()" />
-            <button class="chat-send" onclick="sendChat()">Send</button>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-</div>
+<footer>Free to use. Not affiliated with LSAC.</footer>
 
 <script>
-// ============================================================
-// STATE
-// ============================================================
 const state = {
-  hasScore: null,
   scaledScore: null,
   lrScore: null,
   rcScore: null,
@@ -1387,39 +618,80 @@ const state = {
   timeline: null,
   hours: null,
   concern: '',
-  diagnosisText: '',
-  studyPlan: null,
-  picks: [],
-  chatHistory: []
+  chatHistory: [],
 };
 
-// Filled from /api/resources (the same researched library that is stored in Pinecone).
-const RESOURCES = { classes: [], practice: [], books: [], videos: [] };
-const TAB_FOR_CATEGORY = {
-  course: 'classes', tutoring: 'classes', program: 'classes',
-  practice: 'practice', official: 'practice', tool: 'practice', app: 'practice', community: 'practice',
-  book: 'books',
-  video: 'videos', podcast: 'videos',
-};
+const $ = (id) => document.getElementById(id);
 
-async function loadResources() {
-  try {
-    const res = await fetch('/api/resources');
-    const data = await res.json();
-    for (const r of data.resources) {
-      const tab = TAB_FOR_CATEGORY[r.category];
-      if (tab) RESOURCES[tab].push(r);
-    }
-  } catch (err) {
-    console.warn('Could not load resources:', err);
-  }
-}
-loadResources();
-
-// Text from the AI or the user is shown with this, so it can never run as HTML or scripts.
+// Text from the AI or the user always goes through this, so it can never run as HTML.
 function escapeHtml(value) {
   return String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }
+
+// ---------- navigation ----------
+
+const STEP_PROGRESS = { 'step-start': 1, 'step-lawhub': 1, 'step-score': 1, 'step-goals': 2, 'step-loading': 3, 'step-results': 3 };
+
+function show(id) {
+  document.querySelectorAll('.step').forEach(s => s.classList.toggle('active', s.id === id));
+  const current = STEP_PROGRESS[id];
+  document.querySelectorAll('#progress li').forEach(li => {
+    const n = Number(li.dataset.step);
+    li.classList.toggle('done', n < current || id === 'step-results');
+    li.classList.toggle('current', n === current && id !== 'step-results');
+  });
+  $('intro').hidden = id !== 'step-start' && id !== 'step-lawhub';
+  $('restart').hidden = id === 'step-start';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  const heading = document.querySelector(`#${id} h2`);
+  if (heading) { heading.setAttribute('tabindex', '-1'); heading.focus({ preventScroll: true }); }
+}
+
+document.querySelectorAll('[data-go]').forEach(btn => btn.addEventListener('click', () => show(btn.dataset.go)));
+$('restart').addEventListener('click', () => location.reload());
+
+// ---------- score ----------
+
+function readInt(id, min, max) {
+  const n = parseInt($(id).value, 10);
+  return Number.isInteger(n) && n >= min && n <= max ? n : null;
+}
+
+$('score-form').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const scaled = readInt('scaledScore', 120, 180);
+  if (scaled === null) { $('score-error').textContent = 'Enter a scaled score between 120 and 180.'; $('scaledScore').focus(); return; }
+  $('score-error').textContent = '';
+  state.scaledScore = scaled;
+  const lr1 = readInt('lr1Score', 0, 26);
+  const lr2 = readInt('lr2Score', 0, 26);
+  state.lrScore = lr1 !== null || lr2 !== null ? (lr1 || 0) + (lr2 || 0) : null;
+  state.rcScore = readInt('rcScore', 0, 27);
+  show('step-goals');
+});
+
+// ---------- goals ----------
+
+$('hours').addEventListener('click', (e) => {
+  const btn = e.target.closest('button[data-hours]');
+  if (!btn) return;
+  $('hours').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+  state.hours = Number(btn.dataset.hours);
+});
+
+$('goals-form').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const target = readInt('targetScore', 120, 180);
+  const err = $('goals-error');
+  if (target === null) { err.textContent = 'Enter a target score between 120 and 180.'; $('targetScore').focus(); return; }
+  if (!$('timeline').value) { err.textContent = 'Choose how long you have until your test.'; $('timeline').focus(); return; }
+  if (!state.hours) { err.textContent = 'Choose how many hours you can study each week.'; return; }
+  err.textContent = '';
+  state.targetScore = target;
+  state.timeline = Number($('timeline').value);
+  state.concern = $('concern').value.trim();
+  buildPlan();
+});
 
 function profilePayload() {
   return {
@@ -1427,344 +699,209 @@ function profilePayload() {
     targetScore: state.targetScore,
     lrScore: state.lrScore,
     rcScore: state.rcScore,
-    timeline: parseInt(state.timeline),
-    hours: parseInt(state.hours),
+    timeline: state.timeline,
+    hours: state.hours,
     concern: state.concern,
   };
 }
 
-// ============================================================
-// NAVIGATION
-// ============================================================
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+// ---------- plan ----------
 
-function updateProgress(step) {
-  for (let i = 1; i <= 4; i++) {
-    const dot = document.getElementById('sd' + i);
-    const label = document.getElementById('ps' + i);
-
-    // Reset dot
-    dot.classList.remove('active', 'done');
-    // Reset label styles
-    label.style.color = '';
-    label.style.fontWeight = '';
-    label.classList.remove('done');
-
-    if (i < step) {
-      dot.classList.add('done');
-      label.style.color = 'var(--forest)';
-    }
-    if (i === step) {
-      dot.classList.add('active');
-      label.style.color = 'var(--gold)';
-      label.style.fontWeight = '600';
-    }
-    if (i < 4) {
-      const line = document.getElementById('sl' + i);
-      line.classList.toggle('done', i < step);
-    }
-  }
-}
-
-function selectOption(btn, key, value) {
-  const group = btn.closest('.option-group');
-  group.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-  state[key] = value;
-  const btn1 = document.getElementById('btn1');
-  if (btn1) btn1.disabled = false;
-}
-
-function handleScoreCheck() {
-  if (state.has_score === 'yes') {
-    goToScoreInput();
-  } else {
-    showScreen('screenLawhub');
-    updateProgress(1);
-  }
-}
-
-function goToScoreInput() {
-  showScreen('screen2');
-  updateProgress(1);
-}
-
-function goToGoals() {
-  const scaled = parseInt(document.getElementById('scaledScore').value);
-  if (!scaled || scaled < 120 || scaled > 180) {
-    alert('Please enter a valid scaled score between 120 and 180.');
-    return;
-  }
-  state.scaledScore = scaled;
-
-  // Add the two LR section scores together into one combined lrScore
-  const lr1 = parseInt(document.getElementById('lr1Score').value) || 0;
-  const lr2 = parseInt(document.getElementById('lr2Score').value) || 0;
-  state.lrScore = (lr1 + lr2) > 0 ? (lr1 + lr2) : null;
-
-  state.rcScore = parseInt(document.getElementById('rcScore').value) || null;
-  showScreen('screen3');
-  updateProgress(2);
-}
-
-// ============================================================
-// AI DIAGNOSIS
-// ============================================================
-async function runDiagnosis() {
-  state.targetScore = parseInt(document.getElementById('targetScore').value);
-  state.timeline = document.getElementById('timeline').value;
-  state.concern = document.getElementById('concern').value;
-
-  if (!state.targetScore || state.targetScore < 120 || state.targetScore > 180) {
-    alert('Please enter a valid target score.'); return;
-  }
-  if (!state.timeline) { alert('Please select your timeline.'); return; }
-  if (!state.hours) { alert('Please select your weekly study hours.'); return; }
-
-  showScreen('screenLoading');
-  updateProgress(3);
-
-  const statusEl = document.getElementById('loadingStatus');
-  const barEl = document.getElementById('aiProgressBar');
-
-  // Start progress bar — animate to 80% over ~9s while waiting for responses
-  barEl.style.width = '5%';
-  setTimeout(() => {
-    barEl.style.transition = 'width 9s linear';
-    barEl.style.width = '80%';
-  }, 100);
+async function buildPlan() {
+  show('step-loading');
+  const lines = ['Reading your scores', 'Finding resources that fit', 'Writing your weekly plan', 'Almost done'];
+  let i = 0;
+  $('loader-status').textContent = lines[0];
+  const ticker = setInterval(() => { i = Math.min(i + 1, lines.length - 1); $('loader-status').textContent = lines[i]; }, 2500);
 
   try {
-    statusEl.textContent = 'Matching you with resources and building your plan...';
-
-    // The server finds the best resources in Pinecone, then asks the AI to build the plan.
-    const response = await fetch('/api/plan', {
+    // The server finds matching resources in Pinecone, then asks the AI to write the plan.
+    const res = await fetch('/api/plan', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ profile: profilePayload() })
+      body: JSON.stringify({ profile: profilePayload() }),
     });
-    const data = await response.json().catch(() => ({}));
-    if (!response.ok) throw new Error(data.error || 'The server returned an error.');
-
-    // Snap bar to 100% and wait for the animation to finish
-    barEl.style.transition = 'width 0.4s ease';
-    barEl.style.width = '100%';
-    statusEl.textContent = 'Done!';
-
-    state.diagnosisText = data.diagnosis || '';
-    state.studyPlan = { weeks: data.weeks || [] };
-    state.picks = data.picks || [];
-    state.chatHistory.push({ role: 'assistant', content: state.diagnosisText });
-
-    await sleep(400);
-
-    renderResults();
-    showScreen('screen5');
-    updateProgress(4);
-
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error || 'Something went wrong. Please try again.');
+    renderResults(data);
+    show('step-results');
   } catch (err) {
     console.error(err);
-    alert('Sorry, we could not build your plan:\n\n' + err.message);
-    showScreen('screen3');
-    updateProgress(2);
+    show('step-goals');
+    $('goals-error').textContent = err.message || 'We could not build your plan. Please try again.';
+  } finally {
+    clearInterval(ticker);
   }
 }
 
-// ============================================================
-// RENDER RESULTS
-// ============================================================
-function renderResults() {
-  // Score display
-  document.getElementById('displayCurrent').textContent = state.scaledScore;
-  document.getElementById('displayTarget').textContent = state.targetScore;
+function renderResults(data) {
   const gap = state.targetScore - state.scaledScore;
-  document.getElementById('displayGap').textContent = (gap > 0 ? '+' : '') + gap;
+  $('out-current').textContent = state.scaledScore;
+  $('out-target').textContent = state.targetScore;
+  const months = state.timeline === 1 ? '1 month' : `${state.timeline} months`;
+  $('out-gap').textContent = gap > 0
+    ? `${gap} points to gain in ${months}, with about ${state.hours} hours a week.`
+    : `You're already at your goal. The plan below is about holding it on test day.`;
 
-  // Section bars
-  const barsEl = document.getElementById('sectionBars');
   const sections = [
     { name: 'Logical Reasoning', score: state.lrScore, max: 52 },
     { name: 'Reading Comprehension', score: state.rcScore, max: 27 },
   ].filter(s => s.score !== null);
-
-  barsEl.innerHTML = sections.map(s => {
+  $('out-bars').innerHTML = sections.map(s => {
     const pct = Math.round((s.score / s.max) * 100);
-    const cls = pct < 55 ? 'weak' : pct < 75 ? 'medium' : 'strong';
-    return `
-      <div class="section-bar-item">
-        <div class="section-bar-header">
-          <span class="section-name">${s.name}</span>
-          <span class="section-score-text">${s.score}/${s.max} (${pct}%)</span>
-        </div>
-        <div class="bar-track">
-          <div class="bar-fill ${cls}" style="width:0%" data-width="${pct}%"></div>
-        </div>
-      </div>`;
+    const level = pct < 55 ? 'weak' : pct < 75 ? 'mid' : 'strong';
+    return `<div>
+      <div class="bar-head"><span>${s.name}</span><span>${s.score} of ${s.max}</span></div>
+      <div class="bar-track"><div class="bar-fill ${level}" data-width="${pct}%"></div></div>
+    </div>`;
   }).join('');
+  requestAnimationFrame(() => setTimeout(() => {
+    document.querySelectorAll('.bar-fill').forEach(b => { b.style.width = b.dataset.width; });
+  }, 100));
 
-  setTimeout(() => {
-    document.querySelectorAll('.bar-fill').forEach(b => {
-      b.style.width = b.dataset.width;
-    });
-  }, 200);
+  const paragraphs = String(data.diagnosis || '').split(/\n\s*\n/).filter(Boolean);
+  $('out-diagnosis').innerHTML = paragraphs.length
+    ? paragraphs.map(p => `<p>${escapeHtml(p)}</p>`).join('')
+    : '<p>We could not write a summary this time, but your plan is below.</p>';
 
-  // Diagnosis text
-  document.getElementById('diagnosisOutput').textContent = state.diagnosisText;
+  const weeks = data.weeks || [];
+  $('out-weeks').innerHTML = weeks.length
+    ? weeks.map((w, i) => `
+      <details class="week" ${i === 0 ? 'open' : ''}>
+        <summary>
+          <span class="week-num">Week ${w.week}</span>
+          <span class="week-title">${escapeHtml(w.title)}<span class="week-focus">${escapeHtml(w.focus)}</span></span>
+        </summary>
+        <ul class="tasks">
+          ${(w.tasks || []).map(t => `<li><span class="day">${escapeHtml(t.day)}</span><span>${escapeHtml(t.task)}</span></li>`).join('')}
+        </ul>
+      </details>`).join('')
+    : '<p class="empty">We could not lay out the weeks this time. Try again, or ask a question below.</p>';
 
-  // Weekly plan
-  const planEl = document.getElementById('weeklyPlan');
-  if (state.studyPlan && state.studyPlan.weeks && state.studyPlan.weeks.length > 0) {
-    planEl.innerHTML = state.studyPlan.weeks.map((w, i) => `
-      <div class="week-card">
-        <div class="week-header" onclick="toggleWeek(this)">
-          <div>
-            <div class="week-title">Week ${w.week}: ${escapeHtml(w.title)}</div>
-            <div class="week-focus">${escapeHtml(w.focus)}</div>
-          </div>
-          <span style="color:var(--muted);font-size:1.2rem">${i === 0 ? '▲' : '▼'}</span>
-        </div>
-        <div class="week-body ${i === 0 ? 'open' : ''}">
-          <div class="daily-tasks">
-            ${(w.tasks || []).map(t => `
-              <div class="daily-task">
-                <span class="task-day">${escapeHtml(t.day)}</span>
-                <span>${escapeHtml(t.task)}</span>
-              </div>`).join('')}
-          </div>
-        </div>
-      </div>`).join('');
-  } else {
-    planEl.innerHTML = '<p class="text-muted">We could not build a week-by-week plan this time. Try again, or ask the tutor below.</p>';
-  }
+  const picks = data.picks || [];
+  $('picks-section').hidden = picks.length === 0;
+  $('out-picks').innerHTML = picks.map(p => resourceCard(p.resource, p.why, true)).join('');
 
-  // Resources picked for this student (retrieved from Pinecone, chosen by the AI)
-  renderPicks();
-  renderResourceTab('classes');
+  renderLibrary();
 
-  // Chat init
-  addChatMessage('assistant', `I've analyzed your results and built your study plan. You're ${state.targetScore - state.scaledScore} points away from your goal. What questions do you have about your plan?`);
+  const opener = gap > 0
+    ? `Anything you'd change about this plan? I can adjust it for your schedule, go deeper on a section, or compare resources.`
+    : `Anything you'd like to dig into? I can help with test-day prep, timing, or a weak question type.`;
+  addMessage('assistant', opener);
 }
 
-function toggleWeek(header) {
-  const body = header.nextElementSibling;
-  const arrow = header.querySelector('span:last-child');
-  const isOpen = body.classList.toggle('open');
-  arrow.textContent = isOpen ? '▲' : '▼';
-}
+// ---------- resource library ----------
 
-// ============================================================
-// CHAT
-// ============================================================
-function addChatMessage(role, text) {
-  const msgs = document.getElementById('chatMessages');
-  const div = document.createElement('div');
-  div.className = `message ${role}`;
-  div.innerHTML = `
-    <div class="message-avatar">${role === 'assistant' ? '🎓' : 'Me'}</div>
-    <div class="message-bubble"></div>`;
-  div.querySelector('.message-bubble').textContent = text;
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-  if (role !== 'system') {
-    state.chatHistory.push({ role, content: text });
-  }
-}
-
-async function sendChat() {
-  const input = document.getElementById('chatInput');
-  const text = input.value.trim();
-  if (!text) return;
-  input.value = '';
-  addChatMessage('user', text);
-
-  // Send the last few messages so the tutor remembers the conversation.
-  const history = state.chatHistory.slice(0, -1).slice(-8);
-
-  try {
-    const reply = await fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: text, history, profile: profilePayload() })
-    });
-    const data = await reply.json().catch(() => ({}));
-    addChatMessage('assistant', data.text || data.error || 'Sorry, something went wrong.');
-  } catch {
-    addChatMessage('assistant', 'Connection error. Please try again.');
-  }
-}
-
-// ============================================================
-// RESOURCE TABS & BUDGET FILTER
-// ============================================================
+const library = [];
+const CATEGORY_GROUP = {
+  course: 'courses', tutoring: 'courses', program: 'courses',
+  practice: 'practice', official: 'practice', tool: 'practice', app: 'practice', community: 'practice',
+  book: 'books',
+  video: 'media', podcast: 'media',
+};
+let activeCategory = 'all';
 let activeBudget = Infinity;
-let activeTabKey = 'classes';
+const PAGE_SIZE = 8;
+let libraryLimit = PAGE_SIZE;
 
-function setBudget(btn) {
-  document.querySelectorAll('.budget-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  const val = btn.dataset.max;
-  activeBudget = val === 'Infinity' ? Infinity : parseFloat(val);
-  renderResourceTab(activeTabKey);
-}
+fetch('/api/resources')
+  .then(r => r.json())
+  .then(data => { library.push(...data.resources.filter(r => CATEGORY_GROUP[r.category])); renderLibrary(); })
+  .catch(err => console.warn('Could not load resources', err));
 
-function setResTab(btn, panelId) {
-  document.querySelectorAll('.res-tab').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.resource-panel').forEach(p => p.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById(panelId).classList.add('active');
-  const keyMap = { 'tab-classes': 'classes', 'tab-practice': 'practice', 'tab-books': 'books', 'tab-videos': 'videos' };
-  activeTabKey = keyMap[panelId];
-  renderResourceTab(activeTabKey);
-}
-
-function renderResourceTab(key) {
-  const gridId = { classes: 'grid-classes', practice: 'grid-practice', books: 'grid-books', videos: 'grid-videos' }[key];
-  const el = document.getElementById(gridId);
-  if (!el) return;
-  const items = RESOURCES[key] || [];
-  const sorted = [...items].sort((a, b) => {
-    const aIn = priceOf(a) <= activeBudget;
-    const bIn = priceOf(b) <= activeBudget;
-    if (aIn && !bIn) return -1;
-    if (!aIn && bIn) return 1;
-    return priceOf(a) === priceOf(b) ? 0 : priceOf(a) - priceOf(b);
-  });
-  el.innerHTML = sorted.map(r => resourceCard(r, priceOf(r) <= activeBudget)).join('');
-}
-
-// Unknown prices (e.g. tutoring marketplaces) count as paid for the budget filter.
+// Unknown prices (like tutoring marketplaces) count as paid for the budget filter.
 function priceOf(r) {
   if (r.cost === 'free') return 0;
   return r.price_usd ?? Infinity;
 }
 
-function resourceCard(r, inBudget, why) {
-  const tagClass = r.cost === 'free' ? 'free' : r.cost === 'paid' ? 'paid' : 'freemium';
-  const priceLabel = r.cost === 'free' ? 'Free' : r.price_usd ? '$' + r.price_usd : 'Varies';
-  return '<a href="' + escapeHtml(r.url) + '" target="_blank" rel="noopener" class="resource-card' + (inBudget ? '' : ' dimmed') + '" title="' + escapeHtml(r.price_note) + '">' +
-    '<span class="resource-tag ' + tagClass + '">' + escapeHtml(r.cost) + '</span>' +
-    '<span class="resource-price">' + escapeHtml(priceLabel) + '</span>' +
-    '<div class="resource-name">' + escapeHtml(r.name) + '</div>' +
-    '<div class="resource-desc">' + escapeHtml(why || r.best_for) + '</div>' +
-    '</a>';
+function priceLabel(r) {
+  if (r.cost === 'free') return 'Free';
+  if (r.cost === 'freemium') return 'Free tier';
+  if (!r.price_usd) return 'Varies';
+  return /month/i.test(r.price_note) ? `$${r.price_usd}/mo` : `$${r.price_usd.toLocaleString()}`;
 }
 
-function renderPicks() {
-  const card = document.getElementById('picksCard');
-  const grid = document.getElementById('grid-picks');
-  if (!state.picks || !state.picks.length) { card.style.display = 'none'; return; }
-  card.style.display = '';
-  grid.innerHTML = state.picks.map(p => resourceCard(p.resource, true, p.why)).join('');
+function resourceCard(r, why, isPick) {
+  const free = r.cost !== 'paid';
+  return `<a class="resource${isPick ? ' pick' : ''}" href="${escapeHtml(r.url)}" target="_blank" rel="noopener" title="${escapeHtml(r.price_note)}">
+    <div class="resource-top">
+      <span class="resource-name">${escapeHtml(r.name)}</span>
+      <span class="resource-price${free ? ' free' : ''}">${escapeHtml(priceLabel(r))}</span>
+    </div>
+    <p class="resource-why">${escapeHtml(why || r.best_for)}</p>
+  </a>`;
 }
 
-// ============================================================
-// UTILS
-// ============================================================
-function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+function renderLibrary() {
+  const items = library
+    .filter(r => activeCategory === 'all' || CATEGORY_GROUP[r.category] === activeCategory)
+    .filter(r => priceOf(r) <= activeBudget)
+    .sort((a, b) => (priceOf(a) === priceOf(b) ? a.name.localeCompare(b.name) : priceOf(a) - priceOf(b)));
+  $('library-count').textContent = library.length ? `${items.length} ${items.length === 1 ? 'resource' : 'resources'}` : '';
+  const visible = items.slice(0, libraryLimit);
+  $('out-library').innerHTML = items.length
+    ? visible.map(r => resourceCard(r)).join('')
+    : library.length ? '<p class="empty">Nothing here at that budget. Try a wider one.</p>' : '';
+  const more = $('library-more');
+  more.hidden = items.length <= libraryLimit;
+  more.textContent = `Show ${Math.min(PAGE_SIZE, items.length - libraryLimit)} more`;
+}
+
+$('library-more').addEventListener('click', () => { libraryLimit += PAGE_SIZE; renderLibrary(); });
+
+function chipGroup(groupId, attr, onPick) {
+  $(groupId).addEventListener('click', (e) => {
+    const chip = e.target.closest('.chip');
+    if (!chip) return;
+    $(groupId).querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c === chip)));
+    onPick(chip.dataset[attr]);
+    libraryLimit = PAGE_SIZE;
+    renderLibrary();
+  });
+}
+chipGroup('category-chips', 'category', v => { activeCategory = v; });
+chipGroup('budget-chips', 'budget', v => { activeBudget = v === 'Infinity' ? Infinity : Number(v); });
+
+// ---------- chat ----------
+
+function addMessage(role, text) {
+  const div = document.createElement('div');
+  div.className = `msg ${role}`;
+  div.textContent = text;
+  $('messages').appendChild(div);
+  $('messages').scrollTop = $('messages').scrollHeight;
+  if (role === 'user' || role === 'assistant') state.chatHistory.push({ role, content: text });
+  return div;
+}
+
+$('chat-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const input = $('chat-input');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  const history = state.chatHistory.slice(-8);
+  addMessage('user', text);
+  const pending = document.createElement('div');
+  pending.className = 'msg assistant pending';
+  pending.textContent = 'Thinking…';
+  $('messages').appendChild(pending);
+
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: text, history, profile: profilePayload() }),
+    });
+    const data = await res.json().catch(() => ({}));
+    pending.remove();
+    addMessage('assistant', data.text || data.error || 'Sorry, something went wrong. Try asking again.');
+  } catch {
+    pending.remove();
+    addMessage('assistant', 'Connection problem. Try again in a moment.');
+  }
+});
 </script>
 </body>
 </html>
