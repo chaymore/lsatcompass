@@ -17,7 +17,7 @@
         "writing"
       ],
       "level": "all",
-      "best_for": "Everyone. Take a diagnostic here first in the real digital test interface.",
+      "best_for": "Take your first practice test here. It uses the real digital test format.",
       "description": "LSAC's official prep platform. The free account includes four full official PrepTests (140, 141, 157 and 158) in the actual digital interface, drill sets, an Argumentative Writing practice prompt, and the former Khan Academy LSAT lessons, which moved here in 2024."
     },
     {
@@ -35,7 +35,7 @@
         "writing"
       ],
       "level": "all",
-      "best_for": "Anyone past the diagnostic stage. Most third-party courses require it to show official PrepTests.",
+      "best_for": "Get this after your first test. Most paid courses need it to show official PrepTests.",
       "description": "One-year subscription that unlocks the full library of official LSAT PrepTests (50+ beyond the free four) in the real test interface, plus more Argumentative Writing prompts. Nearly every paid course (7Sage, LSAT Lab, PowerScore and others) requires it separately."
     },
     {
@@ -52,7 +52,7 @@
         "RC"
       ],
       "level": "beginner",
-      "best_for": "Beginners who want a free structured introduction to every question type.",
+      "best_for": "Learn every question type for free. Start here if you are new to the LSAT.",
       "description": "Khan Academy's official LSAT course was retired in June 2024 and its videos, articles and worked examples now live in LawHub's Lessons tab. Covers Logical Reasoning and Reading Comprehension for the current format. khanacademy.org no longer hosts LSAT prep."
     },
     {
@@ -69,7 +69,7 @@
         "admissions"
       ],
       "level": "all",
-      "best_for": "Students with limited finances. Apply before registering for the LSAT.",
+      "best_for": "Use this if money is tight. Apply before you register for the LSAT.",
       "description": "Need-based waiver from LSAC. Tier 1 includes LawHub Advantage, two LSAT registrations with Argumentative Writing and Score Preview, a five-year CAS subscription and six CAS reports; Tier 2 covers one LSAT and three reports. Valid for two years. It also unlocks big discounts elsewhere, for example 7Sage for $1/month."
     },
     {
@@ -86,7 +86,7 @@
         "admissions"
       ],
       "level": "beginner",
-      "best_for": "First-generation or underrepresented students who want guidance through the whole application process.",
+      "best_for": "Get free help with the full application if you are a first-generation or underrepresented student.",
       "description": "Free yearlong LSAC program covering LSAT prep through financial aid. Participants get LawHub Advantage, two free LSATs, Score Preview, CAS registration and ongoing guidance from law school professionals."
     },
     {
@@ -102,7 +102,7 @@
         "writing"
       ],
       "level": "all",
-      "best_for": "Anyone who hasn't completed the writing section yet. Scores aren't released until it's done.",
+      "best_for": "Read this before the writing section. LSAC does not release your score until you finish it.",
       "description": "Official explanation of the Argumentative Writing task: an unscored but mandatory 50-minute remote session (15 minutes of prewriting analysis and 35 minutes of writing) where you argue for a position on a debatable issue using provided perspectives. Law schools receive the essay."
     },
     {
@@ -118,7 +118,7 @@
         "admissions"
       ],
       "level": "all",
-      "best_for": "Choosing a test date and building a study timeline backwards from it.",
+      "best_for": "Pick a test date. Then plan your study weeks back from that date.",
       "description": "Registration deadlines fall about six to seven weeks before each test. The 2026-27 cycle has tests in November, January, February, April and June. You can take the LSAT up to five times per testing year and seven times in a lifetime. Always confirm dates on LSAC's site."
     },
     {
@@ -134,7 +134,7 @@
         "all"
       ],
       "level": "all",
-      "best_for": "Students with ADHD, learning disabilities, anxiety disorders, visual impairments or other documented conditions.",
+      "best_for": "Ask for extra time if you have ADHD, a learning disability, anxiety or another documented condition.",
       "description": "Request through JD Services after you register. Common approvals include 50% extended time (about 52.5 minutes per section) and 100% for severe visual impairment. Needs an Evidence of Disability form from a qualified professional and has its own deadline per test date."
     },
     {
@@ -150,7 +150,7 @@
         "LR"
       ],
       "level": "beginner",
-      "best_for": "Understanding what LR tests, straight from the test maker.",
+      "best_for": "Learn what Logical Reasoning tests, from LSAC, the group that writes the LSAT.",
       "description": "LSAC's own description of Logical Reasoning with sample questions and explanations. LR is now two of the three scored sections, so it's about two-thirds of your score."
     },
     {
@@ -166,7 +166,7 @@
         "RC"
       ],
       "level": "beginner",
-      "best_for": "Understanding RC passage and question types, including comparative passages.",
+      "best_for": "Learn the Reading Comprehension passage types and question types, including comparative passages.",
       "description": "Official overview of Reading Comprehension with sample passages, comparative reading sets and explanations of what each question type asks."
     },
     {
@@ -184,7 +184,7 @@
         "writing"
       ],
       "level": "all",
-      "best_for": "Self-studiers who want the best value full curriculum with video explanations for every official question.",
+      "best_for": "Study on your own with a full course. It has a video explanation for every official question.",
       "description": "Full self-paced curriculum, 99 official PrepTests with 8,000+ video explanations, analytics, Blind Review tools and a study plan. Widely considered the best value comprehensive course. Higher tiers ($129 and $299/month) add live classes and more support."
     },
     {
@@ -201,7 +201,7 @@
         "RC"
       ],
       "level": "beginner",
-      "best_for": "Trying 7Sage's teaching style before paying, and free tools like the score converter.",
+      "best_for": "Try 7Sage before you pay. The free tools include a score converter.",
       "description": "Free trial with about 29 lessons and four practice tests, plus free live classes, study plans, cheat sheets, a raw-to-scaled score converter and a free full-length practice test."
     },
     {
@@ -218,7 +218,7 @@
         "RC"
       ],
       "level": "all",
-      "best_for": "Students who like 7Sage's content but want live classes for accountability.",
+      "best_for": "Add live classes to the 7Sage course if you need a schedule.",
       "description": "Everything in 7Sage Core plus a schedule of live online classes and recordings."
     },
     {
@@ -235,7 +235,7 @@
         "RC"
       ],
       "level": "all",
-      "best_for": "Students who've plateaued and want one-on-one help from high scorers.",
+      "best_for": "Get one-on-one help from a high scorer if your score stops going up.",
       "description": "One-on-one LSAT tutoring with 7Sage instructors, usually paired with the 7Sage curriculum."
     },
     {
@@ -251,7 +251,7 @@
         "admissions"
       ],
       "level": "all",
-      "best_for": "Setting a target score based on the schools you want.",
+      "best_for": "Set a target score from the law schools that you want.",
       "description": "Free predictor that estimates admission chances from GPA and LSAT, plus a tool for exploring school LSAT and GPA medians and 25th/75th percentiles."
     },
     {
@@ -268,7 +268,7 @@
         "admissions"
       ],
       "level": "all",
-      "best_for": "Short episodes on LSAT strategy and admissions for commutes.",
+      "best_for": "Listen to short episodes about LSAT strategy and admissions.",
       "description": "Roughly 15-minute episodes covering LSAT strategy, admissions, and life as a law student, with guests from admissions offices and practicing attorneys."
     },
     {
@@ -285,7 +285,7 @@
         "RC"
       ],
       "level": "all",
-      "best_for": "Free explanations of official questions and mini-lessons.",
+      "best_for": "Watch free explanations of official questions and short lessons.",
       "description": "Explanations of official PrepTest questions, tutorial videos and admissions content. Ignore older logic games videos, which no longer apply."
     },
     {
@@ -302,7 +302,7 @@
         "RC"
       ],
       "level": "all",
-      "best_for": "Trying adaptive drilling with explanations at no cost.",
+      "best_for": "Try practice that changes to your level, with explanations, for free.",
       "description": "Free tier includes three official LSATs with explanations and a monthly live class. The paid platform adapts question difficulty to your level."
     },
     {
@@ -319,7 +319,7 @@
         "RC"
       ],
       "level": "all",
-      "best_for": "Self-studiers who want adaptive drilling and a conversational, think-it-through teaching style.",
+      "best_for": "Practice questions that change to your level. The teachers talk through each question.",
       "description": "Adaptive question bank of official questions that serves you questions at the right difficulty, with video explanations, daily live classes on higher tiers, and a large community. From Ben Olson and Nathan Fox of the Thinking LSAT podcast."
     },
     {
@@ -336,7 +336,7 @@
         "admissions"
       ],
       "level": "all",
-      "best_for": "Mindset, study habits, scholarship negotiation and admissions strategy.",
+      "best_for": "Listen for advice about study habits, mindset, admissions and scholarships.",
       "description": "The most popular LSAT podcast (about 4.6/5 on Apple). Long weekly episodes on study approach, retakes, applications and scholarship negotiation, plus listener questions."
     },
     {
@@ -353,7 +353,7 @@
         "RC"
       ],
       "level": "all",
-      "best_for": "A short daily habit; about 13-minute episodes walking through questions.",
+      "best_for": "Listen to a 13-minute episode each day. Each episode works through real questions.",
       "description": "Short episodes Tuesday through Sunday, often working through a real LSAT question out loud so you can hear expert reasoning."
     },
     {
@@ -370,7 +370,7 @@
         "RC"
       ],
       "level": "all",
-      "best_for": "Students who want an engaging, polished interface and adaptive study plan.",
+      "best_for": "Study on your own with polished videos and a study plan that changes with your results.",
       "description": "Highly rated self-paced course with entertaining video lessons, adaptive scheduling and analytics. Pro adds nightly live review sessions and a score guarantee."
     },
     {
@@ -387,7 +387,7 @@
         "RC"
       ],
       "level": "all",
-      "best_for": "Students who need scheduled classes and two live instructors for accountability.",
+      "best_for": "Take scheduled live classes with two teachers if you need a fixed routine.",
       "description": "About 30 hours of live classes with two instructors, four proctored exams and full access to the self-paced materials."
     },
     {
@@ -405,7 +405,7 @@
         "admissions"
       ],
       "level": "beginner",
-      "best_for": "Free fundamentals, study tips and admissions articles.",
+      "best_for": "Watch free videos and read articles about basics, study tips and admissions.",
       "description": "High-quality free videos and articles on fundamentals, study schedules, accommodations and fee waivers."
     },
     {
@@ -422,7 +422,7 @@
         "RC"
       ],
       "level": "all",
-      "best_for": "A generous free tier with a full video lesson library and analytics.",
+      "best_for": "Use a large free library of video lessons, with score analytics.",
       "description": "Free plan includes two full practice tests with explanations and analytics, full access to the video lesson library, and analytics for tests you've taken elsewhere."
     },
     {
@@ -439,7 +439,7 @@
         "RC"
       ],
       "level": "all",
-      "best_for": "Budget-conscious students who want live classes cheaply.",
+      "best_for": "Get live classes at a lower price than most courses.",
       "description": "81 official LSATs, a 9,000+ question bank and analytics. Classroom adds unlimited live online classes; a Tutor tier (about $425/month) adds private tutoring."
     },
     {
@@ -456,7 +456,7 @@
         "RC"
       ],
       "level": "all",
-      "best_for": "Systematic free lessons by question type, praised on Reddit for clarity.",
+      "best_for": "Watch free lessons for each question type.",
       "description": "Structured video lessons covering each Logical Reasoning question type and Reading Comprehension strategy."
     },
     {
@@ -473,7 +473,7 @@
         "RC"
       ],
       "level": "all",
-      "best_for": "Students who like the Bible books' methodical, rule-based approach.",
+      "best_for": "Study with a step-by-step method from the authors of the PowerScore Bibles.",
       "description": "Self-paced video course from the authors of the LR and RC Bibles, with access to released LSAT questions and practice tests."
     },
     {
@@ -490,7 +490,7 @@
         "RC"
       ],
       "level": "all",
-      "best_for": "Students who want lots of live instruction hours.",
+      "best_for": "Get many hours of live teaching.",
       "description": "Live online classes with recorded lessons and proctored practice tests. The Weekend course is a cheaper short version."
     },
     {
@@ -508,7 +508,7 @@
         "admissions"
       ],
       "level": "all",
-      "best_for": "Strategy discussions from veteran instructors.",
+      "best_for": "Listen to strategy talks from experienced teachers.",
       "description": "Free podcast and blog with LSAT strategy, test-day logistics and admissions advice."
     },
     {
@@ -525,7 +525,7 @@
         "RC"
       ],
       "level": "all",
-      "best_for": "Students who want a big established brand with many live class options.",
+      "best_for": "Pick a large, known company with many live class times.",
       "description": "Asynchronous lessons, nearly 8,000 official questions, 180+ quizzes and the LSAT Channel with 80+ hours of live and recorded lessons. LawHub Advantage is extra."
     },
     {
@@ -542,7 +542,7 @@
         "RC"
       ],
       "level": "all",
-      "best_for": "Students with a big budget who want a score guarantee.",
+      "best_for": "Get private tutoring with a score guarantee. This is an expensive option.",
       "description": "Private tutoring bundled with the Kaplan course. The premium package includes a 170+ score guarantee."
     },
     {
@@ -559,7 +559,7 @@
         "RC"
       ],
       "level": "all",
-      "best_for": "Students who want one purchase that includes LawHub Advantage.",
+      "best_for": "Buy one course that includes LawHub Advantage.",
       "description": "150+ hours of recorded lessons, 1,800+ pages of materials and access to released LSAT questions."
     },
     {
@@ -576,7 +576,7 @@
         "RC"
       ],
       "level": "intermediate",
-      "best_for": "Students aiming for 165+ who want lots of live instruction and a score guarantee.",
+      "best_for": "Aim for 165 or higher with many hours of live teaching and a score guarantee.",
       "description": "Around 65 hours of live instruction plus all self-paced materials, with a guaranteed score of 165 or higher."
     },
     {
@@ -593,7 +593,7 @@
         "RC"
       ],
       "level": "all",
-      "best_for": "Visual learners who like interactive, choose-your-path video lessons.",
+      "best_for": "Learn with video lessons that let you choose your own path.",
       "description": "60+ hours of interactive on-demand video lessons and all Manhattan Prep strategy guides. Higher tiers add live review sessions or a full 36-hour live course."
     },
     {
@@ -610,7 +610,7 @@
         "RC"
       ],
       "level": "all",
-      "best_for": "Studying on your phone in short sessions.",
+      "best_for": "Study on your phone in short sessions.",
       "description": "Mobile-first course with a free digital LSAT, daily drills and some free video lessons. Paid plans unlock the full course, analytics and office hours."
     },
     {
@@ -627,7 +627,7 @@
         "RC"
       ],
       "level": "beginner",
-      "best_for": "Budget students who prefer a one-time payment over a monthly subscription.",
+      "best_for": "Pay one time instead of every month.",
       "description": "Self-paced video lessons and practice questions for a flat fee. Lighter than 7Sage or Blueprint but inexpensive."
     },
     {
@@ -644,7 +644,7 @@
         "RC"
       ],
       "level": "all",
-      "best_for": "Students who want an affordable one-time-price full course.",
+      "best_for": "Get a full course for one lower price.",
       "description": "Self-paced course with 50+ hours of video, official questions with explanations and progress tracking. Installment plans available."
     },
     {
@@ -661,7 +661,7 @@
         "RC"
       ],
       "level": "all",
-      "best_for": "Free drills by question type and a free 9-lesson Reading Comprehension course.",
+      "best_for": "Practice free question sets by type. A free Reading Comprehension course is included.",
       "description": "Free drills by question type with instant explanations, a free no-login RC course, free explanations for PrepTests 154-159, a YouTube channel and podcast. Founder went from 152 to 175."
     },
     {
@@ -677,7 +677,7 @@
         "RC"
       ],
       "level": "beginner",
-      "best_for": "Students whose RC is weaker than their LR.",
+      "best_for": "Take this free course if your Reading Comprehension score is lower than your Logical Reasoning score.",
       "description": "Nine short lessons with videos, written companions and practice questions that you can finish in about a week."
     },
     {
@@ -694,7 +694,7 @@
         "RC"
       ],
       "level": "all",
-      "best_for": "Free written explanations during Blind Review.",
+      "best_for": "Read free explanations when you review a practice test.",
       "description": "Free written explanations for thousands of official LSAT questions in plain language, by a 177 scorer. Often called the most useful free LSAT resource."
     },
     {
@@ -712,7 +712,7 @@
         "writing"
       ],
       "level": "beginner",
-      "best_for": "Free study schedules (2, 3 and 6 months), timing guides and a score calculator.",
+      "best_for": "Get free study schedules for 2, 3 or 6 months, timing guides and a score calculator.",
       "description": "Free practice questions, Question of the Day, section guides, ready-made study plans, an accommodations guide and a raw-to-scaled score calculator. Not official LSAT questions."
     },
     {
@@ -729,7 +729,7 @@
         "RC"
       ],
       "level": "beginner",
-      "best_for": "Gamified daily practice on your phone.",
+      "best_for": "Practice each day on your phone, as a game.",
       "description": "Gamified, adaptive mobile app for many tests including the LSAT. Good for building a daily streak; not a replacement for official PrepTests."
     },
     {
@@ -746,7 +746,7 @@
         "RC"
       ],
       "level": "beginner",
-      "best_for": "The best single book for self-study foundations.",
+      "best_for": "Learn the basics on your own from one book.",
       "description": "Warm, thorough all-in-one self-study guide with a 12-week plan. The 4th edition still includes logic games chapters, so skip those; the LR and RC content is excellent."
     },
     {
@@ -762,7 +762,7 @@
         "LR"
       ],
       "level": "intermediate",
-      "best_for": "Students who want a fun, systematic method for Logical Reasoning.",
+      "best_for": "Learn a clear, fun method for Logical Reasoning.",
       "description": "Popular, engaging LR book that teaches you to spot the gap in an argument. Many students credit it with big LR jumps. Pairs well with the LSAT Trainer."
     },
     {
@@ -778,7 +778,7 @@
         "LR"
       ],
       "level": "all",
-      "best_for": "A dense, comprehensive reference for every LR question type.",
+      "best_for": "Look up the rules for each Logical Reasoning question type. The book is long and detailed.",
       "description": "The classic LR reference. Thorough and rule-based; best used as a reference alongside a more readable guide."
     },
     {
@@ -794,7 +794,7 @@
         "RC"
       ],
       "level": "all",
-      "best_for": "Students who struggle with RC structure and timing.",
+      "best_for": "Fix problems with Reading Comprehension structure and timing.",
       "description": "Deep dive into passage structure, viewpoint tracking, question types and comparative reading."
     },
     {
@@ -811,7 +811,7 @@
         "RC"
       ],
       "level": "all",
-      "best_for": "An approachable alternative structured approach, especially for RC.",
+      "best_for": "Try a second method, mostly for Reading Comprehension.",
       "description": "Well organized LR and RC guides. The Reading Comprehension guide is often recommended as a second take on passages."
     },
     {
@@ -828,7 +828,7 @@
         "RC"
       ],
       "level": "beginner",
-      "best_for": "An updated all-in-one book with real questions and online videos.",
+      "best_for": "Get one current book with real questions and online videos.",
       "description": "Current-format book with real LSAT questions, explanations and online instructor videos."
     },
     {
@@ -845,7 +845,7 @@
         "RC"
       ],
       "level": "beginner",
-      "best_for": "A cheap current-format overview with two official PrepTests.",
+      "best_for": "Get a low-cost overview of the current test, with two official PrepTests.",
       "description": "Strategy review for LR and RC using real questions, plus access to two official PrepTests and extra drills licensed from LSAC."
     },
     {
@@ -862,7 +862,7 @@
         "RC"
       ],
       "level": "intermediate",
-      "best_for": "Organizing your own question-type drills from official tests.",
+      "best_for": "Make your own practice sets by question type from official tests.",
       "description": "An index of official questions by type so you can build targeted drill sets. Contains no questions itself; you need the PrepTests (LawHub Advantage)."
     },
     {
@@ -880,7 +880,7 @@
         "writing"
       ],
       "level": "all",
-      "best_for": "Question help, study schedules and moral support.",
+      "best_for": "Ask questions, find study schedules and get support from other students.",
       "description": "Large, active community where students post question explanations, study plans and score updates. Good place to find study partners."
     },
     {
@@ -896,7 +896,7 @@
         "admissions"
       ],
       "level": "all",
-      "best_for": "Understanding what score you need and how cycles are going.",
+      "best_for": "See the scores that other applicants have and how each admissions year goes.",
       "description": "Applicants share results, timelines and scholarship offers. Useful for setting realistic targets; take anecdotes with a grain of salt."
     },
     {
@@ -914,7 +914,7 @@
         "admissions"
       ],
       "level": "all",
-      "best_for": "Long-running archive of LSAT and admissions advice.",
+      "best_for": "Read years of LSAT and admissions advice.",
       "description": "One of the oldest LSAT forums with deep archives on study methods, plus guides on fee waivers and admissions predictors."
     },
     {
@@ -931,7 +931,7 @@
         "RC"
       ],
       "level": "all",
-      "best_for": "Question-by-question discussion and study group Discords.",
+      "best_for": "Discuss each official question and find a study group.",
       "description": "Active forum with discussion threads on official questions and links to LSAT study-group Discord servers organized by test date."
     },
     {
@@ -947,7 +947,7 @@
         "admissions"
       ],
       "level": "all",
-      "best_for": "Seeing what LSAT you need for your target schools, using real outcomes.",
+      "best_for": "See the LSAT score that you need for each school, from real admissions results.",
       "description": "Free admissions predictor trained on nearly a million real outcomes, school comparisons, employment data and an application tracker. No signup needed."
     },
     {
@@ -963,7 +963,7 @@
         "admissions"
       ],
       "level": "all",
-      "best_for": "Comparing schools on cost and employment outcomes, not just rankings.",
+      "best_for": "Compare law schools on cost and jobs, not only on rankings.",
       "description": "Nonprofit data on law school costs, employment outcomes and bar passage drawn from ABA disclosures."
     },
     {
@@ -981,7 +981,7 @@
         "admissions"
       ],
       "level": "all",
-      "best_for": "Low-income or underrepresented applicants who want free expert coaching.",
+      "best_for": "Apply for free expert coaching if you are a low-income or underrepresented applicant.",
       "description": "Leading admissions consulting firm whose annual pro bono program offers free admissions and LSAT coaching to selected applicants. Its blog and podcast are free for everyone."
     },
     {
@@ -999,7 +999,7 @@
         "admissions"
       ],
       "level": "all",
-      "best_for": "Students from underrepresented backgrounds who want a free full LSAT course.",
+      "best_for": "Get a free full LSAT course if you are from a group that is underrepresented in law.",
       "description": "Free LSAT prep (an online Kaplan course in LexPreLaw), admissions counseling and financial education for students from groups underrepresented in law."
     },
     {
@@ -1016,7 +1016,7 @@
         "admissions"
       ],
       "level": "beginner",
-      "best_for": "Summer program with mentorship plus a free Blueprint course.",
+      "best_for": "Join a summer program with mentors. It includes a free Blueprint course.",
       "description": "Six Saturday classes in June and July with speakers, lessons and mentorship; participants receive a free Blueprint online LSAT course."
     },
     {
@@ -1034,7 +1034,7 @@
         "admissions"
       ],
       "level": "all",
-      "best_for": "High-potential students of modest means aiming for top law schools.",
+      "best_for": "Apply for a free summer program if you aim for a top law school and have limited money.",
       "description": "Fully subsidized five-week summer program with an intensive LSAT prep course and lectures on the practice of law."
     },
     {
@@ -1052,7 +1052,7 @@
         "admissions"
       ],
       "level": "all",
-      "best_for": "Underrepresented students who want LSAT prep plus mentorship.",
+      "best_for": "Get free LSAT prep and a mentor if you are an underrepresented student.",
       "description": "Free spring LSAT program, admissions workshops, individualized application support and attorney mentors."
     },
     {
@@ -1070,7 +1070,7 @@
         "admissions"
       ],
       "level": "all",
-      "best_for": "Choosing a specific high-scoring coach that fits your budget.",
+      "best_for": "Pick a high-scoring coach whose price fits your budget.",
       "description": "Marketplace of LSAT coaches with reviews, plus a 12-session live LSAT bootcamp and free events and articles."
     },
     {
@@ -1087,7 +1087,7 @@
         "RC"
       ],
       "level": "all",
-      "best_for": "Students who want a large tutoring package with a score guarantee.",
+      "best_for": "Buy a large tutoring package with a score guarantee.",
       "description": "Private tutoring with 173+ scorers. The largest packages include score guarantees, for example 167+."
     },
     {
@@ -1104,7 +1104,7 @@
         "RC"
       ],
       "level": "all",
-      "best_for": "Finding an independent tutor at a lower hourly rate.",
+      "best_for": "Find an independent tutor at a lower hourly price.",
       "description": "Marketplace of independent LSAT tutors with reviews. Quality varies; ask for a tutor's official score and a trial session."
     },
     {
@@ -1121,7 +1121,7 @@
         "RC"
       ],
       "level": "all",
-      "best_for": "Matched tutoring without searching for a tutor yourself.",
+      "best_for": "Get matched with a tutor. You do not need to search.",
       "description": "Tutoring service that matches you with an LSAT tutor; rates vary by package and location."
     },
     {
@@ -1138,7 +1138,7 @@
         "RC"
       ],
       "level": "all",
-      "best_for": "Everyone taking practice tests. It's the most effective way to learn from them.",
+      "best_for": "Use this method after every practice test. It shows what to study next.",
       "description": "During a timed test, flag every question you're not 100% sure about. Don't check answers. After a break of at least two hours, redo the flagged questions untimed and write out your reasoning, then score both versions. The gap between timed and Blind Review scores shows whether your problem is speed or understanding."
     },
     {
@@ -1155,7 +1155,7 @@
         "RC"
       ],
       "level": "intermediate",
-      "best_for": "Students who run out of time or get stuck on hard questions.",
+      "best_for": "Use this if you run out of time or get stuck on hard questions.",
       "description": "LR averages about 1 minute 20 seconds per question, with early questions faster. RC is about 8-9 minutes per passage. If you've spent about 90 seconds without progress, eliminate what you can, guess, flag and move on. Many students lose 3-5 points per section by not skipping."
     },
     {
@@ -1172,7 +1172,7 @@
         "RC"
       ],
       "level": "all",
-      "best_for": "Building a week-by-week plan for any timeline.",
+      "best_for": "Plan your study weeks for any amount of time.",
       "description": "A typical plan has four phases: fundamentals (learn every question type), practice (timed sections and drills by question type), simulation (full timed PrepTests with Blind Review) and final review (light practice, rest and test-day logistics). A 3-month plan usually needs 15-20 hours per week."
     },
     {
@@ -1188,7 +1188,7 @@
         "LR"
       ],
       "level": "beginner",
-      "best_for": "Knowing what to drill when LR is weak.",
+      "best_for": "Find what to practice when Logical Reasoning is your weak section.",
       "description": "Main LR families: assumption questions (necessary and sufficient), strengthen and weaken, flaw, must be true and most strongly supported, main point, method of reasoning, parallel reasoning and parallel flaw, principle, paradox (resolve the discrepancy) and evaluate. Assumption, flaw, and strengthen/weaken make up a large share of LR, so drill those first."
     },
     {
@@ -1204,7 +1204,7 @@
         "RC"
       ],
       "level": "all",
-      "best_for": "Students who reread passages or miss main point and author-attitude questions.",
+      "best_for": "Use this if you reread passages or miss main point questions.",
       "description": "Read for structure, not detail: after each paragraph, note its purpose (problem, evidence, counterargument, conclusion) and whose view is being described. Track tone words like 'however' and 'albeit'. Go back to the passage for details instead of memorizing them. Build endurance with timed passage sets three or four times a week."
     },
     {
@@ -1220,7 +1220,7 @@
         "writing"
       ],
       "level": "all",
-      "best_for": "Finishing the writing requirement quickly and well.",
+      "best_for": "Finish the writing section fast and well.",
       "description": "Use the 15 prewriting minutes to pick a position and outline. Open with a clear thesis, support it with points from the provided perspectives, acknowledge the strongest counterargument and explain why your view still wins. Save the last five minutes for proofreading. Do it early, because scores aren't released until it's complete."
     },
     {
@@ -1236,7 +1236,7 @@
         "all"
       ],
       "level": "all",
-      "best_for": "Students whose test-day score falls below their practice scores.",
+      "best_for": "Use this if your test-day score is lower than your practice scores.",
       "description": "Take full timed practice tests under real conditions so test day feels routine. Have a reset routine (a slow 6-second exhale, relax your grip, reread the question stem). Sleep and logistics matter. Accommodations are available for documented anxiety disorders."
     },
     {
@@ -1252,7 +1252,7 @@
         "admissions"
       ],
       "level": "all",
-      "best_for": "Students whose official score is below their practice-test average.",
+      "best_for": "Use this if your official score is lower than your practice average.",
       "description": "If your official score is well below your recent practice average, a retake usually makes sense; most schools focus on your highest score. You can take the LSAT five times per testing year and seven in a lifetime. Score Preview lets first-time takers see a score before deciding to keep it."
     },
     {
@@ -1269,7 +1269,7 @@
         "RC"
       ],
       "level": "all",
-      "best_for": "Students who want paper copies of official questions for untimed drilling.",
+      "best_for": "Get official questions on paper for practice without a timer.",
       "description": "Printed collections of past official PrepTests. Useful for marking up and drilling, but skip the logic games sections and do timed practice in LawHub, because the real test is digital."
     },
     {
@@ -1286,7 +1286,7 @@
         "admissions"
       ],
       "level": "beginner",
-      "best_for": "Official walkthroughs of test-day procedures and the application process.",
+      "best_for": "Watch official videos about test day and the application.",
       "description": "Official videos on the LSAT, remote and in-person testing, applying to law school and financing law school."
     },
     {
@@ -1303,7 +1303,7 @@
         "RC"
       ],
       "level": "all",
-      "best_for": "Watching experts reason through questions live.",
+      "best_for": "Watch experts work through questions live.",
       "description": "Free class recordings and question walkthroughs focused on building strong reasoning habits rather than memorized tricks."
     },
     {
@@ -1320,7 +1320,7 @@
         "admissions"
       ],
       "level": "all",
-      "best_for": "Study advice and scholarship strategy.",
+      "best_for": "Listen for study advice and scholarship strategy.",
       "description": "Podcast on LSAT study approach, motivation and getting large law school scholarships."
     },
     {
@@ -1336,7 +1336,7 @@
         "admissions"
       ],
       "level": "all",
-      "best_for": "Admissions-side advice on test timing, retakes and applications.",
+      "best_for": "Hear former admissions deans talk about test dates, retakes and applications.",
       "description": "Free articles and podcast episodes from former admissions deans on when to test, how schools see multiple scores and application timing."
     },
     {
@@ -1353,7 +1353,7 @@
         "RC"
       ],
       "level": "all",
-      "best_for": "Estimating a scaled score from section results.",
+      "best_for": "Change your number correct into an estimated scaled score.",
       "description": "Free calculators that convert raw correct answers into an estimated scaled score and percentile."
     }
   ]

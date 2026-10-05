@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>LSAT Compass</title>
-  <meta name="description" content="A free LSAT study plan built around your practice score, your goal and your schedule." />
+  <meta name="description" content="Get a free LSAT study plan. It uses your practice test score, your target score and your schedule." />
   <meta property="og:title" content="LSAT Compass" />
-  <meta property="og:description" content="A free LSAT study plan built around your practice score, your goal and your schedule." />
+  <meta property="og:description" content="Get a free LSAT study plan. It uses your practice test score, your target score and your schedule." />
   <meta name="theme-color" content="#f5f0e8" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%230f0e0c'/%3E%3Cpolygon points='16,5 18.5,16 16,15 13.5,16' fill='%23c9a84c'/%3E%3Cpolygon points='16,27 13.5,16 16,17 18.5,16' fill='%23f5f0e8'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -411,59 +411,62 @@
 
 <main>
   <section class="intro" id="intro">
-    <h1>Your LSAT plan, built around you.</h1>
-    <p class="lede">Share your practice score, your goal and how much time you have. You'll get an honest read on where you stand and a week-by-week plan using the best free and paid resources.</p>
+    <h1>Get a free LSAT study plan.</h1>
+    <p class="lede">Enter your practice test score, your target score and your study time. We show where you stand. Then we give you a plan for each week, with free and paid resources.</p>
   </section>
 
   <ol class="progress" id="progress" aria-label="Progress">
-    <li data-step="1" class="current">Your score</li>
-    <li data-step="2">Your goal</li>
-    <li data-step="3">Your plan</li>
+    <li data-step="1" class="current">Score</li>
+    <li data-step="2">Goal</li>
+    <li data-step="3">Plan</li>
   </ol>
 
   <!-- 1. Have a score? -->
   <section class="step active" id="step-start" aria-labelledby="h-start">
-    <h2 id="h-start">Have you taken a practice test?</h2>
+    <h2 id="h-start">Did you take a practice test?</h2>
     <div class="choices">
       <button class="choice" type="button" data-go="step-score">
-        <div><strong>Yes, I have a score</strong><span>I'll enter it on the next screen</span></div>
+        <div><strong>Yes</strong><span>I have a scaled score.</span></div>
       </button>
       <button class="choice" type="button" data-go="step-lawhub">
-        <div><strong>Not yet</strong><span>Show me where to take a free one</span></div>
+        <div><strong>No</strong><span>Show me a free official test.</span></div>
       </button>
     </div>
   </section>
 
   <!-- 1b. Take a test first -->
   <section class="step" id="step-lawhub" aria-labelledby="h-lawhub">
-    <h2 id="h-lawhub">Start with a free official test</h2>
-    <p>LSAC, the organization that makes the LSAT, gives you four real past tests for free on LawHub. One of those is the best way to find your starting point.</p>
+    <h2 id="h-lawhub">Take a free official test</h2>
+    <p>LSAC writes the LSAT. LSAC gives you 4 free past tests on LawHub. Take one test to get your starting score.</p>
     <div class="panel">
       <ol class="numbered">
         <li>Make a free account at lawhub.org.</li>
-        <li>Open the LSAT Prep library and pick any free PrepTest.</li>
-        <li>Take the whole thing in one sitting, timed, somewhere quiet.</li>
-        <li>Write down your scaled score and how many you got right in each section.</li>
+        <li>Open the LSAT Prep library.</li>
+        <li>Select a free PrepTest.</li>
+        <li>Take the full test in one session, with the timer on.</li>
+        <li>Write down your scaled score and the number correct in each section.</li>
+        <li>Come back here and enter your score.</li>
       </ol>
     </div>
     <div class="actions">
-      <a class="btn" href="https://www.lawhub.org/prepare-for-the-lsat" target="_blank" rel="noopener">Open LawHub</a>
+      <a class="btn" href="https://www.lawhub.org/prepare-for-the-lsat" target="_blank" rel="noopener">Go to LawHub</a>
       <button class="btn secondary" type="button" data-go="step-score">I have my score</button>
     </div>
   </section>
 
   <!-- 2. Score -->
   <section class="step" id="step-score" aria-labelledby="h-score">
-    <h2 id="h-score">What did you score?</h2>
+    <h2 id="h-score">Enter your score</h2>
     <p>Use your most recent full practice test.</p>
     <form class="panel" id="score-form" novalidate>
       <div class="field">
         <label for="scaledScore">Scaled score</label>
         <input class="big-input" type="number" id="scaledScore" inputmode="numeric" min="120" max="180" placeholder="152" required />
-        <p class="hint">Between 120 and 180.</p>
+        <p class="hint">Enter a number from 120 to 180.</p>
       </div>
       <details class="more">
-        <summary>Add section scores <span class="optional">(optional, but it sharpens the plan)</span></summary>
+        <summary>Add section scores <span class="optional">(optional)</span></summary>
+        <p class="hint">Section scores make the plan more specific.</p>
         <div class="trio">
           <div>
             <label for="lr1Score">Logical Reasoning 1</label>
@@ -474,11 +477,11 @@
             <input type="number" id="lr2Score" inputmode="numeric" min="0" max="26" placeholder="of 26" />
           </div>
           <div>
-            <label for="rcScore">Reading Comp</label>
+            <label for="rcScore">Reading Comprehension</label>
             <input type="number" id="rcScore" inputmode="numeric" min="0" max="27" placeholder="of 27" />
           </div>
         </div>
-        <p class="hint">Number correct in each section, from your LawHub score report.</p>
+        <p class="hint">Enter the number correct in each section. You can find it on your LawHub score report.</p>
       </details>
       <p class="error" id="score-error" role="alert"></p>
       <div class="actions">
@@ -490,8 +493,8 @@
 
   <!-- 3. Goals -->
   <section class="step" id="step-goals" aria-labelledby="h-goals">
-    <h2 id="h-goals">What are you aiming for?</h2>
-    <p>Be realistic about your time. A plan you can keep beats an ambitious one you drop.</p>
+    <h2 id="h-goals">Set your goal</h2>
+    <p>Choose a schedule that you can keep every week.</p>
     <form class="panel" id="goals-form" novalidate>
       <div class="row">
         <div class="field">
@@ -501,7 +504,7 @@
         <div class="field">
           <label for="timeline">Time until your test</label>
           <select id="timeline" required>
-            <option value="">Choose one</option>
+            <option value="">Select</option>
             <option value="1">1 month</option>
             <option value="2">2 months</option>
             <option value="3">3 months</option>
@@ -512,21 +515,21 @@
         </div>
       </div>
       <div class="field">
-        <span class="label" id="hours-label">Hours you can study each week</span>
+        <span class="label" id="hours-label">Study hours each week</span>
         <div class="segmented" role="group" aria-labelledby="hours-label" id="hours">
-          <button type="button" data-hours="5" aria-pressed="false">Up to 5</button>
+          <button type="button" data-hours="5" aria-pressed="false">0 to 5</button>
           <button type="button" data-hours="10" aria-pressed="false">5 to 10</button>
           <button type="button" data-hours="15" aria-pressed="false">10 to 20</button>
-          <button type="button" data-hours="25" aria-pressed="false">20+</button>
+          <button type="button" data-hours="25" aria-pressed="false">20 or more</button>
         </div>
       </div>
       <div class="field">
-        <label for="concern">Anything giving you trouble? <span class="optional">(optional)</span></label>
-        <textarea id="concern" rows="3" maxlength="400" placeholder="I run out of time on Reading Comp, or flaw questions trip me up."></textarea>
+        <label for="concern">What is difficult for you? <span class="optional">(optional)</span></label>
+        <textarea id="concern" rows="3" maxlength="400" placeholder="Example: I run out of time in Reading Comprehension."></textarea>
       </div>
       <p class="error" id="goals-error" role="alert"></p>
       <div class="actions">
-        <button class="btn" type="submit">Build my plan</button>
+        <button class="btn" type="submit">Make my plan</button>
         <button class="link-btn" type="button" data-go="step-score">Back</button>
       </div>
     </form>
@@ -535,7 +538,7 @@
   <!-- Loading -->
   <section class="step" id="step-loading" aria-live="polite">
     <div class="loader">
-      <h2>Building your plan</h2>
+      <h2>Making your plan</h2>
       <div class="loader-bar"><span></span></div>
       <p class="loader-status" id="loader-status">Reading your scores</p>
     </div>
@@ -559,30 +562,30 @@
     </div>
 
     <div class="section">
-      <h2>Your plan</h2>
-      <p>Tap a week to see what to do each day.</p>
+      <h2>Your weekly plan</h2>
+      <p>Select a week to see the tasks for each day.</p>
       <div class="weeks" id="out-weeks"></div>
     </div>
 
     <div class="section" id="picks-section" hidden>
-      <h2>Start with these</h2>
-      <p>Picked for your score, goal and schedule.</p>
+      <h2>Start with these resources</h2>
+      <p>We selected these for your score, goal and schedule.</p>
       <div class="resource-list" id="out-picks"></div>
     </div>
 
     <div class="section">
-      <h2>Everything else</h2>
-      <p>Our full library. Prices change, so check each site before you buy.</p>
+      <h2>All resources</h2>
+      <p>Prices change. Check each website before you pay.</p>
       <div class="filters">
         <div class="chips" id="category-chips" role="group" aria-label="Category">
           <button class="chip" type="button" data-category="all" aria-pressed="true">All</button>
-          <button class="chip" type="button" data-category="courses" aria-pressed="false">Courses and tutoring</button>
+          <button class="chip" type="button" data-category="courses" aria-pressed="false">Courses and tutors</button>
           <button class="chip" type="button" data-category="practice" aria-pressed="false">Practice and tools</button>
           <button class="chip" type="button" data-category="books" aria-pressed="false">Books</button>
           <button class="chip" type="button" data-category="media" aria-pressed="false">Videos and podcasts</button>
         </div>
         <div class="chips" id="budget-chips" role="group" aria-label="Budget">
-          <button class="chip" type="button" data-budget="Infinity" aria-pressed="true">Any budget</button>
+          <button class="chip" type="button" data-budget="Infinity" aria-pressed="true">Any price</button>
           <button class="chip" type="button" data-budget="500" aria-pressed="false">Under $500</button>
           <button class="chip" type="button" data-budget="100" aria-pressed="false">Under $100</button>
           <button class="chip" type="button" data-budget="0" aria-pressed="false">Free</button>
@@ -594,12 +597,12 @@
     </div>
 
     <div class="section">
-      <h2>Questions about your plan?</h2>
-      <p>Ask about a section, a resource, or how to fit studying around work or school.</p>
+      <h2>Ask a question</h2>
+      <p>Ask about a section, a resource, or your schedule.</p>
       <div class="chat">
         <div class="messages" id="messages" aria-live="polite"></div>
         <form class="chat-form" id="chat-form">
-          <input type="text" id="chat-input" placeholder="How do I get faster at Reading Comp?" aria-label="Your question" maxlength="800" autocomplete="off" />
+          <input type="text" id="chat-input" placeholder="Example: How do I read faster in Reading Comprehension?" aria-label="Your question" maxlength="800" autocomplete="off" />
           <button class="btn" type="submit">Send</button>
         </form>
       </div>
@@ -607,7 +610,7 @@
   </section>
 </main>
 
-<footer>Free to use. Not affiliated with LSAC.</footer>
+<footer>Free to use. LSAT Compass is not part of LSAC.</footer>
 
 <script>
 const state = {
@@ -660,7 +663,7 @@ function readInt(id, min, max) {
 $('score-form').addEventListener('submit', (e) => {
   e.preventDefault();
   const scaled = readInt('scaledScore', 120, 180);
-  if (scaled === null) { $('score-error').textContent = 'Enter a scaled score between 120 and 180.'; $('scaledScore').focus(); return; }
+  if (scaled === null) { $('score-error').textContent = 'Enter a scaled score from 120 to 180.'; $('scaledScore').focus(); return; }
   $('score-error').textContent = '';
   state.scaledScore = scaled;
   const lr1 = readInt('lr1Score', 0, 26);
@@ -683,9 +686,9 @@ $('goals-form').addEventListener('submit', (e) => {
   e.preventDefault();
   const target = readInt('targetScore', 120, 180);
   const err = $('goals-error');
-  if (target === null) { err.textContent = 'Enter a target score between 120 and 180.'; $('targetScore').focus(); return; }
-  if (!$('timeline').value) { err.textContent = 'Choose how long you have until your test.'; $('timeline').focus(); return; }
-  if (!state.hours) { err.textContent = 'Choose how many hours you can study each week.'; return; }
+  if (target === null) { err.textContent = 'Enter a target score from 120 to 180.'; $('targetScore').focus(); return; }
+  if (!$('timeline').value) { err.textContent = 'Select the time until your test.'; $('timeline').focus(); return; }
+  if (!state.hours) { err.textContent = 'Select your study hours each week.'; return; }
   err.textContent = '';
   state.targetScore = target;
   state.timeline = Number($('timeline').value);
@@ -709,7 +712,7 @@ function profilePayload() {
 
 async function buildPlan() {
   show('step-loading');
-  const lines = ['Reading your scores', 'Finding resources that fit', 'Writing your weekly plan', 'Almost done'];
+  const lines = ['Reading your scores', 'Finding resources for you', 'Writing your weekly plan', 'Finishing'];
   let i = 0;
   $('loader-status').textContent = lines[0];
   const ticker = setInterval(() => { i = Math.min(i + 1, lines.length - 1); $('loader-status').textContent = lines[i]; }, 2500);
@@ -722,13 +725,13 @@ async function buildPlan() {
       body: JSON.stringify({ profile: profilePayload() }),
     });
     const data = await res.json().catch(() => ({}));
-    if (!res.ok) throw new Error(data.error || 'Something went wrong. Please try again.');
+    if (!res.ok) throw new Error(data.error || 'We could not make your plan. Try again.');
     renderResults(data);
     show('step-results');
   } catch (err) {
     console.error(err);
     show('step-goals');
-    $('goals-error').textContent = err.message || 'We could not build your plan. Please try again.';
+    $('goals-error').textContent = err.message || 'We could not make your plan. Try again.';
   } finally {
     clearInterval(ticker);
   }
@@ -740,8 +743,8 @@ function renderResults(data) {
   $('out-target').textContent = state.targetScore;
   const months = state.timeline === 1 ? '1 month' : `${state.timeline} months`;
   $('out-gap').textContent = gap > 0
-    ? `${gap} points to gain in ${months}, with about ${state.hours} hours a week.`
-    : `You're already at your goal. The plan below is about holding it on test day.`;
+    ? `You need ${gap} more points. You have ${months} and about ${state.hours} hours each week.`
+    : `Your score is at your target. This plan helps you keep that score on test day.`;
 
   const sections = [
     { name: 'Logical Reasoning', score: state.lrScore, max: 52 },
@@ -762,7 +765,7 @@ function renderResults(data) {
   const paragraphs = String(data.diagnosis || '').split(/\n\s*\n/).filter(Boolean);
   $('out-diagnosis').innerHTML = paragraphs.length
     ? paragraphs.map(p => `<p>${escapeHtml(p)}</p>`).join('')
-    : '<p>We could not write a summary this time, but your plan is below.</p>';
+    : '<p>We could not write a summary. Your plan is below.</p>';
 
   const weeks = data.weeks || [];
   $('out-weeks').innerHTML = weeks.length
@@ -776,7 +779,7 @@ function renderResults(data) {
           ${(w.tasks || []).map(t => `<li><span class="day">${escapeHtml(t.day)}</span><span>${escapeHtml(t.task)}</span></li>`).join('')}
         </ul>
       </details>`).join('')
-    : '<p class="empty">We could not lay out the weeks this time. Try again, or ask a question below.</p>';
+    : '<p class="empty">We could not make the weekly plan. Try again, or ask a question below.</p>';
 
   const picks = data.picks || [];
   $('picks-section').hidden = picks.length === 0;
@@ -785,8 +788,8 @@ function renderResults(data) {
   renderLibrary();
 
   const opener = gap > 0
-    ? `Anything you'd change about this plan? I can adjust it for your schedule, go deeper on a section, or compare resources.`
-    : `Anything you'd like to dig into? I can help with test-day prep, timing, or a weak question type.`;
+    ? `Do you want to change this plan? I can change it for your schedule, explain a section, or compare resources.`
+    : `What do you want to work on? I can help with timing, test day, or a difficult question type.`;
   addMessage('assistant', opener);
 }
 
@@ -809,7 +812,7 @@ fetch('/api/resources')
   .then(data => { library.push(...data.resources.filter(r => CATEGORY_GROUP[r.category])); renderLibrary(); })
   .catch(err => console.warn('Could not load resources', err));
 
-// Unknown prices (like tutoring marketplaces) count as paid for the budget filter.
+// Unknown prices (like tutoring marketplaces) count as paid for the price filter.
 function priceOf(r) {
   if (r.cost === 'free') return 0;
   return r.price_usd ?? Infinity;
@@ -842,7 +845,7 @@ function renderLibrary() {
   const visible = items.slice(0, libraryLimit);
   $('out-library').innerHTML = items.length
     ? visible.map(r => resourceCard(r)).join('')
-    : library.length ? '<p class="empty">Nothing here at that budget. Try a wider one.</p>' : '';
+    : library.length ? '<p class="empty">No resources match this price. Select a higher price.</p>' : '';
   const more = $('library-more');
   more.hidden = items.length <= libraryLimit;
   more.textContent = `Show ${Math.min(PAGE_SIZE, items.length - libraryLimit)} more`;
@@ -885,7 +888,7 @@ $('chat-form').addEventListener('submit', async (e) => {
   addMessage('user', text);
   const pending = document.createElement('div');
   pending.className = 'msg assistant pending';
-  pending.textContent = 'Thinking…';
+  pending.textContent = 'Writing an answer…';
   $('messages').appendChild(pending);
 
   try {
@@ -896,10 +899,10 @@ $('chat-form').addEventListener('submit', async (e) => {
     });
     const data = await res.json().catch(() => ({}));
     pending.remove();
-    addMessage('assistant', data.text || data.error || 'Sorry, something went wrong. Try asking again.');
+    addMessage('assistant', data.text || data.error || 'Something went wrong. Ask again.');
   } catch {
     pending.remove();
-    addMessage('assistant', 'Connection problem. Try again in a moment.');
+    addMessage('assistant', 'We could not connect. Try again in 1 minute.');
   }
 });
 </script>

@@ -4,7 +4,7 @@ import type { Profile, Resource } from './types.ts';
 
 const FORMAT_FACTS = `Facts about the current LSAT (since August 2024): two scored Logical Reasoning sections (about 25-26 questions each), one scored Reading Comprehension section (27 questions), and one unscored variable section, each 35 minutes. Logic Games (Analytical Reasoning) no longer exists; never mention it. There is also a separate, unscored but required Argumentative Writing task. Khan Academy's LSAT course has moved to LawHub; never send students to khanacademy.org for LSAT prep.`;
 
-const VOICE = `Write like a warm, direct human tutor talking to one student. Use short, plain sentences. Never use em dashes or en dashes; use commas or periods instead. No hype, filler or cheerleading phrases, and no headings or markdown.`;
+const VOICE = `Writing rules: Write to one student. Use "you". Write one idea in each sentence. Use 20 words or fewer in each sentence. Use 4 sentences or fewer in each paragraph. Put the most important information first. Use active voice and simple tenses. Use simple, common words. Use the same word for the same thing every time. Write each task as one instruction that starts with a verb, for example "Take PrepTest 141 with the timer on." Do not use idioms, filler, hype or hedging words. Do not use em dashes or en dashes. Use a period or a comma. Do not use headings, bold text or markdown.`;
 
 export function planWeeks(profile: Profile): number {
   return Math.max(4, Math.min(profile.timeline * 4, 8));

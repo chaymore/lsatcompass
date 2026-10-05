@@ -30,13 +30,13 @@ export default {
     } catch (error) {
       if (error instanceof BadRequest) return json({ error: error.message }, 400);
       console.error(error);
-      return json({ error: 'Something went wrong on our end. Please try again in a minute.' }, 500);
+      return json({ error: 'Something went wrong on our side. Try again in 1 minute.' }, 500);
     }
   },
 };
 
 async function plan(request: Request, env: Env): Promise<Response> {
-  if (!(await allowed(env.PLAN_LIMITER, request))) return json({ error: 'Too many plans at once. Please wait a minute and try again.' }, 429);
+  if (!(await allowed(env.PLAN_LIMITER, request))) return json({ error: 'You made too many plans in 1 minute. Wait 1 minute, then try again.' }, 429);
   const body = await readJson(request);
   const profile = validateProfile(body.profile);
 
@@ -60,10 +60,10 @@ async function plan(request: Request, env: Env): Promise<Response> {
 }
 
 async function chat(request: Request, env: Env): Promise<Response> {
-  if (!(await allowed(env.CHAT_LIMITER, request))) return json({ error: 'Please slow down a little and try again in a minute.' }, 429);
+  if (!(await allowed(env.CHAT_LIMITER, request))) return json({ error: 'You sent too many questions in 1 minute. Wait 1 minute, then try again.' }, 429);
   const body = await readJson(request);
   const message = cleanText(body.message, 800);
-  if (!message) throw new BadRequest('Please type a question.');
+  if (!message) throw new BadRequest('Type a question.');
   let profile: Profile | null = null;
   try {
     profile = body.profile ? validateProfile(body.profile) : null;
@@ -78,7 +78,7 @@ async function chat(request: Request, env: Env): Promise<Response> {
     messages: [...history, { role: 'user', content: message }],
     maxTokens: 700,
   });
-  return json({ text: noDashes(reply) || 'Sorry, I could not come up with an answer. Try rephrasing?' });
+  return json({ text: noDashes(reply) || 'I could not write an answer. Ask the question in a different way.' });
 }
 
 // Searches Pinecone. If Pinecone is down or not set up yet, falls back to a simple
@@ -138,10 +138,10 @@ export function validateProfile(value: unknown): Profile {
   const targetScore = int(p.targetScore, 120, 180);
   const timeline = int(p.timeline, 1, 24);
   const hours = int(p.hours, 1, 80);
-  if (scaledScore === null) throw new BadRequest('Please enter a practice score between 120 and 180.');
-  if (targetScore === null) throw new BadRequest('Please enter a target score between 120 and 180.');
-  if (timeline === null) throw new BadRequest('Please choose how many months you have.');
-  if (hours === null) throw new BadRequest('Please choose your weekly study hours.');
+  if (scaledScore === null) throw new BadRequest('Enter a practice score from 120 to 180.');
+  if (targetScore === null) throw new BadRequest('Enter a target score from 120 to 180.');
+  if (timeline === null) throw new BadRequest('Select the time until your test.');
+  if (hours === null) throw new BadRequest('Select your study hours each week.');
   return {
     scaledScore,
     targetScore,

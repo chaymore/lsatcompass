@@ -131,7 +131,7 @@ test('plan: bad input gets a friendly 400 without calling the AI', async () => {
   const calls = fakeFetch({ modelReply: planReply });
   const { status, data } = await post('/api/plan', { profile: { ...profile, scaledScore: 90 } });
   assert.equal(status, 400);
-  assert.match(data.error, /120 and 180/);
+  assert.match(data.error, /120 to 180/);
   assert.equal(calls.length, 0);
 });
 
