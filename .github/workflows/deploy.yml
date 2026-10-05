@@ -1,0 +1,48 @@
+name: Deploy to Cloudflare
+
+# Tests the code, then publishes the site and API to Cloudflare Workers.
+# Runs on every push to main, and on demand from the Actions tab.
+# Needs repository secrets: CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID, OPENROUTER_API_KEY, PINECONE_API_KEY.
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - name: Deploy
+        run: npm run deploy
+      - name: Send API keys to the worker
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          PINECONE_API_KEY: ${{ secrets.PINECONE_API_KEY }}
+        run: |
+          node -e '
+            const s = {};
+            for (const k of ["OPENROUTER_API_KEY", "PINECONE_API_KEY"]) if (process.env[k]) s[k] = process.env[k];
+            require("fs").writeFileSync("secrets.json", JSON.stringify(s));
+          '
+          npx wrangler secret bulk secrets.json
+          rm secrets.json

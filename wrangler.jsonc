@@ -1,0 +1,34 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "lsat-compass",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-01",
+  "observability": { "enabled": true },
+  // Everything in public/ is the website. Only /api/* requests run the worker code.
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"]
+  },
+  // Cheap model, good at text. Change these to switch models; no code changes needed.
+  "vars": {
+    "OPENROUTER_MODEL": "google/gemini-3.5-flash-lite",
+    "OPENROUTER_FALLBACK_MODEL": "google/gemini-2.5-flash-lite",
+    "PINECONE_INDEX": "lsat-resources",
+    "PINECONE_NAMESPACE": "resources",
+    "SITE_URL": "https://lsatcompass.com"
+  },
+  // Secrets (set with `npx wrangler secret put NAME`, never written here):
+  //   OPENROUTER_API_KEY, PINECONE_API_KEY
+  //
+  // Limits per visitor IP, so nobody can run up the OpenRouter bill.
+  "ratelimits": [
+    { "name": "PLAN_LIMITER", "namespace_id": "4101", "simple": { "limit": 4, "period": 60 } },
+    { "name": "CHAT_LIMITER", "namespace_id": "4102", "simple": { "limit": 12, "period": 60 } }
+  ],
+  // Uncomment once lsatcompass.com is in your Cloudflare account (see README).
+  // "routes": [
+  //   { "pattern": "lsatcompass.com", "custom_domain": true },
+  //   { "pattern": "www.lsatcompass.com", "custom_domain": true }
+  // ]
+}

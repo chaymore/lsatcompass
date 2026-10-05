@@ -1,0 +1,1360 @@
+{
+  "researched": "2026-10",
+  "note": "Prices are approximate as of the research date and change often. Monthly prices are per month; others are one-time unless noted.",
+  "resources": [
+    {
+      "id": "lawhub-free",
+      "name": "LawHub (free account)",
+      "provider": "LSAC",
+      "url": "https://www.lawhub.org/prepare-for-the-lsat",
+      "category": "official",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free",
+      "sections": [
+        "LR",
+        "RC",
+        "writing"
+      ],
+      "level": "all",
+      "best_for": "Everyone. Take a diagnostic here first in the real digital test interface.",
+      "description": "LSAC's official prep platform. The free account includes four full official PrepTests (140, 141, 157 and 158) in the actual digital interface, drill sets, an Argumentative Writing practice prompt, and the former Khan Academy LSAT lessons, which moved here in 2024."
+    },
+    {
+      "id": "lawhub-advantage",
+      "name": "LawHub Advantage",
+      "provider": "LSAC",
+      "url": "https://www.lawhub.org/prepare-for-the-lsat/prepare-with-lawhub",
+      "category": "official",
+      "cost": "paid",
+      "price_usd": 124,
+      "price_note": "About $124/year; free with an LSAC fee waiver",
+      "sections": [
+        "LR",
+        "RC",
+        "writing"
+      ],
+      "level": "all",
+      "best_for": "Anyone past the diagnostic stage. Most third-party courses require it to show official PrepTests.",
+      "description": "One-year subscription that unlocks the full library of official LSAT PrepTests (50+ beyond the free four) in the real test interface, plus more Argumentative Writing prompts. Nearly every paid course (7Sage, LSAT Lab, PowerScore and others) requires it separately."
+    },
+    {
+      "id": "lawhub-lessons",
+      "name": "Official LSAT Prep lessons (formerly Khan Academy)",
+      "provider": "LSAC",
+      "url": "https://www.lsac.org/lsat/prep",
+      "category": "official",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "beginner",
+      "best_for": "Beginners who want a free structured introduction to every question type.",
+      "description": "Khan Academy's official LSAT course was retired in June 2024 and its videos, articles and worked examples now live in LawHub's Lessons tab. Covers Logical Reasoning and Reading Comprehension for the current format. khanacademy.org no longer hosts LSAT prep."
+    },
+    {
+      "id": "lsac-fee-waiver",
+      "name": "LSAC Fee Waiver",
+      "provider": "LSAC",
+      "url": "https://www.lsac.org/lsat/register-lsat/lsat-cas-fees/fee-waiver",
+      "category": "program",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free for eligible applicants",
+      "sections": [
+        "all",
+        "admissions"
+      ],
+      "level": "all",
+      "best_for": "Students with limited finances. Apply before registering for the LSAT.",
+      "description": "Need-based waiver from LSAC. Tier 1 includes LawHub Advantage, two LSAT registrations with Argumentative Writing and Score Preview, a five-year CAS subscription and six CAS reports; Tier 2 covers one LSAT and three reports. Valid for two years. It also unlocks big discounts elsewhere, for example 7Sage for $1/month."
+    },
+    {
+      "id": "lsac-plus-program",
+      "name": "PLUS, Guided Journey",
+      "provider": "LSAC",
+      "url": "https://www.lsac.org/discover-law/access-and-community-law-school/plus-program",
+      "category": "program",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free; applications open December 1",
+      "sections": [
+        "all",
+        "admissions"
+      ],
+      "level": "beginner",
+      "best_for": "First-generation or underrepresented students who want guidance through the whole application process.",
+      "description": "Free yearlong LSAC program covering LSAT prep through financial aid. Participants get LawHub Advantage, two free LSATs, Score Preview, CAS registration and ongoing guidance from law school professionals."
+    },
+    {
+      "id": "lsac-argumentative-writing",
+      "name": "LSAT Argumentative Writing (official guide)",
+      "provider": "LSAC",
+      "url": "https://www.lsac.org/lsat/about/lsat-argumentative-writing",
+      "category": "official",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free",
+      "sections": [
+        "writing"
+      ],
+      "level": "all",
+      "best_for": "Anyone who hasn't completed the writing section yet. Scores aren't released until it's done.",
+      "description": "Official explanation of the Argumentative Writing task: an unscored but mandatory 50-minute remote session (15 minutes of prewriting analysis and 35 minutes of writing) where you argue for a position on a debatable issue using provided perspectives. Law schools receive the essay."
+    },
+    {
+      "id": "lsac-test-dates",
+      "name": "Official LSAT dates and deadlines",
+      "provider": "LSAC",
+      "url": "https://www.lsac.org/lsat",
+      "category": "official",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free",
+      "sections": [
+        "admissions"
+      ],
+      "level": "all",
+      "best_for": "Choosing a test date and building a study timeline backwards from it.",
+      "description": "Registration deadlines fall about six to seven weeks before each test. The 2026-27 cycle has tests in November, January, February, April and June. You can take the LSAT up to five times per testing year and seven times in a lifetime. Always confirm dates on LSAC's site."
+    },
+    {
+      "id": "lsac-accommodations",
+      "name": "LSAT testing accommodations",
+      "provider": "LSAC",
+      "url": "https://www.lsac.org/lsat/register-lsat/accommodations/how-request-accommodations-lsat",
+      "category": "official",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free to request",
+      "sections": [
+        "all"
+      ],
+      "level": "all",
+      "best_for": "Students with ADHD, learning disabilities, anxiety disorders, visual impairments or other documented conditions.",
+      "description": "Request through JD Services after you register. Common approvals include 50% extended time (about 52.5 minutes per section) and 100% for severe visual impairment. Needs an Evidence of Disability form from a qualified professional and has its own deadline per test date."
+    },
+    {
+      "id": "lsac-lr-guide",
+      "name": "LSAC guide to Logical Reasoning questions",
+      "provider": "LSAC",
+      "url": "https://www.lsac.org/lsat/taking-lsat/test-format/logical-reasoning",
+      "category": "official",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free",
+      "sections": [
+        "LR"
+      ],
+      "level": "beginner",
+      "best_for": "Understanding what LR tests, straight from the test maker.",
+      "description": "LSAC's own description of Logical Reasoning with sample questions and explanations. LR is now two of the three scored sections, so it's about two-thirds of your score."
+    },
+    {
+      "id": "lsac-rc-guide",
+      "name": "LSAC guide to Reading Comprehension questions",
+      "provider": "LSAC",
+      "url": "https://www.lsac.org/lsat/prepare/types-lsat-questions/reading-comprehension",
+      "category": "official",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free",
+      "sections": [
+        "RC"
+      ],
+      "level": "beginner",
+      "best_for": "Understanding RC passage and question types, including comparative passages.",
+      "description": "Official overview of Reading Comprehension with sample passages, comparative reading sets and explanations of what each question type asks."
+    },
+    {
+      "id": "7sage-core",
+      "name": "7Sage Core",
+      "provider": "7Sage",
+      "url": "https://7sage.com/self-study/pricing",
+      "category": "course",
+      "cost": "paid",
+      "price_usd": 69,
+      "price_note": "About $69/month; $1/month with an LSAC fee waiver; LawHub Advantage required",
+      "sections": [
+        "LR",
+        "RC",
+        "writing"
+      ],
+      "level": "all",
+      "best_for": "Self-studiers who want the best value full curriculum with video explanations for every official question.",
+      "description": "Full self-paced curriculum, 99 official PrepTests with 8,000+ video explanations, analytics, Blind Review tools and a study plan. Widely considered the best value comprehensive course. Higher tiers ($129 and $299/month) add live classes and more support."
+    },
+    {
+      "id": "7sage-free",
+      "name": "7Sage free trial and free resources",
+      "provider": "7Sage",
+      "url": "https://7sage.com/free-resources",
+      "category": "course",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free; no credit card",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "beginner",
+      "best_for": "Trying 7Sage's teaching style before paying, and free tools like the score converter.",
+      "description": "Free trial with about 29 lessons and four practice tests, plus free live classes, study plans, cheat sheets, a raw-to-scaled score converter and a free full-length practice test."
+    },
+    {
+      "id": "7sage-live",
+      "name": "7Sage Live",
+      "provider": "7Sage",
+      "url": "https://7sage.com/self-study/pricing",
+      "category": "course",
+      "cost": "paid",
+      "price_usd": 129,
+      "price_note": "About $129/month",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "all",
+      "best_for": "Students who like 7Sage's content but want live classes for accountability.",
+      "description": "Everything in 7Sage Core plus a schedule of live online classes and recordings."
+    },
+    {
+      "id": "7sage-tutoring",
+      "name": "7Sage private tutoring",
+      "provider": "7Sage",
+      "url": "https://7sage.com/tutoring",
+      "category": "tutoring",
+      "cost": "paid",
+      "price_usd": null,
+      "price_note": "Hourly packages; 30% off with fee waiver",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "all",
+      "best_for": "Students who've plateaued and want one-on-one help from high scorers.",
+      "description": "One-on-one LSAT tutoring with 7Sage instructors, usually paired with the 7Sage curriculum."
+    },
+    {
+      "id": "7sage-predictor",
+      "name": "7Sage Law School Admissions Predictor",
+      "provider": "7Sage",
+      "url": "https://7sage.com/admissions/predictor",
+      "category": "tool",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free",
+      "sections": [
+        "admissions"
+      ],
+      "level": "all",
+      "best_for": "Setting a target score based on the schools you want.",
+      "description": "Free predictor that estimates admission chances from GPA and LSAT, plus a tool for exploring school LSAT and GPA medians and 25th/75th percentiles."
+    },
+    {
+      "id": "7sage-podcast",
+      "name": "The 7Sage Podcast",
+      "provider": "7Sage",
+      "url": "https://podcasts.apple.com/us/podcast/the-7sage-podcast/id1437219549",
+      "category": "podcast",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free",
+      "sections": [
+        "all",
+        "admissions"
+      ],
+      "level": "all",
+      "best_for": "Short episodes on LSAT strategy and admissions for commutes.",
+      "description": "Roughly 15-minute episodes covering LSAT strategy, admissions, and life as a law student, with guests from admissions offices and practicing attorneys."
+    },
+    {
+      "id": "7sage-youtube",
+      "name": "7Sage YouTube",
+      "provider": "7Sage",
+      "url": "https://www.youtube.com/@7SageLSAT",
+      "category": "video",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "all",
+      "best_for": "Free explanations of official questions and mini-lessons.",
+      "description": "Explanations of official PrepTest questions, tutorial videos and admissions content. Ignore older logic games videos, which no longer apply."
+    },
+    {
+      "id": "lsat-demon-free",
+      "name": "LSAT Demon free account",
+      "provider": "LSAT Demon",
+      "url": "https://lsatdemon.com/",
+      "category": "practice",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "all",
+      "best_for": "Trying adaptive drilling with explanations at no cost.",
+      "description": "Free tier includes three official LSATs with explanations and a monthly live class. The paid platform adapts question difficulty to your level."
+    },
+    {
+      "id": "lsat-demon-paid",
+      "name": "LSAT Demon",
+      "provider": "LSAT Demon",
+      "url": "https://lsatdemon.com/",
+      "category": "course",
+      "cost": "paid",
+      "price_usd": 95,
+      "price_note": "About $95-99/month Basic; Premium about $195; Live about $295",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "all",
+      "best_for": "Self-studiers who want adaptive drilling and a conversational, think-it-through teaching style.",
+      "description": "Adaptive question bank of official questions that serves you questions at the right difficulty, with video explanations, daily live classes on higher tiers, and a large community. From Ben Olson and Nathan Fox of the Thinking LSAT podcast."
+    },
+    {
+      "id": "thinking-lsat",
+      "name": "Thinking LSAT podcast",
+      "provider": "Ben Olson and Nathan Fox",
+      "url": "https://www.thinkinglsat.com/podcasts/categories",
+      "category": "podcast",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free",
+      "sections": [
+        "all",
+        "admissions"
+      ],
+      "level": "all",
+      "best_for": "Mindset, study habits, scholarship negotiation and admissions strategy.",
+      "description": "The most popular LSAT podcast (about 4.6/5 on Apple). Long weekly episodes on study approach, retakes, applications and scholarship negotiation, plus listener questions."
+    },
+    {
+      "id": "lsat-demon-daily",
+      "name": "LSAT Demon Daily podcast",
+      "provider": "LSAT Demon",
+      "url": "https://podcasts.apple.com/us/podcast/lsat-demon-daily/id1574214154",
+      "category": "podcast",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "all",
+      "best_for": "A short daily habit; about 13-minute episodes walking through questions.",
+      "description": "Short episodes Tuesday through Sunday, often working through a real LSAT question out loud so you can hear expert reasoning."
+    },
+    {
+      "id": "blueprint-self-paced",
+      "name": "Blueprint LSAT Self-Paced",
+      "provider": "Blueprint Prep",
+      "url": "https://blueprintprep.com/lsat/online-anytime",
+      "category": "course",
+      "cost": "paid",
+      "price_usd": 99,
+      "price_note": "About $99/month Starter; $149/month Pro",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "all",
+      "best_for": "Students who want an engaging, polished interface and adaptive study plan.",
+      "description": "Highly rated self-paced course with entertaining video lessons, adaptive scheduling and analytics. Pro adds nightly live review sessions and a score guarantee."
+    },
+    {
+      "id": "blueprint-live",
+      "name": "Blueprint LSAT Live Online Course",
+      "provider": "Blueprint Prep",
+      "url": "https://blueprintprep.com/lsat/live-course",
+      "category": "course",
+      "cost": "paid",
+      "price_usd": 1299,
+      "price_note": "About $1,299 for 4 months",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "all",
+      "best_for": "Students who need scheduled classes and two live instructors for accountability.",
+      "description": "About 30 hours of live classes with two instructors, four proctored exams and full access to the self-paced materials."
+    },
+    {
+      "id": "blueprint-youtube",
+      "name": "Blueprint LSAT YouTube and blog",
+      "provider": "Blueprint Prep",
+      "url": "https://blog.blueprintprep.com/lsat/",
+      "category": "video",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free",
+      "sections": [
+        "LR",
+        "RC",
+        "admissions"
+      ],
+      "level": "beginner",
+      "best_for": "Free fundamentals, study tips and admissions articles.",
+      "description": "High-quality free videos and articles on fundamentals, study schedules, accommodations and fee waivers."
+    },
+    {
+      "id": "lsat-lab-free",
+      "name": "LSAT Lab free plan",
+      "provider": "LSAT Lab",
+      "url": "https://www.lsatlab.com/",
+      "category": "course",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "all",
+      "best_for": "A generous free tier with a full video lesson library and analytics.",
+      "description": "Free plan includes two full practice tests with explanations and analytics, full access to the video lesson library, and analytics for tests you've taken elsewhere."
+    },
+    {
+      "id": "lsat-lab-paid",
+      "name": "LSAT Lab Premium and Classroom",
+      "provider": "LSAT Lab",
+      "url": "https://www.lsatlab.com/",
+      "category": "course",
+      "cost": "paid",
+      "price_usd": 65,
+      "price_note": "About $65/month Premium; $125/month Classroom with unlimited live classes; LawHub Advantage required",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "all",
+      "best_for": "Budget-conscious students who want live classes cheaply.",
+      "description": "81 official LSATs, a 9,000+ question bank and analytics. Classroom adds unlimited live online classes; a Tutor tier (about $425/month) adds private tutoring."
+    },
+    {
+      "id": "lsat-lab-youtube",
+      "name": "LSAT Lab YouTube",
+      "provider": "LSAT Lab",
+      "url": "https://www.youtube.com/@LSATLab",
+      "category": "video",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "all",
+      "best_for": "Systematic free lessons by question type, praised on Reddit for clarity.",
+      "description": "Structured video lessons covering each Logical Reasoning question type and Reading Comprehension strategy."
+    },
+    {
+      "id": "powerscore-on-demand",
+      "name": "PowerScore On Demand LSAT Course",
+      "provider": "PowerScore",
+      "url": "https://www.powerscore.com/lsat/courses/",
+      "category": "course",
+      "cost": "paid",
+      "price_usd": 195,
+      "price_note": "About $195/month after a $350 first month; LawHub Advantage required",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "all",
+      "best_for": "Students who like the Bible books' methodical, rule-based approach.",
+      "description": "Self-paced video course from the authors of the LR and RC Bibles, with access to released LSAT questions and practice tests."
+    },
+    {
+      "id": "powerscore-live",
+      "name": "PowerScore Live Online LSAT Course",
+      "provider": "PowerScore",
+      "url": "https://www.powerscore.com/lsat/courses/",
+      "category": "course",
+      "cost": "paid",
+      "price_usd": 995,
+      "price_note": "About $995 (12 sessions); Full-Length course about $1,295; Weekend course about $299-395",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "all",
+      "best_for": "Students who want lots of live instruction hours.",
+      "description": "Live online classes with recorded lessons and proctored practice tests. The Weekend course is a cheaper short version."
+    },
+    {
+      "id": "powerscore-podcast",
+      "name": "The PowerScore LSAT Podcast",
+      "provider": "PowerScore",
+      "url": "https://blog.powerscore.com/lsat/",
+      "category": "podcast",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free",
+      "sections": [
+        "LR",
+        "RC",
+        "admissions"
+      ],
+      "level": "all",
+      "best_for": "Strategy discussions from veteran instructors.",
+      "description": "Free podcast and blog with LSAT strategy, test-day logistics and admissions advice."
+    },
+    {
+      "id": "kaplan-on-demand",
+      "name": "Kaplan LSAT Prep On Demand",
+      "provider": "Kaplan",
+      "url": "https://www.kaptest.com/lsat/courses/lsat-prep-diy-online",
+      "category": "course",
+      "cost": "paid",
+      "price_usd": 899,
+      "price_note": "From about $899; Live Online from about $1,099; In Person from about $1,699",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "all",
+      "best_for": "Students who want a big established brand with many live class options.",
+      "description": "Asynchronous lessons, nearly 8,000 official questions, 180+ quizzes and the LSAT Channel with 80+ hours of live and recorded lessons. LawHub Advantage is extra."
+    },
+    {
+      "id": "kaplan-tutoring",
+      "name": "Kaplan LSAT tutoring packages",
+      "provider": "Kaplan",
+      "url": "https://www.kaptest.com/lsat",
+      "category": "tutoring",
+      "cost": "paid",
+      "price_usd": 1999,
+      "price_note": "About $1,999-3,999 packages; top tier has a 170+ guarantee",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "all",
+      "best_for": "Students with a big budget who want a score guarantee.",
+      "description": "Private tutoring bundled with the Kaplan course. The premium package includes a 170+ score guarantee."
+    },
+    {
+      "id": "princeton-self-paced",
+      "name": "Princeton Review LSAT Self-Paced",
+      "provider": "The Princeton Review",
+      "url": "https://www.princetonreview.com/law/lsat-selfguided-course",
+      "category": "course",
+      "cost": "paid",
+      "price_usd": 799,
+      "price_note": "About $699-799; includes LawHub Advantage",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "all",
+      "best_for": "Students who want one purchase that includes LawHub Advantage.",
+      "description": "150+ hours of recorded lessons, 1,800+ pages of materials and access to released LSAT questions."
+    },
+    {
+      "id": "princeton-165",
+      "name": "Princeton Review LSAT 165+",
+      "provider": "The Princeton Review",
+      "url": "https://www.princetonreview.com/law/lsat-test-prep",
+      "category": "course",
+      "cost": "paid",
+      "price_usd": 2100,
+      "price_note": "About $2,100; Fundamentals (30 live hours) about $1,249",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "intermediate",
+      "best_for": "Students aiming for 165+ who want lots of live instruction and a score guarantee.",
+      "description": "Around 65 hours of live instruction plus all self-paced materials, with a guaranteed score of 165 or higher."
+    },
+    {
+      "id": "manhattan-interact",
+      "name": "Manhattan Prep LSAT Interact",
+      "provider": "Manhattan Prep (Kaplan)",
+      "url": "https://manhattanprep.kaptest.com/lsat/",
+      "category": "course",
+      "cost": "paid",
+      "price_usd": 799,
+      "price_note": "From about $799; with live review sessions about $999; Complete live course from about $1,499",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "all",
+      "best_for": "Visual learners who like interactive, choose-your-path video lessons.",
+      "description": "60+ hours of interactive on-demand video lessons and all Manhattan Prep strategy guides. Higher tiers add live review sessions or a full 36-hour live course."
+    },
+    {
+      "id": "lsatmax",
+      "name": "LSATMax (TestMax)",
+      "provider": "TestMax",
+      "url": "https://testmaxprep.com/lsat/course-information",
+      "category": "app",
+      "cost": "freemium",
+      "price_usd": 149,
+      "price_note": "Free app content; on-demand about $149/month; packages from about $599",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "all",
+      "best_for": "Studying on your phone in short sessions.",
+      "description": "Mobile-first course with a free digital LSAT, daily drills and some free video lessons. Paid plans unlock the full course, analytics and office hours."
+    },
+    {
+      "id": "magoosh-lsat",
+      "name": "Magoosh LSAT",
+      "provider": "Magoosh",
+      "url": "https://lsat.magoosh.com/",
+      "category": "course",
+      "cost": "paid",
+      "price_usd": 199,
+      "price_note": "About $199-299 one-time for access periods; 7-day free trial",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "beginner",
+      "best_for": "Budget students who prefer a one-time payment over a monthly subscription.",
+      "description": "Self-paced video lessons and practice questions for a flat fee. Lighter than 7Sage or Blueprint but inexpensive."
+    },
+    {
+      "id": "alphascore",
+      "name": "AlphaScore",
+      "provider": "AlphaScore",
+      "url": "https://www.alphascore.com/",
+      "category": "course",
+      "cost": "freemium",
+      "price_usd": 389,
+      "price_note": "Free prep tier; Complete Course about $389; Premium about $789",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "all",
+      "best_for": "Students who want an affordable one-time-price full course.",
+      "description": "Self-paced course with 50+ hours of video, official questions with explanations and progress tracking. Installment plans available."
+    },
+    {
+      "id": "lsat-unplugged",
+      "name": "LSAT Unplugged (formerly LSAT Blog)",
+      "provider": "Steve Schwartz",
+      "url": "https://www.unpluggedprep.com/resources/",
+      "category": "course",
+      "cost": "freemium",
+      "price_usd": null,
+      "price_note": "Large free library; paid coaching",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "all",
+      "best_for": "Free drills by question type and a free 9-lesson Reading Comprehension course.",
+      "description": "Free drills by question type with instant explanations, a free no-login RC course, free explanations for PrepTests 154-159, a YouTube channel and podcast. Founder went from 152 to 175."
+    },
+    {
+      "id": "lsat-unplugged-rc-course",
+      "name": "LSAT Unplugged free Reading Comprehension course",
+      "provider": "Steve Schwartz",
+      "url": "https://www.unpluggedprep.com/free-courses/reading-comprehension/",
+      "category": "course",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free, no login",
+      "sections": [
+        "RC"
+      ],
+      "level": "beginner",
+      "best_for": "Students whose RC is weaker than their LR.",
+      "description": "Nine short lessons with videos, written companions and practice questions that you can finish in about a week."
+    },
+    {
+      "id": "lsat-hacks",
+      "name": "LSAT Hacks free explanations",
+      "provider": "Graeme Blake",
+      "url": "https://lsathacks.com/explanations/",
+      "category": "practice",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "all",
+      "best_for": "Free written explanations during Blind Review.",
+      "description": "Free written explanations for thousands of official LSAT questions in plain language, by a 177 scorer. Often called the most useful free LSAT resource."
+    },
+    {
+      "id": "test-ninjas",
+      "name": "Test Ninjas free LSAT resources",
+      "provider": "Test Ninjas",
+      "url": "https://test-ninjas.com/free-lsat-resources",
+      "category": "practice",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free",
+      "sections": [
+        "LR",
+        "RC",
+        "writing"
+      ],
+      "level": "beginner",
+      "best_for": "Free study schedules (2, 3 and 6 months), timing guides and a score calculator.",
+      "description": "Free practice questions, Question of the Day, section guides, ready-made study plans, an accommodations guide and a raw-to-scaled score calculator. Not official LSAT questions."
+    },
+    {
+      "id": "king-of-the-curve",
+      "name": "King of the Curve",
+      "provider": "King of the Curve",
+      "url": "https://kingofthecurve.org/",
+      "category": "app",
+      "cost": "freemium",
+      "price_usd": null,
+      "price_note": "Low-cost monthly subscription",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "beginner",
+      "best_for": "Gamified daily practice on your phone.",
+      "description": "Gamified, adaptive mobile app for many tests including the LSAT. Good for building a daily streak; not a replacement for official PrepTests."
+    },
+    {
+      "id": "lsat-trainer",
+      "name": "The LSAT Trainer",
+      "provider": "Mike Kim",
+      "url": "https://www.thelsattrainer.com/",
+      "category": "book",
+      "cost": "paid",
+      "price_usd": 50,
+      "price_note": "About $42-50 new; used copies cheaper",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "beginner",
+      "best_for": "The best single book for self-study foundations.",
+      "description": "Warm, thorough all-in-one self-study guide with a 12-week plan. The 4th edition still includes logic games chapters, so skip those; the LR and RC content is excellent."
+    },
+    {
+      "id": "loophole",
+      "name": "The Loophole in LSAT Logical Reasoning",
+      "provider": "Ellen Cassidy",
+      "url": "https://theloophole.com/",
+      "category": "book",
+      "cost": "paid",
+      "price_usd": 42,
+      "price_note": "About $40-45",
+      "sections": [
+        "LR"
+      ],
+      "level": "intermediate",
+      "best_for": "Students who want a fun, systematic method for Logical Reasoning.",
+      "description": "Popular, engaging LR book that teaches you to spot the gap in an argument. Many students credit it with big LR jumps. Pairs well with the LSAT Trainer."
+    },
+    {
+      "id": "powerscore-lr-bible",
+      "name": "PowerScore Logical Reasoning Bible",
+      "provider": "PowerScore",
+      "url": "https://www.powerscore.com/lsat/publications/",
+      "category": "book",
+      "cost": "paid",
+      "price_usd": 45,
+      "price_note": "About $35-50",
+      "sections": [
+        "LR"
+      ],
+      "level": "all",
+      "best_for": "A dense, comprehensive reference for every LR question type.",
+      "description": "The classic LR reference. Thorough and rule-based; best used as a reference alongside a more readable guide."
+    },
+    {
+      "id": "powerscore-rc-bible",
+      "name": "PowerScore Reading Comprehension Bible",
+      "provider": "PowerScore",
+      "url": "https://www.powerscore.com/lsat/publications/",
+      "category": "book",
+      "cost": "paid",
+      "price_usd": 45,
+      "price_note": "About $35-50",
+      "sections": [
+        "RC"
+      ],
+      "level": "all",
+      "best_for": "Students who struggle with RC structure and timing.",
+      "description": "Deep dive into passage structure, viewpoint tracking, question types and comparative reading."
+    },
+    {
+      "id": "manhattan-guides",
+      "name": "Manhattan Prep LSAT Strategy Guides",
+      "provider": "Manhattan Prep",
+      "url": "https://manhattanprep.kaptest.com/lsat/",
+      "category": "book",
+      "cost": "paid",
+      "price_usd": 40,
+      "price_note": "About $30-45 per guide",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "all",
+      "best_for": "An approachable alternative structured approach, especially for RC.",
+      "description": "Well organized LR and RC guides. The Reading Comprehension guide is often recommended as a second take on passages."
+    },
+    {
+      "id": "kaplan-premium-prep",
+      "name": "Kaplan LSAT Premium Prep (2026)",
+      "provider": "Kaplan",
+      "url": "https://www.kaptest.com/lsat/lsat-books",
+      "category": "book",
+      "cost": "paid",
+      "price_usd": 76,
+      "price_note": "About $76 list",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "beginner",
+      "best_for": "An updated all-in-one book with real questions and online videos.",
+      "description": "Current-format book with real LSAT questions, explanations and online instructor videos."
+    },
+    {
+      "id": "princeton-premium-prep",
+      "name": "Princeton Review LSAT Premium Prep (31st edition)",
+      "provider": "The Princeton Review",
+      "url": "https://www.penguinrandomhouse.com/books/821923/princeton-review-lsat-premium-prep-31st-edition-by-the-princeton-review/",
+      "category": "book",
+      "cost": "paid",
+      "price_usd": 50,
+      "price_note": "Usually under $60",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "beginner",
+      "best_for": "A cheap current-format overview with two official PrepTests.",
+      "description": "Strategy review for LR and RC using real questions, plus access to two official PrepTests and extra drills licensed from LSAC."
+    },
+    {
+      "id": "cambridge-drilling-companion",
+      "name": "Cambridge LSAT Problem-Type Drilling Companion",
+      "provider": "Cambridge LSAT",
+      "url": "https://www.cambridgelsat.com/lsat-problem-type-drilling-companion/",
+      "category": "book",
+      "cost": "paid",
+      "price_usd": 15,
+      "price_note": "About $15-20 PDF",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "intermediate",
+      "best_for": "Organizing your own question-type drills from official tests.",
+      "description": "An index of official questions by type so you can build targeted drill sets. Contains no questions itself; you need the PrepTests (LawHub Advantage)."
+    },
+    {
+      "id": "reddit-lsat",
+      "name": "r/LSAT",
+      "provider": "Reddit",
+      "url": "https://www.reddit.com/r/LSAT/",
+      "category": "community",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free",
+      "sections": [
+        "LR",
+        "RC",
+        "writing"
+      ],
+      "level": "all",
+      "best_for": "Question help, study schedules and moral support.",
+      "description": "Large, active community where students post question explanations, study plans and score updates. Good place to find study partners."
+    },
+    {
+      "id": "reddit-lawschooladmissions",
+      "name": "r/lawschooladmissions",
+      "provider": "Reddit",
+      "url": "https://www.reddit.com/r/lawschooladmissions/",
+      "category": "community",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free",
+      "sections": [
+        "admissions"
+      ],
+      "level": "all",
+      "best_for": "Understanding what score you need and how cycles are going.",
+      "description": "Applicants share results, timelines and scholarship offers. Useful for setting realistic targets; take anecdotes with a grain of salt."
+    },
+    {
+      "id": "tls-forum",
+      "name": "Top Law Schools forum",
+      "provider": "Top-Law-Schools.com",
+      "url": "https://www.top-law-schools.com/forums/",
+      "category": "community",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free",
+      "sections": [
+        "LR",
+        "RC",
+        "admissions"
+      ],
+      "level": "all",
+      "best_for": "Long-running archive of LSAT and admissions advice.",
+      "description": "One of the oldest LSAT forums with deep archives on study methods, plus guides on fee waivers and admissions predictors."
+    },
+    {
+      "id": "7sage-forum",
+      "name": "7Sage discussion forum and Discord",
+      "provider": "7Sage",
+      "url": "https://7sage.com/discussion",
+      "category": "community",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "all",
+      "best_for": "Question-by-question discussion and study group Discords.",
+      "description": "Active forum with discussion threads on official questions and links to LSAT study-group Discord servers organized by test date."
+    },
+    {
+      "id": "lsd-law",
+      "name": "LSD.Law",
+      "provider": "LSD.Law",
+      "url": "https://lsd.law/",
+      "category": "tool",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free",
+      "sections": [
+        "admissions"
+      ],
+      "level": "all",
+      "best_for": "Seeing what LSAT you need for your target schools, using real outcomes.",
+      "description": "Free admissions predictor trained on nearly a million real outcomes, school comparisons, employment data and an application tracker. No signup needed."
+    },
+    {
+      "id": "lst",
+      "name": "Law School Transparency",
+      "provider": "LST",
+      "url": "https://www.lstreports.com/",
+      "category": "tool",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free",
+      "sections": [
+        "admissions"
+      ],
+      "level": "all",
+      "best_for": "Comparing schools on cost and employment outcomes, not just rankings.",
+      "description": "Nonprofit data on law school costs, employment outcomes and bar passage drawn from ABA disclosures."
+    },
+    {
+      "id": "spivey-pro-bono",
+      "name": "Spivey Consulting pro bono program",
+      "provider": "Spivey Consulting",
+      "url": "https://www.spiveyconsulting.com/blog-post/spivey-pro-bono-program-2025",
+      "category": "program",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free for selected applicants",
+      "sections": [
+        "LR",
+        "RC",
+        "admissions"
+      ],
+      "level": "all",
+      "best_for": "Low-income or underrepresented applicants who want free expert coaching.",
+      "description": "Leading admissions consulting firm whose annual pro bono program offers free admissions and LSAT coaching to selected applicants. Its blog and podcast are free for everyone."
+    },
+    {
+      "id": "accesslex-lexprelaw",
+      "name": "AccessLex LexScholars / LexPreLaw",
+      "provider": "AccessLex Institute",
+      "url": "https://www.accesslex.org/tools-and-resources/lexscholars",
+      "category": "program",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free for eligible students",
+      "sections": [
+        "LR",
+        "RC",
+        "admissions"
+      ],
+      "level": "all",
+      "best_for": "Students from underrepresented backgrounds who want a free full LSAT course.",
+      "description": "Free LSAT prep (an online Kaplan course in LexPreLaw), admissions counseling and financial education for students from groups underrepresented in law."
+    },
+    {
+      "id": "accesslex-outreach",
+      "name": "AccessLex Pre-Law Outreach Program",
+      "provider": "AccessLex Institute",
+      "url": "https://www.accesslex.org/Pre-Law-Outreach-Program",
+      "category": "program",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free",
+      "sections": [
+        "all",
+        "admissions"
+      ],
+      "level": "beginner",
+      "best_for": "Summer program with mentorship plus a free Blueprint course.",
+      "description": "Six Saturday classes in June and July with speakers, lessons and mentorship; participants receive a free Blueprint online LSAT course."
+    },
+    {
+      "id": "trials",
+      "name": "TRIALS",
+      "provider": "Harvard Law School and NYU Law (with Kaplan)",
+      "url": "https://www.accesslex.org/trials",
+      "category": "program",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Fully subsidized",
+      "sections": [
+        "LR",
+        "RC",
+        "admissions"
+      ],
+      "level": "all",
+      "best_for": "High-potential students of modest means aiming for top law schools.",
+      "description": "Fully subsidized five-week summer program with an intensive LSAT prep course and lectures on the practice of law."
+    },
+    {
+      "id": "seo-law",
+      "name": "Catalyst by SEO Law",
+      "provider": "SEO Law",
+      "url": "https://www.seo-usa.org/law/",
+      "category": "program",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free",
+      "sections": [
+        "LR",
+        "RC",
+        "admissions"
+      ],
+      "level": "all",
+      "best_for": "Underrepresented students who want LSAT prep plus mentorship.",
+      "description": "Free spring LSAT program, admissions workshops, individualized application support and attorney mentors."
+    },
+    {
+      "id": "leland-coaching",
+      "name": "Leland LSAT coaching and bootcamp",
+      "provider": "Leland",
+      "url": "https://www.joinleland.com/search/test/lsat",
+      "category": "tutoring",
+      "cost": "paid",
+      "price_usd": 150,
+      "price_note": "Coaches set rates, roughly $50-250/hour; bootcamp about $1,299",
+      "sections": [
+        "LR",
+        "RC",
+        "admissions"
+      ],
+      "level": "all",
+      "best_for": "Choosing a specific high-scoring coach that fits your budget.",
+      "description": "Marketplace of LSAT coaches with reviews, plus a 12-session live LSAT bootcamp and free events and articles."
+    },
+    {
+      "id": "juris-education",
+      "name": "Juris Education LSAT tutoring",
+      "provider": "Juris Education",
+      "url": "https://www.juriseducation.com/lsat-tutoring",
+      "category": "tutoring",
+      "cost": "paid",
+      "price_usd": 3299,
+      "price_note": "Packages from about $3,299 for 24 hours (about $140-155/hour)",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "all",
+      "best_for": "Students who want a large tutoring package with a score guarantee.",
+      "description": "Private tutoring with 173+ scorers. The largest packages include score guarantees, for example 167+."
+    },
+    {
+      "id": "wyzant",
+      "name": "Wyzant LSAT tutors",
+      "provider": "Wyzant",
+      "url": "https://www.wyzant.com/LSAT_tutors.aspx",
+      "category": "tutoring",
+      "cost": "paid",
+      "price_usd": 80,
+      "price_note": "Tutors set rates, roughly $60-295/hour",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "all",
+      "best_for": "Finding an independent tutor at a lower hourly rate.",
+      "description": "Marketplace of independent LSAT tutors with reviews. Quality varies; ask for a tutor's official score and a trial session."
+    },
+    {
+      "id": "varsity-tutors",
+      "name": "Varsity Tutors LSAT tutoring",
+      "provider": "Varsity Tutors",
+      "url": "https://www.varsitytutors.com/lsat-prep",
+      "category": "tutoring",
+      "cost": "paid",
+      "price_usd": 100,
+      "price_note": "Roughly $80-150/hour",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "all",
+      "best_for": "Matched tutoring without searching for a tutor yourself.",
+      "description": "Tutoring service that matches you with an LSAT tutor; rates vary by package and location."
+    },
+    {
+      "id": "strategy-blind-review",
+      "name": "How to Blind Review practice tests",
+      "provider": "7Sage method",
+      "url": "https://7sage.com/discussion/16013/blind-review-method",
+      "category": "strategy",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free method",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "all",
+      "best_for": "Everyone taking practice tests. It's the most effective way to learn from them.",
+      "description": "During a timed test, flag every question you're not 100% sure about. Don't check answers. After a break of at least two hours, redo the flagged questions untimed and write out your reasoning, then score both versions. The gap between timed and Blind Review scores shows whether your problem is speed or understanding."
+    },
+    {
+      "id": "strategy-timing",
+      "name": "LSAT pacing and strategic skipping",
+      "provider": "Common strategy",
+      "url": "https://7sage.substack.com/p/the-value-of-skipping",
+      "category": "strategy",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free method",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "intermediate",
+      "best_for": "Students who run out of time or get stuck on hard questions.",
+      "description": "LR averages about 1 minute 20 seconds per question, with early questions faster. RC is about 8-9 minutes per passage. If you've spent about 90 seconds without progress, eliminate what you can, guess, flag and move on. Many students lose 3-5 points per section by not skipping."
+    },
+    {
+      "id": "strategy-study-phases",
+      "name": "Structuring an LSAT study plan by phase",
+      "provider": "Common strategy",
+      "url": "https://test-ninjas.com/lsat-study-plan",
+      "category": "strategy",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free method",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "all",
+      "best_for": "Building a week-by-week plan for any timeline.",
+      "description": "A typical plan has four phases: fundamentals (learn every question type), practice (timed sections and drills by question type), simulation (full timed PrepTests with Blind Review) and final review (light practice, rest and test-day logistics). A 3-month plan usually needs 15-20 hours per week."
+    },
+    {
+      "id": "strategy-lr-question-types",
+      "name": "Logical Reasoning question types",
+      "provider": "Common strategy",
+      "url": "https://www.lsac.org/lsat/taking-lsat/test-format/logical-reasoning",
+      "category": "strategy",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free method",
+      "sections": [
+        "LR"
+      ],
+      "level": "beginner",
+      "best_for": "Knowing what to drill when LR is weak.",
+      "description": "Main LR families: assumption questions (necessary and sufficient), strengthen and weaken, flaw, must be true and most strongly supported, main point, method of reasoning, parallel reasoning and parallel flaw, principle, paradox (resolve the discrepancy) and evaluate. Assumption, flaw, and strengthen/weaken make up a large share of LR, so drill those first."
+    },
+    {
+      "id": "strategy-rc-method",
+      "name": "Reading Comprehension active reading method",
+      "provider": "Common strategy",
+      "url": "https://7sage.com/blog/lsat-reading-comprehension-tips",
+      "category": "strategy",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free method",
+      "sections": [
+        "RC"
+      ],
+      "level": "all",
+      "best_for": "Students who reread passages or miss main point and author-attitude questions.",
+      "description": "Read for structure, not detail: after each paragraph, note its purpose (problem, evidence, counterargument, conclusion) and whose view is being described. Track tone words like 'however' and 'albeit'. Go back to the passage for details instead of memorizing them. Build endurance with timed passage sets three or four times a week."
+    },
+    {
+      "id": "strategy-writing",
+      "name": "Argumentative Writing approach",
+      "provider": "Common strategy",
+      "url": "https://app.lawhub.org/article/lsat-argumentative-writing",
+      "category": "strategy",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free method",
+      "sections": [
+        "writing"
+      ],
+      "level": "all",
+      "best_for": "Finishing the writing requirement quickly and well.",
+      "description": "Use the 15 prewriting minutes to pick a position and outline. Open with a clear thesis, support it with points from the provided perspectives, acknowledge the strongest counterargument and explain why your view still wins. Save the last five minutes for proofreading. Do it early, because scores aren't released until it's complete."
+    },
+    {
+      "id": "strategy-anxiety",
+      "name": "Managing LSAT test anxiety",
+      "provider": "Common strategy",
+      "url": "https://test-ninjas.com/lsat-time-management-tips",
+      "category": "strategy",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free method",
+      "sections": [
+        "all"
+      ],
+      "level": "all",
+      "best_for": "Students whose test-day score falls below their practice scores.",
+      "description": "Take full timed practice tests under real conditions so test day feels routine. Have a reset routine (a slow 6-second exhale, relax your grip, reread the question stem). Sleep and logistics matter. Accommodations are available for documented anxiety disorders."
+    },
+    {
+      "id": "strategy-retake",
+      "name": "Deciding whether to retake",
+      "provider": "Common strategy",
+      "url": "https://www.lsac.org/lsat",
+      "category": "strategy",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free method",
+      "sections": [
+        "admissions"
+      ],
+      "level": "all",
+      "best_for": "Students whose official score is below their practice-test average.",
+      "description": "If your official score is well below your recent practice average, a retake usually makes sense; most schools focus on your highest score. You can take the LSAT five times per testing year and seven in a lifetime. Score Preview lets first-time takers see a score before deciding to keep it."
+    },
+    {
+      "id": "official-preptest-books",
+      "name": "Official LSAT PrepTest books",
+      "provider": "LSAC",
+      "url": "https://www.lsac.org/lsat/prep",
+      "category": "book",
+      "cost": "paid",
+      "price_usd": 25,
+      "price_note": "About $20-30 per volume; mainly used",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "all",
+      "best_for": "Students who want paper copies of official questions for untimed drilling.",
+      "description": "Printed collections of past official PrepTests. Useful for marking up and drilling, but skip the logic games sections and do timed practice in LawHub, because the real test is digital."
+    },
+    {
+      "id": "lsac-videos",
+      "name": "LSAC videos (YouTube)",
+      "provider": "LSAC",
+      "url": "https://www.youtube.com/@LSACvideos",
+      "category": "video",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free",
+      "sections": [
+        "all",
+        "admissions"
+      ],
+      "level": "beginner",
+      "best_for": "Official walkthroughs of test-day procedures and the application process.",
+      "description": "Official videos on the LSAT, remote and in-person testing, applying to law school and financing law school."
+    },
+    {
+      "id": "lsat-demon-youtube",
+      "name": "LSAT Demon YouTube",
+      "provider": "LSAT Demon",
+      "url": "https://www.youtube.com/@LSATDemon",
+      "category": "video",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "all",
+      "best_for": "Watching experts reason through questions live.",
+      "description": "Free class recordings and question walkthroughs focused on building strong reasoning habits rather than memorized tricks."
+    },
+    {
+      "id": "lsat-unplugged-podcast",
+      "name": "LSAT Unplugged + Law School Admissions Podcast",
+      "provider": "Steve Schwartz",
+      "url": "https://podcasts.apple.com/us/podcast/lsat-unplugged-law-school-admissions-podcast/id1450308309",
+      "category": "podcast",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free",
+      "sections": [
+        "all",
+        "admissions"
+      ],
+      "level": "all",
+      "best_for": "Study advice and scholarship strategy.",
+      "description": "Podcast on LSAT study approach, motivation and getting large law school scholarships."
+    },
+    {
+      "id": "spivey-podcast",
+      "name": "Spivey Consulting blog and podcast",
+      "provider": "Spivey Consulting",
+      "url": "https://blog.spiveyconsulting.com/tag/lsat/",
+      "category": "podcast",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free",
+      "sections": [
+        "admissions"
+      ],
+      "level": "all",
+      "best_for": "Admissions-side advice on test timing, retakes and applications.",
+      "description": "Free articles and podcast episodes from former admissions deans on when to test, how schools see multiple scores and application timing."
+    },
+    {
+      "id": "lsat-score-converter",
+      "name": "Raw-to-scaled score converters",
+      "provider": "7Sage / Test Ninjas",
+      "url": "https://test-ninjas.com/lsat-score-calculator",
+      "category": "tool",
+      "cost": "free",
+      "price_usd": 0,
+      "price_note": "Free",
+      "sections": [
+        "LR",
+        "RC"
+      ],
+      "level": "all",
+      "best_for": "Estimating a scaled score from section results.",
+      "description": "Free calculators that convert raw correct answers into an estimated scaled score and percentile."
+    }
+  ]
+}

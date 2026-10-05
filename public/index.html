@@ -1,0 +1,1770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LSAT Compass — Your Personal Study Navigator</title>
+  <!--
+  ═══════════════════════════════════════════════════════════
+  FONT SWAP GUIDE — change the Google Fonts URL and the
+  font-family variables below to restyle the whole app.
+
+  Current fonts:
+    Display (headings) : Playfair Display  → serif, editorial
+    Body               : DM Sans           → clean, modern sans
+    Mono (labels/code) : DM Mono           → techy accents
+
+  Other great pairings to try:
+    Classy   : "Cormorant Garamond" + "Jost" + "Courier Prime"
+    Modern   : "Syne" + "Inter" + "IBM Plex Mono"
+    Warm     : "Lora" + "Nunito" + "DM Mono"
+    Bold     : "Bebas Neue" + "Barlow" + "Space Mono"
+
+  To swap: 1) Replace the Google Fonts URL below
+           2) Update --font-display, --font-body, --font-mono
+  ═══════════════════════════════════════════════════════════
+  -->
+  <link id="googleFonts" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    /* ═══════════════════════════════════════════════════════
+       DESIGN TOKENS — edit this block to restyle everything
+       ═══════════════════════════════════════════════════════ */
+    :root {
+      /* FONTS — swap these to change typefaces globally */
+      --font-display: 'Playfair Display', serif;   /* headings, logo */
+      --font-body:    'DM Sans', sans-serif;        /* all body text  */
+      --font-mono:    'DM Mono', monospace;         /* labels, scores */
+
+      /* COLORS — the full palette */
+      --ink:        #0f0e0c;   /* primary text + dark backgrounds */
+      --paper:      #f5f0e8;   /* page background                 */
+      --cream:      #ede7d9;   /* secondary background / rows     */
+      --gold:       #c9a84c;   /* primary accent (CTAs, icons)    */
+      --gold-light: #e8d5a3;   /* lighter gold for hover states   */
+      --rust:       #b85c38;   /* "weak" indicator color          */
+      --forest:     #2d5016;   /* "strong" / LawHub green         */
+      --muted:      #7a7060;   /* secondary text                  */
+      --white:      #ffffff;   /* inputs, pure white elements     */
+      --card:       #faf7f2;   /* card background                 */
+      --border:     #d4cdc0;   /* borders and dividers            */
+
+      /* SPACING & SHAPE */
+      --radius-card:   16px;   /* card border radius */
+      --radius-input:  10px;   /* input/button radius */
+      --max-width:    780px;   /* app max width */
+    }
+    /* ═══════════════════════════════════════════════════════ */
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--paper);
+      color: var(--ink);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Background texture */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: 
+        radial-gradient(ellipse at 20% 20%, rgba(201,168,76,0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(45,80,22,0.06) 0%, transparent 50%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='none'/%3E%3Ccircle cx='1' cy='1' r='0.5' fill='%23c9a84c' opacity='0.15'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .app {
+      position: relative;
+      z-index: 1;
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 56px;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .logo-mark {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .compass-icon {
+      width: 44px;
+      height: 44px;
+    }
+
+    .logo-text {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 16px;
+      color: var(--ink);
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .subtitle {
+      font-size: 1.05rem;
+      color: var(--muted);
+      font-weight: 300;
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* Progress tracker — single flex row: [step] [line] [step] [line] ... */
+    .progress-track {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      margin-bottom: 40px;
+      animation: fadeIn 0.6s 0.3s ease both;
+    }
+
+    /* Each step is a column: dot on top, label below, both centered */
+    .progress-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .step-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      background: var(--paper);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--muted);
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+      font-family: var(--font-mono);
+    }
+
+    .step-dot.active {
+      border-color: var(--gold);
+      background: var(--gold);
+      color: var(--white);
+    }
+
+    .step-dot.done {
+      border-color: var(--forest);
+      background: var(--forest);
+      color: var(--white);
+    }
+
+    /* Line floats between dots with gap on each side, vertically centered on the dot */
+    .step-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+      transition: background 0.3s ease;
+      align-self: flex-start;
+      margin-top: 13px; /* (28px dot / 2) − (1px line / 2) */
+      margin-left: 8px;
+      margin-right: 8px;
+    }
+
+    .step-line.done { background: var(--forest); }
+
+    .step-label {
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 40px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 24px rgba(15,14,12,0.06), 0 1px 4px rgba(15,14,12,0.04);
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .card-header {
+      margin-bottom: 28px;
+    }
+
+    .card-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--gold);
+      margin-bottom: 8px;
+      font-family: var(--font-mono);
+    }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.3;
+    }
+
+    .card-desc {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 8px;
+      line-height: 1.6;
+    }
+
+    /* Form elements */
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 8px;
+      letter-spacing: 0.01em;
+    }
+
+    label .hint {
+      font-weight: 300;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    input[type="number"],
+    input[type="text"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-input);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--ink);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      appearance: none;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(201,168,76,0.15);
+    }
+
+    .score-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .score-box {
+      text-align: center;
+    }
+
+    .score-box label {
+      text-align: center;
+      font-size: 0.78rem;
+    }
+
+    .score-box input {
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 1.2rem;
+      font-weight: 500;
+      padding: 14px 8px;
+    }
+
+    .score-section-label {
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 6px;
+      text-align: center;
+    }
+
+    /* Radio / option buttons */
+    .option-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .option-btn {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: left;
+      font-family: var(--font-body);
+      border-color: var(--gold);
+      background: rgba(201,168,76,0.04);
+    }
+
+    .option-btn.selected {
+      border-color: var(--gold);
+      background: rgba(201,168,76,0.08);
+    }
+
+    .option-radio {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      flex-shrink: 0;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .option-btn.selected .option-radio {
+      border-color: var(--gold);
+      background: var(--gold);
+    }
+
+    .option-btn.selected .option-radio::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: white;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: var(--radius-input);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--ink);
+      color: var(--gold);
+      width: 100%;
+      justify-content: center;
+      font-size: 1rem;
+      padding: 16px 28px;
+    }
+
+    .btn-primary:hover {
+      background: #1e1c18;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(15,14,12,0.2);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--muted);
+      border: 1.5px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--ink);
+      color: var(--ink);
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: var(--ink);
+      width: 100%;
+      justify-content: center;
+      font-size: 1rem;
+      padding: 16px 28px;
+    }
+
+    .btn-gold:hover {
+      background: #b8962e;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(201,168,76,0.3);
+    }
+
+    .btn-lawhub {
+      background: var(--forest);
+      color: var(--white);
+      width: 100%;
+      justify-content: center;
+      font-size: 1rem;
+      padding: 18px 28px;
+    }
+
+    .btn-lawhub:hover {
+      background: #3a6b1e;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(45,80,22,0.25);
+    }
+
+    /* LawHub redirect card */
+    .lawhub-card {
+      text-align: center;
+      padding: 48px 40px;
+    }
+
+    .lawhub-icon {
+      width: 72px;
+      height: 72px;
+      background: rgba(45,80,22,0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      font-size: 2rem;
+    }
+
+    .lawhub-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      text-align: left;
+      margin: 28px 0;
+      padding: 20px;
+      background: rgba(45,80,22,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(45,80,22,0.12);
+    }
+
+    .lawhub-step {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      font-size: 0.88rem;
+      color: var(--ink);
+    }
+
+    .step-num {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--forest);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 600;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 20px 0;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* AI Loading state */
+    .ai-loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 20px;
+      text-align: center;
+      gap: 20px;
+    }
+
+    .thinking-dots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .thinking-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--gold);
+      animation: pulse 1.4s ease-in-out infinite;
+    }
+
+    .thinking-dot:nth-child(2) { animation-delay: 0.2s; }
+    .thinking-dot:nth-child(3) { animation-delay: 0.4s; }
+
+    .ai-status {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .ai-progress-wrap {
+      width: 100%;
+      max-width: 320px;
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .ai-progress-bar {
+      height: 100%;
+      background: var(--gold);
+      border-radius: 2px;
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+
+    /* Results */
+    .results-section {
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .score-display {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px;
+      background: var(--ink);
+      border-radius: 14px;
+      margin-bottom: 24px;
+      color: var(--gold);
+    }
+
+    .score-number {
+      font-family: var(--font-display);
+      font-size: 3.5rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .score-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      opacity: 0.7;
+      margin-bottom: 4px;
+    }
+
+    .score-target {
+      text-align: right;
+    }
+
+    .score-target .score-number {
+      font-size: 2.5rem;
+      color: var(--gold-light);
+    }
+
+    .gap-indicator {
+      text-align: center;
+    }
+
+    .gap-number {
+      font-family: var(--font-mono);
+      font-size: 1.8rem;
+      font-weight: 500;
+      color: var(--gold-light);
+    }
+
+    .gap-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      opacity: 0.6;
+    }
+
+    /* Section bars */
+    .section-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .section-bar-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .section-bar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .section-name {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .section-score-text {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .bar-track {
+      height: 8px;
+      background: var(--cream);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 1s ease;
+      background: var(--gold);
+    }
+
+    .bar-fill.weak { background: var(--rust); }
+    .bar-fill.medium { background: var(--gold); }
+    .bar-fill.strong { background: var(--forest); }
+
+    /* Diagnosis output */
+    .diagnosis-output {
+      font-size: 0.92rem;
+      line-height: 1.8;
+      color: var(--ink);
+      white-space: pre-wrap;
+    }
+
+    /* Study plan */
+    .week-card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+
+    .week-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      background: var(--cream);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .week-header:hover { background: var(--gold-light); }
+
+    .week-title {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .week-focus {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .week-body {
+      padding: 18px;
+      background: var(--card);
+      display: none;
+    }
+
+    .week-body.open { display: block; }
+
+    .daily-tasks {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .daily-task {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      font-size: 0.85rem;
+      color: var(--ink);
+      padding: 8px 12px;
+      background: var(--white);
+      border-radius: 8px;
+    }
+
+    .task-day {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--gold);
+      font-weight: 500;
+      min-width: 32px;
+      margin-top: 1px;
+    }
+
+    /* ── Budget Filter Bar ── */
+    .budget-filter {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .budget-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      margin-right: 4px;
+      white-space: nowrap;
+    }
+    .budget-btn {
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1.5px solid var(--border);
+      background: var(--white);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.18s ease;
+      white-space: nowrap;
+    }
+    .budget-btn:hover { border-color: var(--gold); color: var(--ink); }
+    .budget-btn.active { background: var(--ink); border-color: var(--ink); color: var(--gold); }
+
+    /* ── Resource Tabs ── */
+    .resource-tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 20px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .resource-tabs::-webkit-scrollbar { display: none; }
+    .res-tab {
+      padding: 10px 18px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      font-family: var(--font-body);
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      white-space: nowrap;
+      transition: all 0.2s;
+      letter-spacing: 0.01em;
+    }
+    .res-tab:hover { color: var(--ink); }
+    .res-tab.active { color: var(--ink); border-bottom-color: var(--gold); }
+    .res-tab-icon { margin-right: 6px; font-size: 0.9rem; }
+
+    /* ── Resource Grid & Cards ── */
+    .resource-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
+    }
+    .resource-panel { display: none; }
+    .resource-panel.active { display: block; }
+    .resource-card {
+      padding: 16px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      transition: all 0.25s ease;
+      text-decoration: none;
+      color: var(--ink);
+      display: block;
+    }
+    .resource-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(15,14,12,0.08);
+    }
+    .resource-card.dimmed {
+      opacity: 0.35;
+      transform: none !important;
+      box-shadow: none !important;
+      order: 999;
+    }
+    .resource-card.dimmed:hover { opacity: 0.5; border-color: var(--border); }
+    .resource-tag {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(201,168,76,0.15);
+      color: var(--gold);
+      margin-bottom: 8px;
+      font-family: var(--font-mono);
+    }
+    .resource-tag.free { background: rgba(45,80,22,0.12); color: var(--forest); }
+    .resource-tag.paid { background: rgba(184,92,56,0.12); color: var(--rust); }
+    .resource-tag.freemium { background: rgba(201,168,76,0.15); color: var(--gold); }
+    .resource-price {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--muted);
+      float: right;
+      margin-top: 2px;
+    }
+    .resource-name { font-weight: 600; font-size: 0.9rem; margin-bottom: 4px; clear: both; }
+    .resource-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+
+    /* Chat */
+    .chat-container {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .chat-messages {
+      height: 320px;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      background: var(--white);
+    }
+
+    .message {
+      display: flex;
+      gap: 10px;
+      animation: fadeUp 0.3s ease;
+    }
+
+    .message.user { flex-direction: row-reverse; }
+
+    .message-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .message.assistant .message-avatar {
+      background: var(--ink);
+      color: var(--gold);
+    }
+
+    .message.user .message-avatar {
+      background: var(--gold);
+      color: var(--ink);
+    }
+
+    .message-bubble {
+      max-width: 80%;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    .message.assistant .message-bubble {
+      background: var(--cream);
+      border-bottom-left-radius: 4px;
+    }
+
+    .message.user .message-bubble {
+      background: var(--ink);
+      color: var(--gold-light);
+      border-bottom-right-radius: 4px;
+    }
+
+    .chat-input-row {
+      display: flex;
+      gap: 10px;
+      padding: 14px;
+      background: var(--cream);
+      border-top: 1px solid var(--border);
+    }
+
+    .chat-input-row input {
+      flex: 1;
+      padding: 10px 14px;
+      font-size: 0.88rem;
+    }
+
+    .chat-send {
+      padding: 10px 18px;
+      background: var(--ink);
+      color: var(--gold);
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+      font-family: var(--font-body);
+    }
+
+    .chat-send:hover { background: #1e1c18; }
+
+    /* Hidden/shown screens */
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    /* Utility */
+    .mt-16 { margin-top: 16px; }
+    .mt-24 { margin-top: 24px; }
+    .text-center { text-align: center; }
+    .text-muted { color: var(--muted); font-size: 0.85rem; }
+    .row { display: flex; gap: 12px; }
+    .row .form-group { flex: 1; }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-family: var(--font-mono);
+    }
+
+    .badge-gold { background: rgba(201,168,76,0.15); color: var(--gold); }
+    .badge-forest { background: rgba(45,80,22,0.12); color: var(--forest); }
+
+    /* Animations */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes pulse {
+      0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+      40% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .card { padding: 24px 20px; }
+      .score-grid { grid-template-columns: 1fr 1fr; }
+      .score-display { flex-direction: column; gap: 16px; text-align: center; }
+      .resource-grid { grid-template-columns: 1fr; }
+      /* Let the step labels wrap so the progress bar fits on a phone */
+      .progress-step { flex-shrink: 1; min-width: 0; max-width: 64px; }
+      .step-label { white-space: normal; text-align: center; }
+      .step-line { margin-left: 4px; margin-right: 4px; }
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="logo-mark">
+      <svg class="compass-icon" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="22" cy="22" r="20" stroke="#c9a84c" stroke-width="1.5"/>
+        <circle cx="22" cy="22" r="3" fill="#c9a84c"/>
+        <polygon points="22,6 24.5,20 22,19 19.5,20" fill="#c9a84c"/>
+        <polygon points="22,38 19.5,24 22,25 24.5,24" fill="#7a7060"/>
+        <line x1="6" y1="22" x2="38" y2="22" stroke="#d4cdc0" stroke-width="0.8"/>
+      </svg>
+      <span class="logo-text">LSAT Compass</span>
+    </div>
+    <h1>Your Personal <em>Study Navigator</em></h1>
+    <p class="subtitle">Get a free, AI-powered diagnosis of your LSAT performance and a personalized study plan — no expensive tutors required.</p>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-track" id="progressTrack">
+    <div class="progress-step">
+      <div class="step-dot active" id="sd1">01</div>
+      <div class="step-label" id="ps1" style="color:var(--gold);font-weight:600;">Score Check</div>
+    </div>
+    <div class="step-line" id="sl1"></div>
+    <div class="progress-step">
+      <div class="step-dot" id="sd2">02</div>
+      <div class="step-label" id="ps2">Your Goals</div>
+    </div>
+    <div class="step-line" id="sl2"></div>
+    <div class="progress-step">
+      <div class="step-dot" id="sd3">03</div>
+      <div class="step-label" id="ps3">AI Diagnosis</div>
+    </div>
+    <div class="step-line" id="sl3"></div>
+    <div class="progress-step">
+      <div class="step-dot" id="sd4">04</div>
+      <div class="step-label" id="ps4">Study Plan</div>
+    </div>
+  </div>
+
+  <!-- SCREEN 1: Do you have a score? -->
+  <div class="screen active" id="screen1">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-eyebrow">Step 01 — Getting Started</div>
+        <div class="card-title">Have you taken an LSAT practice test?</div>
+        <div class="card-desc">A real diagnostic score helps me give you the most accurate study plan possible.</div>
+      </div>
+      <div class="option-group">
+        <button class="option-btn" onclick="selectOption(this, 'has_score', 'yes')">
+          <div class="option-radio"></div>
+          <div>
+            <strong>Yes, I have a score</strong>
+            <div style="font-size:0.8rem;color:var(--muted);margin-top:2px">I've taken a practice test and have my results</div>
+          </div>
+        </button>
+        <button class="option-btn" onclick="selectOption(this, 'has_score', 'no')">
+          <div class="option-radio"></div>
+          <div>
+            <strong>No, I haven't taken one yet</strong>
+            <div style="font-size:0.8rem;color:var(--muted);margin-top:2px">I'll take a free practice test first</div>
+          </div>
+        </button>
+      </div>
+      <button class="btn btn-primary mt-24" id="btn1" onclick="handleScoreCheck()" disabled>
+        Continue →
+      </button>
+    </div>
+  </div>
+
+  <!-- SCREEN 1b: LawHub Redirect -->
+  <div class="screen" id="screenLawhub">
+    <div class="card lawhub-card">
+      <div class="lawhub-icon">📚</div>
+      <div class="card-eyebrow">Free Practice Test</div>
+      <div class="card-title">Take a Free Test on LawHub</div>
+      <p class="card-desc mt-16">LawHub offers free official LSAT practice tests — the same quality as the real exam. This is the gold standard for diagnosing your starting point.</p>
+
+      <div class="lawhub-steps">
+        <div class="lawhub-step">
+          <div class="step-num">1</div>
+          <div>Create a free account at <strong>lawhub.org</strong></div>
+        </div>
+        <div class="lawhub-step">
+          <div class="step-num">2</div>
+          <div>Navigate to <strong>"LSAT Practice Tests"</strong> and select any free test</div>
+        </div>
+        <div class="lawhub-step">
+          <div class="step-num">3</div>
+          <div>Complete the full test in one sitting for the most accurate score</div>
+        </div>
+        <div class="lawhub-step">
+          <div class="step-num">4</div>
+          <div>Note your <strong>scaled score</strong> and section breakdowns, then come back here</div>
+        </div>
+      </div>
+
+      <a href="https://lawhub.org" target="_blank" class="btn btn-lawhub">
+        Go to LawHub →
+      </a>
+
+      <div class="divider">already have your score?</div>
+
+      <button class="btn btn-secondary" onclick="goToScoreInput()" style="width:100%;justify-content:center;">
+        I have my score — enter it now
+      </button>
+    </div>
+  </div>
+
+  <!-- SCREEN 2: Score Input -->
+  <div class="screen" id="screen2">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-eyebrow">Step 01 — Score Check</div>
+        <div class="card-title">Enter Your Practice Test Results</div>
+        <div class="card-desc">Find these on your LawHub score report. Don't worry if you don't have all sections — enter what you have.</div>
+      </div>
+
+      <div class="form-group">
+        <label>Scaled Score <span class="hint">(120–180)</span></label>
+        <input type="number" id="scaledScore" min="120" max="180" placeholder="e.g. 152" />
+      </div>
+
+      <div class="form-group">
+        <label>Raw Section Scores <span class="hint">(number of questions correct per section)</span></label>
+        <div class="score-grid" style="grid-template-columns: repeat(3, 1fr);">
+          <div class="score-box">
+            <label>LR Section 1</label>
+            <input type="number" id="lr1Score" min="0" max="26" placeholder="—" />
+            <div class="score-section-label">Out of 26</div>
+          </div>
+          <div class="score-box">
+            <label>LR Section 2</label>
+            <input type="number" id="lr2Score" min="0" max="26" placeholder="—" />
+            <div class="score-section-label">Out of 26</div>
+          </div>
+          <div class="score-box">
+            <label>Reading Comp</label>
+            <input type="number" id="rcScore" min="0" max="27" placeholder="—" />
+            <div class="score-section-label">Out of 27</div>
+          </div>
+        </div>
+        <div style="margin-top:14px;padding:12px 16px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:10px;font-size:0.82rem;color:var(--muted);line-height:1.6;">
+          💡 <strong style="color:var(--ink);">This step is optional</strong> — but entering your section scores lets us give you a much more personalized diagnosis. You can find them in your score report on LawHub.
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="goToGoals()">
+        Continue to Goals →
+      </button>
+    </div>
+  </div>
+
+  <!-- SCREEN 3: Goals -->
+  <div class="screen" id="screen3">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-eyebrow">Step 02 — Your Goals</div>
+        <div class="card-title">Tell Me About Your Target</div>
+        <div class="card-desc">This helps me calibrate how intensive your study plan needs to be.</div>
+      </div>
+
+      <div class="row">
+        <div class="form-group">
+          <label>Target Score</label>
+          <input type="number" id="targetScore" min="120" max="180" placeholder="e.g. 165" />
+        </div>
+        <div class="form-group">
+          <label>Months Until Test</label>
+          <select id="timeline">
+            <option value="">Select...</option>
+            <option value="1">1 month</option>
+            <option value="2">2 months</option>
+            <option value="3">3 months</option>
+            <option value="4">4 months</option>
+            <option value="6">6 months</option>
+            <option value="9">9+ months</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Hours available to study per week</label>
+        <div class="option-group" style="flex-direction:row;flex-wrap:wrap;">
+          <button class="option-btn" style="flex:1;min-width:120px" onclick="selectOption(this,'hours','5')">
+            <div class="option-radio"></div> 1–5 hrs
+          </button>
+          <button class="option-btn" style="flex:1;min-width:120px" onclick="selectOption(this,'hours','10')">
+            <div class="option-radio"></div> 5–10 hrs
+          </button>
+          <button class="option-btn" style="flex:1;min-width:120px" onclick="selectOption(this,'hours','15')">
+            <div class="option-radio"></div> 10–20 hrs
+          </button>
+          <button class="option-btn" style="flex:1;min-width:120px" onclick="selectOption(this,'hours','25')">
+            <div class="option-radio"></div> 20+ hrs
+          </button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>What's your biggest concern? <span class="hint">(optional)</span></label>
+        <textarea id="concern" rows="2" placeholder="e.g. I always run out of time on RC, or I struggle with complex LR question types..." style="resize:none;"></textarea>
+      </div>
+
+      <button class="btn btn-primary" onclick="runDiagnosis()">
+        🔍 Run AI Diagnosis →
+      </button>
+    </div>
+  </div>
+
+  <!-- SCREEN 4: AI Loading -->
+  <div class="screen" id="screenLoading">
+    <div class="card">
+      <div class="ai-loading">
+        <div class="thinking-dots">
+          <div class="thinking-dot"></div>
+          <div class="thinking-dot"></div>
+          <div class="thinking-dot"></div>
+        </div>
+        <div>
+          <div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;margin-bottom:8px;">Analyzing your performance...</div>
+          <div class="ai-status" id="loadingStatus">Sending scores to AI...</div>
+        </div>
+        <div class="ai-progress-wrap">
+          <div class="ai-progress-bar" id="aiProgressBar"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 5: Results -->
+  <div class="screen" id="screen5">
+    <div class="results-section">
+
+      <!-- Score overview -->
+      <div class="card">
+        <div class="card-eyebrow">Your Diagnosis</div>
+        <div class="score-display" id="scoreDisplay">
+          <div>
+            <div class="score-label">Current Score</div>
+            <div class="score-number" id="displayCurrent">—</div>
+          </div>
+          <div class="gap-indicator">
+            <div class="gap-number" id="displayGap">+0</div>
+            <div class="gap-label">points to gain</div>
+          </div>
+          <div class="score-target">
+            <div class="score-label">Target Score</div>
+            <div class="score-number" id="displayTarget">—</div>
+          </div>
+        </div>
+
+        <div class="section-bars" id="sectionBars"></div>
+
+        <div class="card-eyebrow" style="margin-bottom:12px;">AI Analysis</div>
+        <div class="diagnosis-output" id="diagnosisOutput"></div>
+      </div>
+
+      <!-- Study Plan -->
+      <div class="card" id="studyPlanCard">
+        <div class="card-header">
+          <div class="card-eyebrow">Your Study Plan</div>
+          <div class="card-title">Week-by-Week Roadmap</div>
+        </div>
+        <div id="weeklyPlan"></div>
+      </div>
+
+      <!-- Picked for you -->
+      <div class="card" id="picksCard" style="display:none">
+        <div class="card-header">
+          <div class="card-eyebrow">Picked For You</div>
+          <div class="card-title">Start With These</div>
+          <div class="card-desc">Matched to your score, goal and schedule from our researched library of LSAT resources.</div>
+        </div>
+        <div class="resource-grid" id="grid-picks"></div>
+      </div>
+
+      <!-- Resources -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-eyebrow">Curated Resources</div>
+          <div class="card-title">Find the Right Tools</div>
+          <div class="card-desc">Browse the full library by category and filter by budget. Prices are approximate, so check each site.</div>
+        </div>
+
+        <!-- Budget Filter -->
+        <div class="budget-filter">
+          <span class="budget-label">Budget:</span>
+          <button class="budget-btn active" data-max="Infinity" onclick="setBudget(this)">No Limit</button>
+          <button class="budget-btn" data-max="500" onclick="setBudget(this)">Under $500</button>
+          <button class="budget-btn" data-max="100" onclick="setBudget(this)">Under $100</button>
+          <button class="budget-btn" data-max="0" onclick="setBudget(this)">Free Only</button>
+        </div>
+
+        <!-- Category Tabs -->
+        <div class="resource-tabs">
+          <button class="res-tab active" onclick="setResTab(this,'tab-classes')"><span class="res-tab-icon">🏛️</span>Courses &amp; Help</button>
+          <button class="res-tab" onclick="setResTab(this,'tab-practice')"><span class="res-tab-icon">📝</span>Practice &amp; Tools</button>
+          <button class="res-tab" onclick="setResTab(this,'tab-books')"><span class="res-tab-icon">📖</span>Books</button>
+          <button class="res-tab" onclick="setResTab(this,'tab-videos')"><span class="res-tab-icon">🎬</span>Videos &amp; Podcasts</button>
+        </div>
+
+        <!-- Tab Panels -->
+        <div id="tab-classes" class="resource-panel active">
+          <div class="resource-grid" id="grid-classes"></div>
+        </div>
+        <div id="tab-practice" class="resource-panel">
+          <div class="resource-grid" id="grid-practice"></div>
+        </div>
+        <div id="tab-books" class="resource-panel">
+          <div class="resource-grid" id="grid-books"></div>
+        </div>
+        <div id="tab-videos" class="resource-panel">
+          <div class="resource-grid" id="grid-videos"></div>
+        </div>
+      </div>
+
+      <!-- Chat -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-eyebrow">AI Tutor</div>
+          <div class="card-title">Ask Follow-Up Questions</div>
+          <div class="card-desc">Adjust your plan, ask about specific sections, or get more advice.</div>
+        </div>
+        <div class="chat-container">
+          <div class="chat-messages" id="chatMessages"></div>
+          <div class="chat-input-row">
+            <input type="text" id="chatInput" placeholder="Ask anything about your study plan..." onkeydown="if(event.key==='Enter')sendChat()" />
+            <button class="chat-send" onclick="sendChat()">Send</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ============================================================
+// STATE
+// ============================================================
+const state = {
+  hasScore: null,
+  scaledScore: null,
+  lrScore: null,
+  rcScore: null,
+  targetScore: null,
+  timeline: null,
+  hours: null,
+  concern: '',
+  diagnosisText: '',
+  studyPlan: null,
+  picks: [],
+  chatHistory: []
+};
+
+// Filled from /api/resources (the same researched library that is stored in Pinecone).
+const RESOURCES = { classes: [], practice: [], books: [], videos: [] };
+const TAB_FOR_CATEGORY = {
+  course: 'classes', tutoring: 'classes', program: 'classes',
+  practice: 'practice', official: 'practice', tool: 'practice', app: 'practice', community: 'practice',
+  book: 'books',
+  video: 'videos', podcast: 'videos',
+};
+
+async function loadResources() {
+  try {
+    const res = await fetch('/api/resources');
+    const data = await res.json();
+    for (const r of data.resources) {
+      const tab = TAB_FOR_CATEGORY[r.category];
+      if (tab) RESOURCES[tab].push(r);
+    }
+  } catch (err) {
+    console.warn('Could not load resources:', err);
+  }
+}
+loadResources();
+
+// Text from the AI or the user is shown with this, so it can never run as HTML or scripts.
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+function profilePayload() {
+  return {
+    scaledScore: state.scaledScore,
+    targetScore: state.targetScore,
+    lrScore: state.lrScore,
+    rcScore: state.rcScore,
+    timeline: parseInt(state.timeline),
+    hours: parseInt(state.hours),
+    concern: state.concern,
+  };
+}
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateProgress(step) {
+  for (let i = 1; i <= 4; i++) {
+    const dot = document.getElementById('sd' + i);
+    const label = document.getElementById('ps' + i);
+
+    // Reset dot
+    dot.classList.remove('active', 'done');
+    // Reset label styles
+    label.style.color = '';
+    label.style.fontWeight = '';
+    label.classList.remove('done');
+
+    if (i < step) {
+      dot.classList.add('done');
+      label.style.color = 'var(--forest)';
+    }
+    if (i === step) {
+      dot.classList.add('active');
+      label.style.color = 'var(--gold)';
+      label.style.fontWeight = '600';
+    }
+    if (i < 4) {
+      const line = document.getElementById('sl' + i);
+      line.classList.toggle('done', i < step);
+    }
+  }
+}
+
+function selectOption(btn, key, value) {
+  const group = btn.closest('.option-group');
+  group.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  state[key] = value;
+  const btn1 = document.getElementById('btn1');
+  if (btn1) btn1.disabled = false;
+}
+
+function handleScoreCheck() {
+  if (state.has_score === 'yes') {
+    goToScoreInput();
+  } else {
+    showScreen('screenLawhub');
+    updateProgress(1);
+  }
+}
+
+function goToScoreInput() {
+  showScreen('screen2');
+  updateProgress(1);
+}
+
+function goToGoals() {
+  const scaled = parseInt(document.getElementById('scaledScore').value);
+  if (!scaled || scaled < 120 || scaled > 180) {
+    alert('Please enter a valid scaled score between 120 and 180.');
+    return;
+  }
+  state.scaledScore = scaled;
+
+  // Add the two LR section scores together into one combined lrScore
+  const lr1 = parseInt(document.getElementById('lr1Score').value) || 0;
+  const lr2 = parseInt(document.getElementById('lr2Score').value) || 0;
+  state.lrScore = (lr1 + lr2) > 0 ? (lr1 + lr2) : null;
+
+  state.rcScore = parseInt(document.getElementById('rcScore').value) || null;
+  showScreen('screen3');
+  updateProgress(2);
+}
+
+// ============================================================
+// AI DIAGNOSIS
+// ============================================================
+async function runDiagnosis() {
+  state.targetScore = parseInt(document.getElementById('targetScore').value);
+  state.timeline = document.getElementById('timeline').value;
+  state.concern = document.getElementById('concern').value;
+
+  if (!state.targetScore || state.targetScore < 120 || state.targetScore > 180) {
+    alert('Please enter a valid target score.'); return;
+  }
+  if (!state.timeline) { alert('Please select your timeline.'); return; }
+  if (!state.hours) { alert('Please select your weekly study hours.'); return; }
+
+  showScreen('screenLoading');
+  updateProgress(3);
+
+  const statusEl = document.getElementById('loadingStatus');
+  const barEl = document.getElementById('aiProgressBar');
+
+  // Start progress bar — animate to 80% over ~9s while waiting for responses
+  barEl.style.width = '5%';
+  setTimeout(() => {
+    barEl.style.transition = 'width 9s linear';
+    barEl.style.width = '80%';
+  }, 100);
+
+  try {
+    statusEl.textContent = 'Matching you with resources and building your plan...';
+
+    // The server finds the best resources in Pinecone, then asks the AI to build the plan.
+    const response = await fetch('/api/plan', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ profile: profilePayload() })
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.error || 'The server returned an error.');
+
+    // Snap bar to 100% and wait for the animation to finish
+    barEl.style.transition = 'width 0.4s ease';
+    barEl.style.width = '100%';
+    statusEl.textContent = 'Done!';
+
+    state.diagnosisText = data.diagnosis || '';
+    state.studyPlan = { weeks: data.weeks || [] };
+    state.picks = data.picks || [];
+    state.chatHistory.push({ role: 'assistant', content: state.diagnosisText });
+
+    await sleep(400);
+
+    renderResults();
+    showScreen('screen5');
+    updateProgress(4);
+
+  } catch (err) {
+    console.error(err);
+    alert('Sorry, we could not build your plan:\n\n' + err.message);
+    showScreen('screen3');
+    updateProgress(2);
+  }
+}
+
+// ============================================================
+// RENDER RESULTS
+// ============================================================
+function renderResults() {
+  // Score display
+  document.getElementById('displayCurrent').textContent = state.scaledScore;
+  document.getElementById('displayTarget').textContent = state.targetScore;
+  const gap = state.targetScore - state.scaledScore;
+  document.getElementById('displayGap').textContent = (gap > 0 ? '+' : '') + gap;
+
+  // Section bars
+  const barsEl = document.getElementById('sectionBars');
+  const sections = [
+    { name: 'Logical Reasoning', score: state.lrScore, max: 52 },
+    { name: 'Reading Comprehension', score: state.rcScore, max: 27 },
+  ].filter(s => s.score !== null);
+
+  barsEl.innerHTML = sections.map(s => {
+    const pct = Math.round((s.score / s.max) * 100);
+    const cls = pct < 55 ? 'weak' : pct < 75 ? 'medium' : 'strong';
+    return `
+      <div class="section-bar-item">
+        <div class="section-bar-header">
+          <span class="section-name">${s.name}</span>
+          <span class="section-score-text">${s.score}/${s.max} (${pct}%)</span>
+        </div>
+        <div class="bar-track">
+          <div class="bar-fill ${cls}" style="width:0%" data-width="${pct}%"></div>
+        </div>
+      </div>`;
+  }).join('');
+
+  setTimeout(() => {
+    document.querySelectorAll('.bar-fill').forEach(b => {
+      b.style.width = b.dataset.width;
+    });
+  }, 200);
+
+  // Diagnosis text
+  document.getElementById('diagnosisOutput').textContent = state.diagnosisText;
+
+  // Weekly plan
+  const planEl = document.getElementById('weeklyPlan');
+  if (state.studyPlan && state.studyPlan.weeks && state.studyPlan.weeks.length > 0) {
+    planEl.innerHTML = state.studyPlan.weeks.map((w, i) => `
+      <div class="week-card">
+        <div class="week-header" onclick="toggleWeek(this)">
+          <div>
+            <div class="week-title">Week ${w.week}: ${escapeHtml(w.title)}</div>
+            <div class="week-focus">${escapeHtml(w.focus)}</div>
+          </div>
+          <span style="color:var(--muted);font-size:1.2rem">${i === 0 ? '▲' : '▼'}</span>
+        </div>
+        <div class="week-body ${i === 0 ? 'open' : ''}">
+          <div class="daily-tasks">
+            ${(w.tasks || []).map(t => `
+              <div class="daily-task">
+                <span class="task-day">${escapeHtml(t.day)}</span>
+                <span>${escapeHtml(t.task)}</span>
+              </div>`).join('')}
+          </div>
+        </div>
+      </div>`).join('');
+  } else {
+    planEl.innerHTML = '<p class="text-muted">We could not build a week-by-week plan this time. Try again, or ask the tutor below.</p>';
+  }
+
+  // Resources picked for this student (retrieved from Pinecone, chosen by the AI)
+  renderPicks();
+  renderResourceTab('classes');
+
+  // Chat init
+  addChatMessage('assistant', `I've analyzed your results and built your study plan. You're ${state.targetScore - state.scaledScore} points away from your goal. What questions do you have about your plan?`);
+}
+
+function toggleWeek(header) {
+  const body = header.nextElementSibling;
+  const arrow = header.querySelector('span:last-child');
+  const isOpen = body.classList.toggle('open');
+  arrow.textContent = isOpen ? '▲' : '▼';
+}
+
+// ============================================================
+// CHAT
+// ============================================================
+function addChatMessage(role, text) {
+  const msgs = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = `message ${role}`;
+  div.innerHTML = `
+    <div class="message-avatar">${role === 'assistant' ? '🎓' : 'Me'}</div>
+    <div class="message-bubble"></div>`;
+  div.querySelector('.message-bubble').textContent = text;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  if (role !== 'system') {
+    state.chatHistory.push({ role, content: text });
+  }
+}
+
+async function sendChat() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  addChatMessage('user', text);
+
+  // Send the last few messages so the tutor remembers the conversation.
+  const history = state.chatHistory.slice(0, -1).slice(-8);
+
+  try {
+    const reply = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: text, history, profile: profilePayload() })
+    });
+    const data = await reply.json().catch(() => ({}));
+    addChatMessage('assistant', data.text || data.error || 'Sorry, something went wrong.');
+  } catch {
+    addChatMessage('assistant', 'Connection error. Please try again.');
+  }
+}
+
+// ============================================================
+// RESOURCE TABS & BUDGET FILTER
+// ============================================================
+let activeBudget = Infinity;
+let activeTabKey = 'classes';
+
+function setBudget(btn) {
+  document.querySelectorAll('.budget-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const val = btn.dataset.max;
+  activeBudget = val === 'Infinity' ? Infinity : parseFloat(val);
+  renderResourceTab(activeTabKey);
+}
+
+function setResTab(btn, panelId) {
+  document.querySelectorAll('.res-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.resource-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(panelId).classList.add('active');
+  const keyMap = { 'tab-classes': 'classes', 'tab-practice': 'practice', 'tab-books': 'books', 'tab-videos': 'videos' };
+  activeTabKey = keyMap[panelId];
+  renderResourceTab(activeTabKey);
+}
+
+function renderResourceTab(key) {
+  const gridId = { classes: 'grid-classes', practice: 'grid-practice', books: 'grid-books', videos: 'grid-videos' }[key];
+  const el = document.getElementById(gridId);
+  if (!el) return;
+  const items = RESOURCES[key] || [];
+  const sorted = [...items].sort((a, b) => {
+    const aIn = priceOf(a) <= activeBudget;
+    const bIn = priceOf(b) <= activeBudget;
+    if (aIn && !bIn) return -1;
+    if (!aIn && bIn) return 1;
+    return priceOf(a) === priceOf(b) ? 0 : priceOf(a) - priceOf(b);
+  });
+  el.innerHTML = sorted.map(r => resourceCard(r, priceOf(r) <= activeBudget)).join('');
+}
+
+// Unknown prices (e.g. tutoring marketplaces) count as paid for the budget filter.
+function priceOf(r) {
+  if (r.cost === 'free') return 0;
+  return r.price_usd ?? Infinity;
+}
+
+function resourceCard(r, inBudget, why) {
+  const tagClass = r.cost === 'free' ? 'free' : r.cost === 'paid' ? 'paid' : 'freemium';
+  const priceLabel = r.cost === 'free' ? 'Free' : r.price_usd ? '$' + r.price_usd : 'Varies';
+  return '<a href="' + escapeHtml(r.url) + '" target="_blank" rel="noopener" class="resource-card' + (inBudget ? '' : ' dimmed') + '" title="' + escapeHtml(r.price_note) + '">' +
+    '<span class="resource-tag ' + tagClass + '">' + escapeHtml(r.cost) + '</span>' +
+    '<span class="resource-price">' + escapeHtml(priceLabel) + '</span>' +
+    '<div class="resource-name">' + escapeHtml(r.name) + '</div>' +
+    '<div class="resource-desc">' + escapeHtml(why || r.best_for) + '</div>' +
+    '</a>';
+}
+
+function renderPicks() {
+  const card = document.getElementById('picksCard');
+  const grid = document.getElementById('grid-picks');
+  if (!state.picks || !state.picks.length) { card.style.display = 'none'; return; }
+  card.style.display = '';
+  grid.innerHTML = state.picks.map(p => resourceCard(p.resource, true, p.why)).join('');
+}
+
+// ============================================================
+// UTILS
+// ============================================================
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+</script>
+</body>
+</html>
