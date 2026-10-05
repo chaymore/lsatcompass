@@ -26,9 +26,9 @@
     { "name": "PLAN_LIMITER", "namespace_id": "4101", "simple": { "limit": 4, "period": 60 } },
     { "name": "CHAT_LIMITER", "namespace_id": "4102", "simple": { "limit": 12, "period": 60 } }
   ],
-  // Uncomment once lsatcompass.com is in your Cloudflare account (see README).
-  // "routes": [
-  //   { "pattern": "lsatcompass.com", "custom_domain": true },
-  //   { "pattern": "www.lsatcompass.com", "custom_domain": true }
-  // ]
+  // Cloudflare creates the DNS records and HTTPS certificates for these automatically.
+  "routes": [
+    { "pattern": "lsatcompass.com", "custom_domain": true },
+    { "pattern": "www.lsatcompass.com", "custom_domain": true }
+  ]
 }

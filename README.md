@@ -44,7 +44,7 @@ Then:
 ## Custom domain (lsatcompass.com)
 
 1. Buy the domain in Cloudflare (Domain Registration → Register Domains), or if you already own it elsewhere, add it as a site in Cloudflare and switch its nameservers.
-2. Uncomment the `routes` block at the bottom of `wrangler.jsonc` and push. Cloudflare creates the DNS records and HTTPS certificate automatically.
+2. The `routes` block at the bottom of `wrangler.jsonc` points lsatcompass.com and www.lsatcompass.com at the worker. Cloudflare creates the DNS records and HTTPS certificates on the next deploy. If a deploy fails with a DNS conflict, delete any existing `A`, `AAAA` or `CNAME` records for those names in Cloudflare's DNS page, then re-run the deploy.
 
 ## Changing things
 
