@@ -24,7 +24,8 @@ async function call(url: string, init: RequestInit = {}): Promise<Response> {
   return fetch(url, { ...init, headers: { ...headers, ...(init.headers as Record<string, string>) } });
 }
 
-async function ensureIndex(): Promise<string> {
+// Returns the index host and the name of the field Pinecone embeds (set when the index was created).
+async function ensureIndex(): Promise<{ host: string; textField: string }> {
   let res = await call(`https://api.pinecone.io/indexes/${indexName}`);
   if (res.status === 404) {
     console.log(`Creating index "${indexName}" with integrated embedding (${embedModel})...`);
@@ -44,8 +45,15 @@ async function ensureIndex(): Promise<string> {
   // A new index takes a little while to be ready.
   for (let attempt = 0; attempt < 30; attempt++) {
     if (!res.ok) throw new Error(`Describe index failed: ${res.status} ${await res.text()}`);
-    const info = (await res.json()) as { host: string; status?: { ready?: boolean } };
-    if (info.status?.ready) return info.host;
+    const info = (await res.json()) as { host: string; status?: { ready?: boolean }; embed?: { model?: string; field_map?: { text?: string } } };
+    const textField = info.embed?.field_map?.text;
+    if (!textField) {
+      throw new Error(`Index "${indexName}" exists but has no built-in embedding model. Delete it in the Pinecone console (or set PINECONE_INDEX to a new name) and run this again.`);
+    }
+    if (info.status?.ready) {
+      console.log(`Using index "${indexName}" (model ${info.embed?.model}, text field "${textField}")`);
+      return { host: info.host, textField };
+    }
     console.log('Waiting for index to be ready...');
     await new Promise((r) => setTimeout(r, 5000));
     res = await call(`https://api.pinecone.io/indexes/${indexName}`);
@@ -56,7 +64,7 @@ async function ensureIndex(): Promise<string> {
 async function main() {
   const file = JSON.parse(await readFile(new URL('../data/resources.json', import.meta.url), 'utf8'));
   const resources = file.resources as Resource[];
-  const host = await ensureIndex();
+  const { host, textField } = await ensureIndex();
   console.log(`Index host: ${host}`);
 
   // Clear old records so deleted resources don't linger. A brand-new namespace returns 404, which is fine.
@@ -69,7 +77,7 @@ async function main() {
 
   const records = resources.map((r) => ({
     _id: r.id,
-    chunk_text: resourceSearchText(r),
+    [textField]: resourceSearchText(r),
     resource: JSON.stringify(r),
     category: r.category,
     cost: r.cost,
