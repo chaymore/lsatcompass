@@ -45,13 +45,11 @@ async function ensureIndex(): Promise<{ host: string; textField: string }> {
   // A new index takes a little while to be ready.
   for (let attempt = 0; attempt < 30; attempt++) {
     if (!res.ok) throw new Error(`Describe index failed: ${res.status} ${await res.text()}`);
-    const info = (await res.json()) as { host: string; status?: { ready?: boolean }; embed?: { model?: string; field_map?: { text?: string } } };
-    const textField = info.embed?.field_map?.text;
-    if (!textField) {
-      throw new Error(`Index "${indexName}" exists but has no built-in embedding model. Delete it in the Pinecone console (or set PINECONE_INDEX to a new name) and run this again.`);
-    }
+    const info = (await res.json()) as { host: string; status?: { ready?: boolean }; embed?: { field_map?: { text?: string } }; schema?: unknown };
+    // API 2026-07 moved embedding settings into `schema`; older versions use `embed.field_map`.
+    const textField = info.embed?.field_map?.text ?? findEmbedField(info.schema) ?? 'chunk_text';
     if (info.status?.ready) {
-      console.log(`Using index "${indexName}" (model ${info.embed?.model}, text field "${textField}")`);
+      console.log(`Using index "${indexName}" (text field "${textField}")`);
       return { host: info.host, textField };
     }
     console.log('Waiting for index to be ready...');
@@ -61,10 +59,42 @@ async function ensureIndex(): Promise<{ host: string; textField: string }> {
   throw new Error('Index never became ready');
 }
 
+// Looks through the index schema for the text field that has an embedding model attached.
+function findEmbedField(schema: unknown): string | undefined {
+  const fields = (schema as { fields?: Record<string, { embed?: unknown; integrated_embedding?: unknown; type?: string }> } | undefined)?.fields;
+  if (!fields) return undefined;
+  for (const [name, field] of Object.entries(fields)) {
+    if (field && (field.embed || field.integrated_embedding)) return name;
+  }
+  return undefined;
+}
+
+// Uploads one batch. If Pinecone says it expects a different text field, retry once with that name.
+async function upsert(host: string, batch: Record<string, unknown>[], textField: string): Promise<string> {
+  const send = (field: string) => call(`https://${host}/records/namespaces/${namespace}/upsert`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/x-ndjson' },
+    body: batch.map(({ _text, ...rest }) => JSON.stringify({ ...rest, [field]: _text })).join('\n'),
+  });
+  let res = await send(textField);
+  if (res.status === 400) {
+    const message = await res.text();
+    const expected = message.match(/Missing field_mapping field '([^']+)'/)?.[1];
+    if (!expected || expected === textField) throw new Error(`Upsert failed: 400 ${message}`);
+    console.log(`Index expects the text in field "${expected}", retrying.`);
+    textField = expected;
+    res = await send(textField);
+  }
+  if (!res.ok) throw new Error(`Upsert failed: ${res.status} ${await res.text()}`);
+  return textField;
+}
+
 async function main() {
   const file = JSON.parse(await readFile(new URL('../data/resources.json', import.meta.url), 'utf8'));
   const resources = file.resources as Resource[];
-  const { host, textField } = await ensureIndex();
+  const index = await ensureIndex();
+  const host = index.host;
+  let textField = index.textField;
   console.log(`Index host: ${host}`);
 
   // Clear old records so deleted resources don't linger. A brand-new namespace returns 404, which is fine.
@@ -77,7 +107,7 @@ async function main() {
 
   const records = resources.map((r) => ({
     _id: r.id,
-    [textField]: resourceSearchText(r),
+    _text: resourceSearchText(r),
     resource: JSON.stringify(r),
     category: r.category,
     cost: r.cost,
@@ -88,12 +118,7 @@ async function main() {
   // Pinecone accepts up to 96 text records per upload.
   for (let i = 0; i < records.length; i += 90) {
     const batch = records.slice(i, i + 90);
-    const res = await call(`https://${host}/records/namespaces/${namespace}/upsert`, {
-      method: 'POST',
-      headers: { 'content-type': 'application/x-ndjson' },
-      body: batch.map((r) => JSON.stringify(r)).join('\n'),
-    });
-    if (!res.ok) throw new Error(`Upsert failed: ${res.status} ${await res.text()}`);
+    textField = await upsert(host, batch, textField);
     console.log(`Uploaded ${Math.min(i + 90, records.length)}/${records.length}`);
   }
 
