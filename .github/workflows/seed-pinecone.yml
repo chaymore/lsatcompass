@@ -12,6 +12,7 @@ on:
     paths:
       - 'data/resources.json'
       - 'scripts/seed-pinecone.ts'
+      - '.github/workflows/seed-pinecone.yml'
 
 permissions:
   contents: read
