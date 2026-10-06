@@ -3,13 +3,13 @@
 
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import worker, { keywordSearch, noDashes, validateProfile } from '../src/index.ts';
+import worker, { keywordSearch, noDashes, normalizeDay, validateProfile } from '../src/index.ts';
 import catalogFile from '../data/resources.json' with { type: 'json' };
 
 const catalog = catalogFile.resources;
 const byId = (id: string) => catalog.find((r) => r.id === id)!;
 
-const profile = { scaledScore: 152, targetScore: 165, lrScore: 30, rcScore: 20, timeline: '3', hours: '15', concern: 'I run out of time' };
+const profile = { scaledScore: 152, targetScore: 165, lrScore: 30, rcScore: 20, timeline: '3', hours: '15', days: ['Mon', 'Wed', 'Sat'], concern: 'I run out of time' };
 
 function makeEnv(overrides: Record<string, unknown> = {}) {
   return {
@@ -179,4 +179,30 @@ test('em and en dashes from the model become commas', () => {
   assert.equal(noDashes('Focus on timing \u2014 it matters'), 'Focus on timing, it matters');
   assert.equal(noDashes('LR\u2013RC balance'), 'LR, RC balance');
   assert.equal(noDashes('no dashes here - fine'), 'no dashes here - fine');
+});
+
+test('study days are checked and normalized', () => {
+  assert.deepEqual(validateProfile({ ...profile, days: ['saturday', 'MON', 'Mon', 'funday'] }).days, ['Mon', 'Sat']);
+  assert.throws(() => validateProfile({ ...profile, days: [] }), /days you can study/);
+  assert.throws(() => validateProfile({ ...profile, days: undefined }));
+  assert.equal(normalizeDay('Wednesday'), 'Wed');
+  assert.equal(normalizeDay(3), '');
+});
+
+test('plan: tasks land only on study days, in weekday order', async () => {
+  const reply = JSON.stringify({
+    diagnosis: 'ok',
+    weeks: [{ week: 1, title: 'A', focus: 'B', tasks: [
+      { day: 'Saturday', task: 'Take PrepTest 141 with the timer on' },
+      { day: 'Tue', task: 'Not a study day' },
+      { day: 'Mon', task: 'Learn assumption questions' },
+    ] }],
+    picks: [],
+  });
+  const calls = fakeFetch({ modelReply: reply });
+  const { status, data } = await post('/api/plan', { profile });
+  assert.equal(status, 200);
+  assert.deepEqual(data.weeks[0].tasks.map((t: any) => t.day), ['Mon', 'Sat']);
+  const prompt = calls.find((c) => c.url.includes('openrouter'))!.body.messages[1].content;
+  assert.match(prompt, /Study days: Mon, Wed, Sat \(3 days a week, about 5 hours each\)/);
 });

@@ -39,6 +39,7 @@ export interface Profile {
   rcScore: number | null;
   timeline: number;
   hours: number;
+  days: string[];
   concern: string;
 }
 

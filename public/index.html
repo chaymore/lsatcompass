@@ -236,6 +236,7 @@
       font-size: 0.9rem;
       color: var(--ink-soft);
     }
+    .segmented.days { grid-template-columns: repeat(7, 1fr); }
     .segmented button[aria-pressed=true] { background: #fff; color: var(--ink); font-weight: 500; box-shadow: 0 1px 2px rgba(15,14,12,0.12); }
 
     /* Buttons */
@@ -353,7 +354,6 @@
     .resource-price { font-family: var(--mono); font-size: 0.85rem; color: var(--muted); white-space: nowrap; }
     .resource-price.free { color: var(--forest); }
     .resource-why { margin-top: 4px; font-size: 0.925rem; color: var(--ink-soft); }
-    .resource.pick { border-left: 3px solid var(--gold); }
 
     .filters { display: grid; gap: 12px; margin-top: 20px; }
     .chips { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -382,7 +382,7 @@
     .chat-form input { flex: 1; min-width: 0; border-radius: 999px; }
     .chat-form .btn { padding: 10px 18px; }
 
-    footer { max-width: var(--width); margin: 0 auto; padding: 0 16px 40px; font-size: 0.85rem; color: var(--muted); }
+    .fineprint { margin-top: 48px; font-size: 0.85rem; color: var(--muted); }
 
     @media (max-width: 520px) {
       .intro { padding: 40px 0 32px; }
@@ -390,6 +390,8 @@
       .row { grid-template-columns: 1fr; gap: 0; }
       .row .field + .field { margin-top: 22px; }
       .segmented { grid-template-columns: repeat(2, 1fr); }
+      .segmented.days { grid-template-columns: repeat(7, 1fr); gap: 2px; }
+      .segmented.days button { font-size: 0.8rem; padding: 10px 0; }
       .week summary { grid-template-columns: 56px 1fr auto; }
       .tasks { padding-left: 0; }
     }
@@ -411,8 +413,9 @@
 
 <main>
   <section class="intro" id="intro">
-    <h1>Get a free LSAT study plan.</h1>
-    <p class="lede">Enter your practice test score, your target score and your study time. We show where you stand. Then we give you a plan for each week, with free and paid resources.</p>
+    <h1>Get a free LSAT study plan</h1>
+    <p class="lede">The LSAT doesn't have to be scary! Take the advice from a 180 scorer - what the LSAT really tests your ability to consistently study and improve over time, and anyone can do that.</p>
+    <p class="lede">Use this tool to get a study plan and resource recommendations that will get you started.</p>
   </section>
 
   <ol class="progress" id="progress" aria-label="Progress">
@@ -438,18 +441,18 @@
   <section class="step" id="step-lawhub" aria-labelledby="h-lawhub">
     <h2 id="h-lawhub">Take a free official test</h2>
     <p>LSAC writes the LSAT, and they offer 4 free past tests on LawHub. Take one test to get your starting score.</p>
+    <p>Find the practice tests at <a href="https://app.lawhub.org/library" target="_blank" rel="noopener">app.lawhub.org/library</a>.</p>
     <div class="panel">
       <ol class="numbered">
         <li>Make a free account at lawhub.org.</li>
-        <li>Open the LSAT Prep library.</li>
-        <li>Select a free PrepTest.</li>
+        <li>Select a free practice test.</li>
         <li>Take a full timed test</li>
         <li>Write down your overall score and the number correct in each graded section.</li>
         <li>Come back here and enter your score.</li>
       </ol>
     </div>
     <div class="actions">
-      <a class="btn" href="https://www.lawhub.org/prepare-for-the-lsat" target="_blank" rel="noopener">Go to LawHub</a>
+      <a class="btn" href="https://app.lawhub.org/library" target="_blank" rel="noopener">Go to LawHub</a>
       <button class="btn secondary" type="button" data-go="step-score">I have my score</button>
     </div>
   </section>
@@ -462,7 +465,6 @@
       <div class="field">
         <label for="scaledScore">Score</label>
         <input class="big-input" type="number" id="scaledScore" inputmode="numeric" min="120" max="180" placeholder="152" required />
-        <p class="hint">Enter a number from 120 to 180.</p>
       </div>
       <details class="more">
         <summary>Add section scores <span class="optional">(optional)</span></summary>
@@ -494,7 +496,7 @@
   <!-- 3. Goals -->
   <section class="step" id="step-goals" aria-labelledby="h-goals">
     <h2 id="h-goals">Set your goal</h2>
-    <p>Choose a schedule that's realistic.</p>
+    <p>Choose a realistic schedule that you can commit to keeping.</p>
     <form class="panel" id="goals-form" novalidate>
       <div class="row">
         <div class="field">
@@ -522,6 +524,19 @@
           <button type="button" data-hours="15" aria-pressed="false">10 to 20</button>
           <button type="button" data-hours="25" aria-pressed="false">20 or more</button>
         </div>
+      </div>
+      <div class="field">
+        <span class="label" id="days-label">Days you can study</span>
+        <div class="segmented days" role="group" aria-labelledby="days-label" id="days">
+          <button type="button" data-day="Mon" aria-pressed="false">Mon</button>
+          <button type="button" data-day="Tue" aria-pressed="false">Tue</button>
+          <button type="button" data-day="Wed" aria-pressed="false">Wed</button>
+          <button type="button" data-day="Thu" aria-pressed="false">Thu</button>
+          <button type="button" data-day="Fri" aria-pressed="false">Fri</button>
+          <button type="button" data-day="Sat" aria-pressed="false">Sat</button>
+          <button type="button" data-day="Sun" aria-pressed="false">Sun</button>
+        </div>
+        <p class="hint">Your plan puts one task on each of these days.</p>
       </div>
       <div class="field">
         <label for="concern">What is difficult for you? <span class="optional">(optional)</span></label>
@@ -565,6 +580,10 @@
       <h2>Your weekly plan</h2>
       <p>Select a week to see the tasks for each day.</p>
       <div class="weeks" id="out-weeks"></div>
+      <div class="actions" id="calendar-actions" hidden>
+        <button class="btn secondary" type="button" id="calendar-btn">Add to calendar</button>
+      </div>
+      <p class="hint" id="calendar-hint" hidden>Download a calendar file with one event for each task. Your plan starts on <span id="calendar-start"></span>. Open the file in Apple Calendar or Outlook, or import it into Google Calendar.</p>
     </div>
 
     <div class="section" id="picks-section" hidden>
@@ -607,10 +626,11 @@
         </form>
       </div>
     </div>
+
+    <p class="fineprint">LSAT Compass is not part of LSAC.</p>
   </section>
 </main>
 
-<footer>Free to use. LSAT Compass is not part of LSAC.</footer>
 
 <script>
 const state = {
@@ -620,6 +640,7 @@ const state = {
   targetScore: null,
   timeline: null,
   hours: null,
+  days: [],
   concern: '',
   chatHistory: [],
 };
@@ -682,6 +703,13 @@ $('hours').addEventListener('click', (e) => {
   state.hours = Number(btn.dataset.hours);
 });
 
+$('days').addEventListener('click', (e) => {
+  const btn = e.target.closest('button[data-day]');
+  if (!btn) return;
+  btn.setAttribute('aria-pressed', String(btn.getAttribute('aria-pressed') !== 'true'));
+  state.days = [...$('days').querySelectorAll('button[aria-pressed=true]')].map(b => b.dataset.day);
+});
+
 $('goals-form').addEventListener('submit', (e) => {
   e.preventDefault();
   const target = readInt('targetScore', 120, 180);
@@ -689,6 +717,7 @@ $('goals-form').addEventListener('submit', (e) => {
   if (target === null) { err.textContent = 'Enter a target score from 120 to 180.'; $('targetScore').focus(); return; }
   if (!$('timeline').value) { err.textContent = 'Select the time until your test.'; $('timeline').focus(); return; }
   if (!state.hours) { err.textContent = 'Select your study hours each week.'; return; }
+  if (!state.days.length) { err.textContent = 'Select the days you can study.'; return; }
   err.textContent = '';
   state.targetScore = target;
   state.timeline = Number($('timeline').value);
@@ -704,6 +733,7 @@ function profilePayload() {
     rcScore: state.rcScore,
     timeline: state.timeline,
     hours: state.hours,
+    days: state.days,
     concern: state.concern,
   };
 }
@@ -781,9 +811,13 @@ function renderResults(data) {
       </details>`).join('')
     : '<p class="empty">We could not make the weekly plan. Try again, or ask a question below.</p>';
 
+  state.weeks = weeks;
+  $('calendar-actions').hidden = $('calendar-hint').hidden = weeks.length === 0;
+  $('calendar-start').textContent = planStart().toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
+
   const picks = data.picks || [];
   $('picks-section').hidden = picks.length === 0;
-  $('out-picks').innerHTML = picks.map(p => resourceCard(p.resource, p.why, true)).join('');
+  $('out-picks').innerHTML = picks.map(p => resourceCard(p.resource, p.why)).join('');
 
   renderLibrary();
 
@@ -792,6 +826,82 @@ function renderResults(data) {
     : `What do you want to work on? I can help with timing, test day, or a difficult question type.`;
   addMessage('assistant', opener);
 }
+
+// ---------- calendar file ----------
+
+const DAY_INDEX = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+
+// Puts each task on the date with its weekday, inside its week. Week 1 starts on the next Monday.
+function planEvents(weeks, start) {
+  const events = [];
+  weeks.forEach((w, i) => {
+    for (const t of w.tasks || []) {
+      const target = DAY_INDEX[t.day];
+      if (target === undefined) continue;
+      for (let offset = 0; offset < 7; offset++) {
+        const date = new Date(start);
+        date.setDate(start.getDate() + i * 7 + offset);
+        if (date.getDay() === target) { events.push({ date, week: w, task: t.task }); break; }
+      }
+    }
+  });
+  return events;
+}
+
+// The .ics format needs commas, semicolons and backslashes escaped, and lines folded at 75 characters.
+function icsText(value) {
+  return String(value).replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\r?\n/g, '\\n');
+}
+function icsFold(line) {
+  const parts = [];
+  while (line.length > 74) { parts.push(line.slice(0, 74)); line = ' ' + line.slice(74); }
+  parts.push(line);
+  return parts.join('\r\n');
+}
+const icsDate = (d) => `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`;
+
+// The next Monday after today, so the tasks happen in the order of the plan.
+function planStart() {
+  const start = new Date();
+  start.setHours(0, 0, 0, 0);
+  start.setDate(start.getDate() + (((8 - start.getDay()) % 7) || 7));
+  return start;
+}
+
+function buildCalendar(weeks) {
+  const start = planStart();
+  const stamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d+/, '');
+  const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//LSAT Compass//Study Plan//EN', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH', 'X-WR-CALNAME:LSAT study plan'];
+  planEvents(weeks, start).forEach((e, n) => {
+    const end = new Date(e.date);
+    end.setDate(end.getDate() + 1);
+    lines.push(
+      'BEGIN:VEVENT',
+      `UID:${stamp}-${n}@lsatcompass.com`,
+      `DTSTAMP:${stamp}`,
+      `DTSTART;VALUE=DATE:${icsDate(e.date)}`,
+      `DTEND;VALUE=DATE:${icsDate(end)}`,
+      icsFold(`SUMMARY:${icsText('LSAT: ' + e.task)}`),
+      icsFold(`DESCRIPTION:${icsText(`Week ${e.week.week}: ${e.week.title}. ${e.week.focus || ''}`.trim())}`),
+      'TRANSP:TRANSPARENT',
+      'END:VEVENT',
+    );
+  });
+  lines.push('END:VCALENDAR');
+  return lines.join('\r\n') + '\r\n';
+}
+
+$('calendar-btn').addEventListener('click', () => {
+  const blob = new Blob([buildCalendar(state.weeks || [])], { type: 'text/calendar;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'lsat-study-plan.ics';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+});
 
 // ---------- resource library ----------
 
@@ -825,9 +935,9 @@ function priceLabel(r) {
   return /month/i.test(r.price_note) ? `$${r.price_usd}/mo` : `$${r.price_usd.toLocaleString()}`;
 }
 
-function resourceCard(r, why, isPick) {
+function resourceCard(r, why) {
   const free = r.cost !== 'paid';
-  return `<a class="resource${isPick ? ' pick' : ''}" href="${escapeHtml(r.url)}" target="_blank" rel="noopener" title="${escapeHtml(r.price_note)}">
+  return `<a class="resource" href="${escapeHtml(r.url)}" target="_blank" rel="noopener" title="${escapeHtml(r.price_note)}">
     <div class="resource-top">
       <span class="resource-name">${escapeHtml(r.name)}</span>
       <span class="resource-price${free ? ' free' : ''}">${escapeHtml(priceLabel(r))}</span>

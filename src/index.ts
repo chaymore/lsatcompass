@@ -54,7 +54,7 @@ async function plan(request: Request, env: Env): Promise<Response> {
   const allowedIds = new Set(resources.map((r) => r.id));
   return json({
     diagnosis: noDashes(cleanText(parsed.diagnosis, 2500)),
-    weeks: cleanWeeks(parsed.weeks, planWeeks(profile)),
+    weeks: cleanWeeks(parsed.weeks, planWeeks(profile), profile.days),
     picks: cleanPicks(parsed.picks, allowedIds),
   });
 }
@@ -132,6 +132,15 @@ function int(value: unknown, min: number, max: number): number | null {
   return typeof n === 'number' && Number.isInteger(n) && n >= min && n <= max ? n : null;
 }
 
+export const WEEK_DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+// "monday", "MON" and "Mon." all become "Mon". Anything else becomes "".
+export function normalizeDay(value: unknown): string {
+  if (typeof value !== 'string') return '';
+  const short = value.trim().slice(0, 3).toLowerCase();
+  return WEEK_DAYS.find((d) => d.toLowerCase() === short) ?? '';
+}
+
 export function validateProfile(value: unknown): Profile {
   const p = (value && typeof value === 'object' ? value : {}) as Record<string, unknown>;
   const scaledScore = int(p.scaledScore, 120, 180);
@@ -142,6 +151,8 @@ export function validateProfile(value: unknown): Profile {
   if (targetScore === null) throw new BadRequest('Enter a target score from 120 to 180.');
   if (timeline === null) throw new BadRequest('Select the time until your test.');
   if (hours === null) throw new BadRequest('Select your study hours each week.');
+  const days = Array.isArray(p.days) ? WEEK_DAYS.filter((d) => (p.days as unknown[]).map(normalizeDay).includes(d)) : [];
+  if (!days.length) throw new BadRequest('Select the days you can study.');
   return {
     scaledScore,
     targetScore,
@@ -149,6 +160,7 @@ export function validateProfile(value: unknown): Profile {
     rcScore: int(p.rcScore, 0, 27),
     timeline,
     hours,
+    days,
     concern: cleanText(p.concern, 400),
   };
 }
@@ -172,7 +184,7 @@ function cleanHistory(value: unknown): ChatMessage[] {
 
 // ---------- output checks (never trust the model's JSON blindly) ----------
 
-function cleanWeeks(value: unknown, maxWeeks: number): StudyWeek[] {
+function cleanWeeks(value: unknown, maxWeeks: number, studyDays: string[]): StudyWeek[] {
   if (!Array.isArray(value)) return [];
   return value.slice(0, maxWeeks).map((w, i) => {
     const week = (w && typeof w === 'object' ? w : {}) as Record<string, unknown>;
@@ -183,8 +195,9 @@ function cleanWeeks(value: unknown, maxWeeks: number): StudyWeek[] {
       focus: noDashes(cleanText(week.focus, 60)),
       tasks: tasks.slice(0, 7).map((t) => {
         const task = (t && typeof t === 'object' ? t : {}) as Record<string, unknown>;
-        return { day: cleanText(task.day, 12), task: noDashes(cleanText(task.task, 200)) };
-      }).filter((t) => t.task),
+        return { day: normalizeDay(task.day), task: noDashes(cleanText(task.task, 200)) };
+      }).filter((t) => t.task && studyDays.includes(t.day))
+        .sort((a, b) => WEEK_DAYS.indexOf(a.day) - WEEK_DAYS.indexOf(b.day)),
     };
   });
 }

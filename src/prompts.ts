@@ -44,7 +44,7 @@ Reply with ONLY a JSON object, no markdown, in exactly this shape:
 
 Rules:
 - diagnosis: 1-2 short paragraphs of plain prose, speaking to the student as "you". Be direct about whether the target is realistic for the timeline and weekly hours, and name the single most important first focus.
-- weeks: one entry per week. 3-5 tasks per week that fit the weekly hours. Each task under 15 words, specific and actionable, and names a resource when relevant.
+- weeks: one entry per week. Give exactly one task for each of the student's study days, and no tasks on other days. Write the day as Mon, Tue, Wed, Thu, Fri, Sat or Sun. Size each task to fit the weekly hours split across those days. Each task under 15 words, specific and actionable, and names a resource when relevant.
 - picks: the 4-6 most useful resources for this student, each with a one-sentence reason tied to their profile.`;
 
 export function planPrompt(profile: Profile, resources: Resource[]): string {
@@ -59,6 +59,7 @@ export function planPrompt(profile: Profile, resources: Resource[]): string {
 - Target score: ${profile.targetScore} (${profile.targetScore - profile.scaledScore} points)
 - Months until test: ${profile.timeline}
 - Study hours per week: about ${profile.hours}
+- Study days: ${profile.days.join(', ')} (${profile.days.length} days a week, about ${Math.max(0.5, Math.round((profile.hours / profile.days.length) * 2) / 2)} hours each)
 - ${sections.length ? sections.join('\n- ') : 'No section breakdown given'}
 - Biggest concern: ${profile.concern || 'none given'}
 
