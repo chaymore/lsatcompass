@@ -423,10 +423,10 @@
 
   <!-- 1. Have a score? -->
   <section class="step active" id="step-start" aria-labelledby="h-start">
-    <h2 id="h-start">Did you take a practice test?</h2>
+    <h2 id="h-start">Have you taken a practice test?</h2>
     <div class="choices">
       <button class="choice" type="button" data-go="step-score">
-        <div><strong>Yes</strong><span>I have a scaled score.</span></div>
+        <div><strong>Yes</strong><span>I have a score.</span></div>
       </button>
       <button class="choice" type="button" data-go="step-lawhub">
         <div><strong>No</strong><span>Show me a free official test.</span></div>
@@ -437,14 +437,14 @@
   <!-- 1b. Take a test first -->
   <section class="step" id="step-lawhub" aria-labelledby="h-lawhub">
     <h2 id="h-lawhub">Take a free official test</h2>
-    <p>LSAC writes the LSAT. LSAC gives you 4 free past tests on LawHub. Take one test to get your starting score.</p>
+    <p>LSAC writes the LSAT, and they offer 4 free past tests on LawHub. Take one test to get your starting score.</p>
     <div class="panel">
       <ol class="numbered">
         <li>Make a free account at lawhub.org.</li>
         <li>Open the LSAT Prep library.</li>
         <li>Select a free PrepTest.</li>
-        <li>Take the full test in one session, with the timer on.</li>
-        <li>Write down your scaled score and the number correct in each section.</li>
+        <li>Take a full timed test</li>
+        <li>Write down your overall score and the number correct in each graded section.</li>
         <li>Come back here and enter your score.</li>
       </ol>
     </div>
@@ -460,7 +460,7 @@
     <p>Use your most recent full practice test.</p>
     <form class="panel" id="score-form" novalidate>
       <div class="field">
-        <label for="scaledScore">Scaled score</label>
+        <label for="scaledScore">Score</label>
         <input class="big-input" type="number" id="scaledScore" inputmode="numeric" min="120" max="180" placeholder="152" required />
         <p class="hint">Enter a number from 120 to 180.</p>
       </div>
@@ -494,7 +494,7 @@
   <!-- 3. Goals -->
   <section class="step" id="step-goals" aria-labelledby="h-goals">
     <h2 id="h-goals">Set your goal</h2>
-    <p>Choose a schedule that you can keep every week.</p>
+    <p>Choose a schedule that's realistic.</p>
     <form class="panel" id="goals-form" novalidate>
       <div class="row">
         <div class="field">
@@ -744,7 +744,7 @@ function renderResults(data) {
   const months = state.timeline === 1 ? '1 month' : `${state.timeline} months`;
   $('out-gap').textContent = gap > 0
     ? `You need ${gap} more points. You have ${months} and about ${state.hours} hours each week.`
-    : `Your score is at your target. This plan helps you keep that score on test day.`;
+    : `Your score is at your target. This plan helps you maintain or improve that score up till test day.`;
 
   const sections = [
     { name: 'Logical Reasoning', score: state.lrScore, max: 52 },
