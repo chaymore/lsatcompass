@@ -3,10 +3,15 @@
 //
 //   POST /api/plan       profile -> diagnosis, weekly plan and picked resources (RAG)
 //   POST /api/chat       follow-up question -> tutor answer (RAG)
+//   POST /api/calendar   weekly plan -> a calendar URL students can subscribe to
+//   GET  /api/calendar/<id>.ics   that calendar (add ?download=1 to download it)
+//   POST /api/contact    "work with Caleb" form -> saved, then emailed to Caleb
 //   GET  /api/resources  the full researched resource library
 //   GET  /api/health     quick check that the worker is up
 
 import catalogFile from '../data/resources.json' with { type: 'json' };
+import { WEEK_DAYS, buildIcs, loadCalendar, saveCalendar, validStart } from './calendar.ts';
+import { deliverContact } from './contact.ts';
 import { complete, parseJsonObject } from './openrouter.ts';
 import { searchResources } from './pinecone.ts';
 import { CHAT_SYSTEM, PLAN_SYSTEM, chatContext, planPrompt, planWeeks, retrievalQuery } from './prompts.ts';
@@ -21,6 +26,10 @@ export default {
     try {
       if (url.pathname === '/api/plan' && request.method === 'POST') return await plan(request, env);
       if (url.pathname === '/api/chat' && request.method === 'POST') return await chat(request, env);
+      if (url.pathname === '/api/calendar' && request.method === 'POST') return await createCalendar(request, env, url);
+      const cal = url.pathname.match(/^\/api\/calendar\/([a-f0-9]{32})\.ics$/);
+      if (cal && request.method === 'GET') return await getCalendar(env, cal[1], url.searchParams.has('download'));
+      if (url.pathname === '/api/contact' && request.method === 'POST') return await contact(request, env);
       if (url.pathname === '/api/resources' && request.method === 'GET') {
         return json({ researched: catalogFile.researched, resources: catalog }, 200, { 'cache-control': 'public, max-age=3600' });
       }
@@ -81,6 +90,44 @@ async function chat(request: Request, env: Env): Promise<Response> {
   return json({ text: noDashes(reply) || 'I could not write an answer. Ask the question in a different way.' });
 }
 
+async function createCalendar(request: Request, env: Env, url: URL): Promise<Response> {
+  if (!(await allowed(env.FORM_LIMITER, request))) return json({ error: 'Please wait 1 minute, then try again.' }, 429);
+  const body = await readJson(request);
+  const start = validStart(body.start);
+  if (!start) throw new BadRequest('That start date does not work. Reload the page and try again.');
+  const weeks = cleanWeeks(body.weeks, 8, WEEK_DAYS);
+  if (!weeks.some((w) => w.tasks.length)) throw new BadRequest('Your plan has no tasks to add.');
+  const id = await saveCalendar(env, { start, weeks });
+  return json({ id, url: `${url.origin}/api/calendar/${id}.ics` });
+}
+
+async function getCalendar(env: Env, id: string, download: boolean): Promise<Response> {
+  const calendar = await loadCalendar(env, id);
+  if (!calendar) return new Response('Calendar not found', { status: 404 });
+  return new Response(buildIcs(id, calendar), {
+    headers: {
+      'content-type': 'text/calendar; charset=utf-8',
+      'cache-control': 'public, max-age=3600',
+      ...(download ? { 'content-disposition': 'attachment; filename="lsat-study-plan.ics"' } : {}),
+    },
+  });
+}
+
+async function contact(request: Request, env: Env): Promise<Response> {
+  if (!(await allowed(env.FORM_LIMITER, request))) return json({ error: 'Please wait 1 minute, then try again.' }, 429);
+  const body = await readJson(request);
+  // Bots fill in every field, including this hidden one. People never see it.
+  if (cleanText(body.website, 200)) return json({ ok: true });
+  const name = cleanText(body.name, 100);
+  const email = cleanText(body.email, 200);
+  const message = cleanText(body.message, 3000);
+  if (!name) throw new BadRequest('Please add your name.');
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new BadRequest('Please add an email address I can reply to.');
+  if (!message) throw new BadRequest('Please add a short message.');
+  await deliverContact(env, { name, email, score: cleanText(body.score, 20), message });
+  return json({ ok: true });
+}
+
 // Searches Pinecone. If Pinecone is down or not set up yet, falls back to a simple
 // keyword match over the bundled library so the site keeps working.
 export async function retrieve(query: string, env: Env, topK: number): Promise<Resource[]> {
@@ -132,7 +179,7 @@ function int(value: unknown, min: number, max: number): number | null {
   return typeof n === 'number' && Number.isInteger(n) && n >= min && n <= max ? n : null;
 }
 
-export const WEEK_DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+export { WEEK_DAYS };
 
 // "monday", "MON" and "Mon." all become "Mon". Anything else becomes "".
 export function normalizeDay(value: unknown): string {

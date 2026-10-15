@@ -14,6 +14,11 @@ export interface Env {
   // Rate limiters (optional so local tests can run without them)
   PLAN_LIMITER?: RateLimit;
   CHAT_LIMITER?: RateLimit;
+  FORM_LIMITER?: RateLimit;
+  // Saved calendars and a backup of every contact message
+  DATA: KVNamespace;
+  // Emails contact messages to Caleb. Optional: messages are still saved without it.
+  CONTACT_EMAIL?: { send(message: unknown): Promise<unknown> };
 }
 
 export interface Resource {

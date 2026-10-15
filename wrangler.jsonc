@@ -24,7 +24,16 @@
   // Limits per visitor IP, so nobody can run up the OpenRouter bill.
   "ratelimits": [
     { "name": "PLAN_LIMITER", "namespace_id": "4101", "simple": { "limit": 4, "period": 60 } },
-    { "name": "CHAT_LIMITER", "namespace_id": "4102", "simple": { "limit": 12, "period": 60 } }
+    { "name": "CHAT_LIMITER", "namespace_id": "4102", "simple": { "limit": 12, "period": 60 } },
+    { "name": "FORM_LIMITER", "namespace_id": "4103", "simple": { "limit": 5, "period": 60 } }
+  ],
+  // Saved calendar plans and a backup copy of every contact message.
+  "kv_namespaces": [
+    { "binding": "DATA", "id": "fff41437cfbe40f19ca478561dad9ee0" }
+  ],
+  // Contact form emails. Needs Email Routing on lsatcompass.com with this address verified (see README).
+  "send_email": [
+    { "name": "CONTACT_EMAIL", "destination_address": "calebhaymore@gmail.com" }
   ],
   // Cloudflare creates the DNS records and HTTPS certificates for these automatically.
   "routes": [

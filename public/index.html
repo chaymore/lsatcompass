@@ -8,7 +8,7 @@
   <meta property="og:title" content="LSAT Compass" />
   <meta property="og:description" content="Get a free LSAT study plan. It uses your practice test score, your target score and your schedule." />
   <meta name="theme-color" content="#f5f0e8" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%230f0e0c'/%3E%3Cpolygon points='16,5 18.5,16 16,15 13.5,16' fill='%23c9a84c'/%3E%3Cpolygon points='16,27 13.5,16 16,17 18.5,16' fill='%23f5f0e8'/%3E%3C/svg%3E" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%230f0e0c'/%3E%3Cpolygon points='16,3 19.6,16 16,14.6 12.4,16' fill='%23c9a84c'/%3E%3Cpolygon points='16,29 12.4,16 16,17.4 19.6,16' fill='%23f5f0e8'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -382,6 +382,41 @@
     .chat-form input { flex: 1; min-width: 0; border-radius: 999px; }
     .chat-form .btn { padding: 10px 18px; }
 
+    /* Result tabs */
+    .tabs { display: flex; gap: 4px; margin-top: 40px; border-bottom: 1px solid var(--line); overflow-x: auto; scrollbar-width: none; }
+    .tabs button { flex: 0 0 auto; padding: 12px 12px; background: none; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; color: var(--muted); font-weight: 500; }
+    .tabs button[aria-selected=true] { color: var(--ink); border-bottom-color: var(--ink); }
+    .tab-panel { padding-top: 28px; animation: rise 0.25s ease both; }
+    .tab-panel h2.spaced { margin-top: 40px; }
+    .tab-panel .sub { margin-top: 8px; color: var(--ink-soft); }
+    .calendar-box { margin-top: 32px; padding: 20px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+    .calendar-box h3 { font-size: 1.05rem; font-weight: 600; }
+    .cal-buttons { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 16px; }
+    .cal-buttons .btn { padding: 10px 16px; font-size: 0.95rem; }
+
+    /* Caleb */
+    .author { display: flex; align-items: center; gap: 16px; }
+    .author img { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; object-position: 50% 22%; flex: none; background: var(--cream); }
+    .author-line { margin-top: 6px; color: var(--ink-soft); }
+    .video { margin-top: 24px; aspect-ratio: 16 / 9; border-radius: var(--radius); overflow: hidden; background: var(--cream); }
+    .video iframe { width: 100%; height: 100%; border: 0; }
+    .method { list-style: none; counter-reset: m; display: grid; gap: 14px; margin-top: 20px; max-width: 62ch; }
+    .method li { counter-increment: m; display: grid; grid-template-columns: 28px 1fr; gap: 10px; color: var(--ink-soft); }
+    .method li::before { content: counter(m); font-family: var(--mono); color: var(--gold-deep); }
+    .method strong { color: var(--ink); font-weight: 600; }
+
+    /* Journal */
+    .journal { margin-top: 20px; overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+    .journal table { border-collapse: collapse; min-width: 760px; font-size: 0.875rem; }
+    .journal th, .journal td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+    .journal th { font-weight: 600; background: var(--cream); white-space: nowrap; }
+    .journal td { color: var(--ink-soft); }
+    .journal tr:last-child td { border-bottom: 0; }
+
+    /* Contact */
+    .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+    .sent { margin-top: 20px; padding: 16px 18px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+
     .fineprint { margin-top: 48px; font-size: 0.85rem; color: var(--muted); }
 
     @media (max-width: 520px) {
@@ -394,6 +429,7 @@
       .segmented.days button { font-size: 0.8rem; padding: 10px 0; }
       .week summary { grid-template-columns: 56px 1fr auto; }
       .tasks { padding-left: 0; }
+      .tabs button { padding: 12px 8px; font-size: 0.925rem; }
     }
   </style>
 </head>
@@ -403,8 +439,8 @@
   <a class="brand" href="/" aria-label="LSAT Compass home">
     <svg viewBox="0 0 32 32" aria-hidden="true">
       <circle cx="16" cy="16" r="15" fill="#0f0e0c" />
-      <polygon points="16,5 18.5,16 16,15 13.5,16" fill="#c9a84c" />
-      <polygon points="16,27 13.5,16 16,17 18.5,16" fill="#f5f0e8" />
+      <polygon points="16,3 19.6,16 16,14.6 12.4,16" fill="#c9a84c" />
+      <polygon points="16,29 12.4,16 16,17.4 19.6,16" fill="#f5f0e8" />
     </svg>
     LSAT Compass
   </a>
@@ -571,30 +607,42 @@
       <div class="bars" id="out-bars"></div>
     </div>
 
-    <div class="section">
-      <h2>Where you stand</h2>
+    <div class="tabs" role="tablist" aria-label="Your results" id="result-tabs">
+      <button type="button" role="tab" id="t-plan" aria-controls="tab-plan" aria-selected="true">Your plan</button>
+      <button type="button" role="tab" id="t-picks" aria-controls="tab-picks" aria-selected="false" tabindex="-1">Picked for you</button>
+      <button type="button" role="tab" id="t-all" aria-controls="tab-all" aria-selected="false" tabindex="-1">All resources</button>
+    </div>
+
+    <div class="tab-panel" id="tab-plan" role="tabpanel" aria-labelledby="t-plan">
+      <h2>Your starting point</h2>
       <div class="prose" id="out-diagnosis"></div>
-    </div>
 
-    <div class="section">
-      <h2>Your weekly plan</h2>
-      <p>Select a week to see the tasks for each day.</p>
+      <h2 class="spaced">Your weekly plan</h2>
+      <p class="sub">Tap a week to see what to do each day.</p>
       <div class="weeks" id="out-weeks"></div>
-      <div class="actions" id="calendar-actions" hidden>
-        <button class="btn secondary" type="button" id="calendar-btn">Add to calendar</button>
+
+      <div id="calendar-box" class="calendar-box" hidden>
+        <h3>Add it to your calendar</h3>
+        <p class="sub">Each study day shows up as its own event, starting <span id="calendar-start"></span>.</p>
+        <div class="cal-buttons">
+          <button class="btn secondary" type="button" data-cal="google">Google Calendar</button>
+          <button class="btn secondary" type="button" data-cal="apple">Apple Calendar</button>
+          <button class="btn secondary" type="button" data-cal="outlook">Outlook</button>
+          <button class="link-btn" type="button" data-cal="download">Download the file</button>
+        </div>
+        <p class="error" id="calendar-error" role="alert"></p>
       </div>
-      <p class="hint" id="calendar-hint" hidden>Download a calendar file with one event for each task. Your plan starts on <span id="calendar-start"></span>. Open the file in Apple Calendar or Outlook, or import it into Google Calendar.</p>
     </div>
 
-    <div class="section" id="picks-section" hidden>
-      <h2>Start with these resources</h2>
-      <p>We selected these for your score, goal and schedule.</p>
+    <div class="tab-panel" id="tab-picks" role="tabpanel" aria-labelledby="t-picks" hidden>
+      <h2>Picked for you</h2>
+      <p class="sub">These fit your score, your goal and your schedule. Start here.</p>
       <div class="resource-list" id="out-picks"></div>
     </div>
 
-    <div class="section">
+    <div class="tab-panel" id="tab-all" role="tabpanel" aria-labelledby="t-all" hidden>
       <h2>All resources</h2>
-      <p>Prices change. Check each website before you pay.</p>
+      <p class="sub">Everything we've found, free and paid. Prices change, so double-check before you buy.</p>
       <div class="filters">
         <div class="chips" id="category-chips" role="group" aria-label="Category">
           <button class="chip" type="button" data-category="all" aria-pressed="true">All</button>
@@ -617,14 +665,84 @@
 
     <div class="section">
       <h2>Ask a question</h2>
-      <p>Ask about a section, a resource, or your schedule.</p>
+      <p>Stuck on a question? Paste it in with the answer you picked, and I'll walk you through where it went wrong. You can also ask about your plan or any resource.</p>
       <div class="chat">
         <div class="messages" id="messages" aria-live="polite"></div>
         <form class="chat-form" id="chat-form">
-          <input type="text" id="chat-input" placeholder="Example: How do I read faster in Reading Comprehension?" aria-label="Your question" maxlength="800" autocomplete="off" />
+          <input type="text" id="chat-input" placeholder="Example: I picked B on a flaw question. Why is D right?" aria-label="Your question" maxlength="800" autocomplete="off" />
           <button class="btn" type="submit">Send</button>
         </form>
       </div>
+    </div>
+
+    <div class="section">
+      <div class="author">
+        <img src="/caleb.jpg" alt="Caleb Haymore" width="72" height="72" />
+        <div>
+          <h2>How I'd study for the LSAT</h2>
+          <p class="author-line">Hi, I'm Caleb. I scored a 180 on the LSAT, and I built LSAT Compass to share what worked for me.</p>
+        </div>
+      </div>
+      <div class="video" id="caleb-video" hidden></div>
+      <div class="prose">
+        <p>The LSAT isn't really a test of what you know. It tests whether your brain spots the pattern in each question and thinks about it the right way. The good news is that you can train that, and the training is simple.</p>
+      </div>
+      <ol class="method">
+        <li><span><strong>Take practice tests and drill questions.</strong> Every miss shows you a pattern you don't see yet.</span></li>
+        <li><span><strong>Figure out exactly why you missed it.</strong> Ask AI to explain the right answer and where your thinking went wrong. It's good enough now that you don't need a tutor or hours of videos for this.</span></li>
+        <li><span><strong>Write it down in a wrong answer journal.</strong> Seeing your misses in one place shows you which mistakes keep coming back.</span></li>
+        <li><span><strong>Go after your weak spots.</strong> Drill your weakest question types until they stop being weak. Then find the next one.</span></li>
+        <li><span><strong>Stay consistent.</strong> A little bit most days beats a big cram once a week.</span></li>
+      </ol>
+      <div class="prose">
+        <p>Repeat that loop, and the right way of thinking becomes automatic. That's when your score really moves.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Your wrong answer journal</h2>
+      <p>Log every question you miss, and every one you guessed on. Review it once a week. You'll see the same few mistakes come up again and again, and those are exactly what to work on.</p>
+      <div class="journal" role="region" aria-label="Wrong answer journal example" tabindex="0">
+        <table>
+          <thead><tr><th>Date</th><th>Test and question</th><th>Question type</th><th>My answer</th><th>Right answer</th><th>Why I missed it</th><th>What to look for next time</th></tr></thead>
+          <tbody><tr><td>Oct 12</td><td>PT 141, LR 1, Q14</td><td>Flaw</td><td>B</td><td>D</td><td>I picked an answer that described the argument instead of its mistake.</td><td>Name the flaw in my own words before I read the answers.</td></tr></tbody>
+        </table>
+      </div>
+      <div class="actions">
+        <button class="btn" type="button" id="journal-btn">Download the template</button>
+      </div>
+      <p class="hint">Opens in Google Sheets, Excel or Numbers. Stuck on why you missed one? Paste it into the chat above.</p>
+    </div>
+
+    <div class="section" id="coach">
+      <h2>Want a coach?</h2>
+      <p>Most people can do this on their own with the steps above. If you'd like someone in your corner to review your misses with you and keep you on track, I also coach a small number of students. Send me a note and I'll get back to you.</p>
+      <form class="panel" id="contact-form" novalidate>
+        <div class="row">
+          <div class="field">
+            <label for="c-name">Your name</label>
+            <input type="text" id="c-name" autocomplete="name" maxlength="100" required />
+          </div>
+          <div class="field">
+            <label for="c-email">Your email</label>
+            <input type="text" id="c-email" inputmode="email" autocomplete="email" maxlength="200" required />
+          </div>
+        </div>
+        <div class="field">
+          <label for="c-score">Your current practice score <span class="optional">(optional)</span></label>
+          <input type="number" id="c-score" inputmode="numeric" min="120" max="180" />
+        </div>
+        <div class="field">
+          <label for="c-message">What would you like help with?</label>
+          <textarea id="c-message" rows="4" maxlength="3000" required></textarea>
+        </div>
+        <div class="hp" aria-hidden="true"><label for="c-website">Website</label><input type="text" id="c-website" tabindex="-1" autocomplete="off" /></div>
+        <p class="error" id="contact-error" role="alert"></p>
+        <div class="actions">
+          <button class="btn" type="submit" id="contact-btn">Send to Caleb</button>
+        </div>
+      </form>
+      <p class="sent" id="contact-sent" hidden>Thanks! Your message is on its way. I'll reply by email soon.</p>
     </div>
 
     <p class="fineprint">LSAT Compass is not part of LSAC.</p>
@@ -773,7 +891,7 @@ function renderResults(data) {
   $('out-target').textContent = state.targetScore;
   const months = state.timeline === 1 ? '1 month' : `${state.timeline} months`;
   $('out-gap').textContent = gap > 0
-    ? `You need ${gap} more points. You have ${months} and about ${state.hours} hours each week.`
+    ? `You're ${gap} points from your goal, with ${months} to get there. Here's your plan.`
     : `Your score is at your target. This plan helps you maintain or improve that score up till test day.`;
 
   const sections = [
@@ -795,7 +913,7 @@ function renderResults(data) {
   const paragraphs = String(data.diagnosis || '').split(/\n\s*\n/).filter(Boolean);
   $('out-diagnosis').innerHTML = paragraphs.length
     ? paragraphs.map(p => `<p>${escapeHtml(p)}</p>`).join('')
-    : '<p>We could not write a summary. Your plan is below.</p>';
+    : "<p>We couldn't write your summary this time, but your weekly plan is below.</p>";
 
   const weeks = data.weeks || [];
   $('out-weeks').innerHTML = weeks.length
@@ -809,56 +927,52 @@ function renderResults(data) {
           ${(w.tasks || []).map(t => `<li><span class="day">${escapeHtml(t.day)}</span><span>${escapeHtml(t.task)}</span></li>`).join('')}
         </ul>
       </details>`).join('')
-    : '<p class="empty">We could not make the weekly plan. Try again, or ask a question below.</p>';
+    : '<p class="empty">We couldn\'t build your weekly plan this time. Try again, or ask a question below.</p>';
 
   state.weeks = weeks;
-  $('calendar-actions').hidden = $('calendar-hint').hidden = weeks.length === 0;
+  calendarLink = null;
+  $('calendar-box').hidden = !weeks.some(w => (w.tasks || []).length);
   $('calendar-start').textContent = planStart().toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
 
   const picks = data.picks || [];
-  $('picks-section').hidden = picks.length === 0;
-  $('out-picks').innerHTML = picks.map(p => resourceCard(p.resource, p.why)).join('');
+  $('out-picks').innerHTML = picks.length
+    ? picks.map(p => resourceCard(p.resource, p.why)).join('')
+    : '<p class="empty">No picks this time. Browse all resources, or ask a question below.</p>';
+  selectTab('t-plan', false);
+  if (state.scaledScore) $('c-score').value = state.scaledScore;
 
   renderLibrary();
 
   const opener = gap > 0
-    ? `Do you want to change this plan? I can change it for your schedule, explain a section, or compare resources.`
-    : `What do you want to work on? I can help with timing, test day, or a difficult question type.`;
+    ? `Hey! Want to change anything about your plan? I can work around your schedule, dig into a section, or walk you through a question you missed.`
+    : `Hey! What do you want to work on? I can help with timing, test day, or a question type that keeps tripping you up.`;
   addMessage('assistant', opener);
 }
 
-// ---------- calendar file ----------
+// ---------- tabs ----------
 
-const DAY_INDEX = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
-
-// Puts each task on the date with its weekday, inside its week. Week 1 starts on the next Monday.
-function planEvents(weeks, start) {
-  const events = [];
-  weeks.forEach((w, i) => {
-    for (const t of w.tasks || []) {
-      const target = DAY_INDEX[t.day];
-      if (target === undefined) continue;
-      for (let offset = 0; offset < 7; offset++) {
-        const date = new Date(start);
-        date.setDate(start.getDate() + i * 7 + offset);
-        if (date.getDay() === target) { events.push({ date, week: w, task: t.task }); break; }
-      }
-    }
+function selectTab(id, focus = true) {
+  document.querySelectorAll('#result-tabs [role=tab]').forEach(tab => {
+    const on = tab.id === id;
+    tab.setAttribute('aria-selected', String(on));
+    tab.tabIndex = on ? 0 : -1;
+    $(tab.getAttribute('aria-controls')).hidden = !on;
+    if (on && focus) tab.focus();
   });
-  return events;
 }
+$('result-tabs').addEventListener('click', (e) => {
+  const tab = e.target.closest('[role=tab]');
+  if (tab) selectTab(tab.id);
+});
+$('result-tabs').addEventListener('keydown', (e) => {
+  if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+  const tabs = [...document.querySelectorAll('#result-tabs [role=tab]')];
+  const i = tabs.indexOf(document.activeElement);
+  if (i === -1) return;
+  selectTab(tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length].id);
+});
 
-// The .ics format needs commas, semicolons and backslashes escaped, and lines folded at 75 characters.
-function icsText(value) {
-  return String(value).replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\r?\n/g, '\\n');
-}
-function icsFold(line) {
-  const parts = [];
-  while (line.length > 74) { parts.push(line.slice(0, 74)); line = ' ' + line.slice(74); }
-  parts.push(line);
-  return parts.join('\r\n');
-}
-const icsDate = (d) => `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`;
+// ---------- calendar links ----------
 
 // The next Monday after today, so the tasks happen in the order of the plan.
 function planStart() {
@@ -867,40 +981,112 @@ function planStart() {
   start.setDate(start.getDate() + (((8 - start.getDay()) % 7) || 7));
   return start;
 }
+const localDate = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 
-function buildCalendar(weeks) {
-  const start = planStart();
-  const stamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d+/, '');
-  const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//LSAT Compass//Study Plan//EN', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH', 'X-WR-CALNAME:LSAT study plan'];
-  planEvents(weeks, start).forEach((e, n) => {
-    const end = new Date(e.date);
-    end.setDate(end.getDate() + 1);
-    lines.push(
-      'BEGIN:VEVENT',
-      `UID:${stamp}-${n}@lsatcompass.com`,
-      `DTSTAMP:${stamp}`,
-      `DTSTART;VALUE=DATE:${icsDate(e.date)}`,
-      `DTEND;VALUE=DATE:${icsDate(end)}`,
-      icsFold(`SUMMARY:${icsText('LSAT: ' + e.task)}`),
-      icsFold(`DESCRIPTION:${icsText(`Week ${e.week.week}: ${e.week.title}. ${e.week.focus || ''}`.trim())}`),
-      'TRANSP:TRANSPARENT',
-      'END:VEVENT',
-    );
-  });
-  lines.push('END:VCALENDAR');
-  return lines.join('\r\n') + '\r\n';
+// The server saves the plan once and returns a calendar URL that calendar apps can subscribe to.
+let calendarLink = null;
+function getCalendarLink() {
+  if (!calendarLink) {
+    calendarLink = fetch('/api/calendar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ start: localDate(planStart()), weeks: state.weeks || [] }),
+    }).then(async (res) => {
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.url) throw new Error(data.error || 'We could not make your calendar. Try again.');
+      return data.url;
+    });
+    calendarLink.catch(() => { calendarLink = null; });
+  }
+  return calendarLink;
 }
 
-$('calendar-btn').addEventListener('click', () => {
-  const blob = new Blob([buildCalendar(state.weeks || [])], { type: 'text/calendar;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
+function calendarDestination(kind, url) {
+  const webcal = url.replace(/^https?:/, 'webcal:');
+  if (kind === 'google') return `https://calendar.google.com/calendar/render?cid=${encodeURIComponent(webcal)}`;
+  if (kind === 'outlook') return `https://outlook.live.com/calendar/0/addfromweb?url=${encodeURIComponent(url)}&name=${encodeURIComponent('LSAT study plan')}`;
+  if (kind === 'apple') return webcal;
+  return `${url}?download=1`;
+}
+
+document.querySelectorAll('[data-cal]').forEach(btn => btn.addEventListener('click', async () => {
+  const kind = btn.dataset.cal;
+  $('calendar-error').textContent = '';
+  // Open the new tab right away, so pop-up blockers allow it, then point it at the calendar.
+  const tab = kind === 'google' || kind === 'outlook' ? window.open('about:blank', '_blank') : null;
+  try {
+    const target = calendarDestination(kind, await getCalendarLink());
+    if (tab) tab.location.href = target; else window.location.href = target;
+  } catch (err) {
+    if (tab) tab.close();
+    $('calendar-error').textContent = err.message;
+  }
+}));
+
+// ---------- wrong answer journal ----------
+
+const JOURNAL = [
+  ['Date', 'Test and question', 'Question type', 'My answer', 'Right answer', 'Why I missed it', 'What to look for next time', 'Reviewed again?'],
+  ['Oct 12', 'PT 141, LR 1, Q14', 'Flaw', 'B', 'D', 'I picked an answer that described the argument instead of its mistake.', 'Name the flaw in my own words before I read the answers.', 'Yes'],
+];
+const csvCell = (v) => /[",\n]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v;
+
+$('journal-btn').addEventListener('click', () => {
+  const csv = JOURNAL.map(row => row.map(csvCell).join(',')).join('\r\n') + '\r\n';
+  const url = URL.createObjectURL(new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' }));
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'lsat-study-plan.ics';
+  a.download = 'lsat-wrong-answer-journal.csv';
   document.body.appendChild(a);
   a.click();
   a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
+});
+
+// ---------- Caleb's video ----------
+
+// Paste a YouTube embed link here (https://www.youtube.com/embed/...) and the video shows up.
+const VIDEO_URL = '';
+if (VIDEO_URL) {
+  const frame = document.createElement('iframe');
+  frame.src = VIDEO_URL;
+  frame.title = 'Caleb on how to study for the LSAT';
+  frame.allow = 'accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen';
+  frame.loading = 'lazy';
+  $('caleb-video').appendChild(frame);
+  $('caleb-video').hidden = false;
+}
+
+// ---------- contact form ----------
+
+$('contact-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const err = $('contact-error');
+  const name = $('c-name').value.trim();
+  const email = $('c-email').value.trim();
+  const message = $('c-message').value.trim();
+  if (!name) { err.textContent = 'Please add your name.'; $('c-name').focus(); return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { err.textContent = 'Please add an email address I can reply to.'; $('c-email').focus(); return; }
+  if (!message) { err.textContent = 'Please add a short message.'; $('c-message').focus(); return; }
+  err.textContent = '';
+  $('contact-btn').disabled = true;
+  $('contact-btn').textContent = 'Sending…';
+  try {
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, message, score: $('c-score').value, website: $('c-website').value }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error || 'Something went wrong. Please try again.');
+    $('contact-form').hidden = true;
+    $('contact-sent').hidden = false;
+  } catch (error) {
+    err.textContent = error.message || 'Something went wrong. Please try again.';
+  } finally {
+    $('contact-btn').disabled = false;
+    $('contact-btn').textContent = 'Send to Caleb';
+  }
 });
 
 // ---------- resource library ----------

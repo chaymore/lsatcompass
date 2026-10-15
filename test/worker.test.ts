@@ -5,14 +5,29 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import worker, { keywordSearch, noDashes, normalizeDay, validateProfile } from '../src/index.ts';
 import catalogFile from '../data/resources.json' with { type: 'json' };
+import { validStart } from '../src/calendar.ts';
 
 const catalog = catalogFile.resources;
 const byId = (id: string) => catalog.find((r) => r.id === id)!;
 
 const profile = { scaledScore: 152, targetScore: 165, lrScore: 30, rcScore: 20, timeline: '3', hours: '15', days: ['Mon', 'Wed', 'Sat'], concern: 'I run out of time' };
 
+// A tiny in-memory stand-in for Cloudflare KV.
+function fakeKv() {
+  const store = new Map<string, string>();
+  return {
+    store,
+    async put(key: string, value: string) { store.set(key, value); },
+    async get(key: string, type?: string) {
+      const v = store.get(key);
+      return v === undefined ? null : type === 'json' ? JSON.parse(v) : v;
+    },
+  };
+}
+
 function makeEnv(overrides: Record<string, unknown> = {}) {
   return {
+    DATA: fakeKv(),
     ASSETS: { fetch: async () => new Response('<html>site</html>', { headers: { 'content-type': 'text/html' } }) },
     OPENROUTER_API_KEY: 'test-openrouter',
     PINECONE_API_KEY: 'test-pinecone',
@@ -205,4 +220,85 @@ test('plan: tasks land only on study days, in weekday order', async () => {
   assert.deepEqual(data.weeks[0].tasks.map((t: any) => t.day), ['Mon', 'Sat']);
   const prompt = calls.find((c) => c.url.includes('openrouter'))!.body.messages[1].content;
   assert.match(prompt, /Study days: Mon, Wed, Sat \(3 days a week, about 5 hours each\)/);
+});
+
+function nextMonday(): string {
+  const d = new Date();
+  d.setUTCDate(d.getUTCDate() + (((8 - d.getUTCDay()) % 7) || 7));
+  return d.toISOString().slice(0, 10);
+}
+
+test('calendar start must be a Monday in the next two weeks', () => {
+  const monday = nextMonday();
+  assert.equal(validStart(monday), monday);
+  const tuesday = new Date(`${monday}T00:00:00Z`);
+  tuesday.setUTCDate(tuesday.getUTCDate() + 1);
+  assert.equal(validStart(tuesday.toISOString().slice(0, 10)), null);
+  assert.equal(validStart('2030-01-07'), null);
+  assert.equal(validStart('2026-02-30'), null);
+  assert.equal(validStart('not a date'), null);
+});
+
+test('calendar: saved plan becomes a subscribable .ics with the right dates', async () => {
+  const env = makeEnv();
+  const start = nextMonday();
+  const weeks = [
+    { week: 1, title: 'Basics', focus: 'LR', tasks: [{ day: 'Mon', task: 'Learn assumption questions, then drill 10' }, { day: 'Sat', task: 'Take PrepTest 141; review every miss' }] },
+    { week: 2, title: 'Timing', focus: 'RC', tasks: [{ day: 'Wed', task: 'Do 2 timed passages' }] },
+  ];
+  const created = await post('/api/calendar', { start, weeks }, env);
+  assert.equal(created.status, 200);
+  assert.match(created.data.url, /^https:\/\/lsatcompass\.com\/api\/calendar\/[a-f0-9]{32}\.ics$/);
+
+  const res = await worker.fetch(new Request(created.data.url), env);
+  assert.equal(res.status, 200);
+  assert.match(res.headers.get('content-type')!, /text\/calendar/);
+  assert.equal(res.headers.get('content-disposition'), null);
+  const ics = await res.text();
+  const dates = [...ics.matchAll(/DTSTART;VALUE=DATE:(\d{8})/g)].map((m) => m[1]);
+  const day = (n: number) => { const d = new Date(`${start}T00:00:00Z`); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10).replace(/-/g, ''); };
+  assert.deepEqual(dates, [day(0), day(5), day(9)], 'Mon and Sat of week 1, Wed of week 2');
+  assert.match(ics, /SUMMARY:LSAT: Learn assumption questions\\, then drill 10/);
+  assert.match(ics, /SUMMARY:LSAT: Take PrepTest 141\\; review every miss/);
+  assert.ok(ics.split('\r\n').every((line) => line.length <= 75));
+
+  const download = await worker.fetch(new Request(created.data.url + '?download=1'), env);
+  assert.match(download.headers.get('content-disposition')!, /attachment/);
+
+  const missing = await worker.fetch(new Request('https://lsatcompass.com/api/calendar/' + 'a'.repeat(32) + '.ics'), env);
+  assert.equal(missing.status, 404);
+});
+
+test('calendar: rejects a bad start date or an empty plan', async () => {
+  const bad = await post('/api/calendar', { start: '2020-01-06', weeks: [{ week: 1, title: 'x', focus: '', tasks: [{ day: 'Mon', task: 'y' }] }] });
+  assert.equal(bad.status, 400);
+  const empty = await post('/api/calendar', { start: nextMonday(), weeks: [] });
+  assert.equal(empty.status, 400);
+});
+
+test('contact: saves the message and emails Caleb with reply-to set', async () => {
+  const sent: any[] = [];
+  const env = makeEnv({ CONTACT_EMAIL: { send: async (m: any) => { sent.push(m); return { messageId: '1' }; } } });
+  const { status, data } = await post('/api/contact', { name: 'Ana', email: 'ana@example.com', score: '158', message: 'I want coaching.' }, env);
+  assert.equal(status, 200);
+  assert.equal(data.ok, true);
+  assert.equal(env.DATA.store.size, 1);
+  assert.equal(sent[0].to, 'calebhaymore@gmail.com');
+  assert.deepEqual(sent[0].replyTo, { email: 'ana@example.com', name: 'Ana' });
+  assert.match(sent[0].text, /Current practice score: 158/);
+});
+
+test('contact: still succeeds when email fails, and ignores bots', async () => {
+  const env = makeEnv({ CONTACT_EMAIL: { send: async () => { throw new Error('not verified'); } } });
+  const ok = await post('/api/contact', { name: 'Ana', email: 'ana@example.com', message: 'Hi' }, env);
+  assert.equal(ok.status, 200);
+  assert.equal(env.DATA.store.size, 1, 'saved even though email failed');
+
+  const botEnv = makeEnv();
+  const bot = await post('/api/contact', { name: 'x', email: 'x@x.co', message: 'spam', website: 'http://spam' }, botEnv);
+  assert.equal(bot.status, 200);
+  assert.equal(botEnv.DATA.store.size, 0);
+
+  const bad = await post('/api/contact', { name: 'Ana', email: 'not-an-email', message: 'Hi' });
+  assert.equal(bad.status, 400);
 });

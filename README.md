@@ -46,6 +46,24 @@ Then:
 1. Buy the domain in Cloudflare (Domain Registration → Register Domains), or if you already own it elsewhere, add it as a site in Cloudflare and switch its nameservers.
 2. The `routes` block at the bottom of `wrangler.jsonc` points lsatcompass.com and www.lsatcompass.com at the worker. Cloudflare creates the DNS records and HTTPS certificates on the next deploy. If a deploy fails with a DNS conflict, delete any existing `A`, `AAAA` or `CNAME` records for those names in Cloudflare's DNS page, then re-run the deploy.
 
+## Contact form email (one-time setup)
+
+The "Want a coach?" form saves every message in the `lsat-compass-data` KV namespace (keys start with `contact:`), then emails it to calebhaymore@gmail.com.
+
+1. In the Cloudflare dashboard, open **lsatcompass.com** → **Email** → **Email Routing**, and select **Enable Email Routing**. Let it add its DNS records.
+2. Under **Destination addresses**, add calebhaymore@gmail.com. Open the verification email in Gmail and select the link.
+3. Push any change to `main`, or re-run the deploy. New form messages now arrive by email. The sender is contact@lsatcompass.com, and **Reply** goes to the student.
+
+Until then, messages are still saved. To read them: Cloudflare dashboard → **Storage & databases** → **KV** → `lsat-compass-data`.
+
+## Calendar links
+
+**Add it to your calendar** saves the plan in KV (keys start with `cal:`, kept for about a year) and gives it a URL like `/api/calendar/<id>.ics`. Google Calendar, Apple Calendar and Outlook subscribe to that URL in one click. **Download the file** returns the same calendar as a file.
+
+## Caleb's video
+
+Set `VIDEO_URL` near the bottom of `public/index.html` to a YouTube embed link (`https://www.youtube.com/embed/...`). The video then shows in the "How I'd study for the LSAT" section.
+
 ## Changing things
 
 - **Model**: edit `OPENROUTER_MODEL` in `wrangler.jsonc` (any OpenRouter model ID). `OPENROUTER_FALLBACK_MODEL` is used automatically if the first one fails.
