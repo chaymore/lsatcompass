@@ -413,6 +413,13 @@
     .journal td { color: var(--ink-soft); }
     .journal tr:last-child td { border-bottom: 0; }
 
+    .journal-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+    .journal-option { display: block; padding: 16px 18px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); text-decoration: none; transition: border-color 0.15s; }
+    .journal-option:hover { border-color: var(--ink); }
+    .journal-option strong { display: block; font-weight: 600; }
+    .journal-option span { display: block; margin-top: 4px; font-size: 0.9rem; color: var(--ink-soft); }
+    @media (max-width: 520px) { .journal-options { grid-template-columns: 1fr; } }
+
     /* Contact */
     .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
     .sent { margin-top: 20px; padding: 16px 18px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
@@ -708,10 +715,18 @@
           <tbody><tr><td>Oct 12</td><td>PT 141, LR 1, Q14</td><td>Flaw</td><td>B</td><td>D</td><td>I picked an answer that described the argument instead of its mistake.</td><td>Name the flaw in my own words before I read the answers.</td></tr></tbody>
         </table>
       </div>
-      <div class="actions">
-        <button class="btn" type="button" id="journal-btn">Download the template</button>
+      <p class="sub">Pick the format you like better. Both have the same columns and an example.</p>
+      <div class="journal-options">
+        <a class="journal-option" href="/templates/lsat-wrong-answer-journal.xlsx" download>
+          <strong>Spreadsheet</strong>
+          <span>One row per question. Easy to sort and filter. Opens in Google Sheets, Excel or Numbers.</span>
+        </a>
+        <a class="journal-option" href="/templates/lsat-wrong-answer-journal.docx" download>
+          <strong>Document</strong>
+          <span>One box per question, with room to write. Opens in Google Docs, Word or Pages.</span>
+        </a>
       </div>
-      <p class="hint">Opens in Google Sheets, Excel or Numbers. Stuck on why you missed one? Paste it into the chat above.</p>
+      <p class="hint">Stuck on why you missed one? Paste it into the chat above.</p>
     </div>
 
     <div class="section" id="coach">
@@ -1022,26 +1037,6 @@ document.querySelectorAll('[data-cal]').forEach(btn => btn.addEventListener('cli
     $('calendar-error').textContent = err.message;
   }
 }));
-
-// ---------- wrong answer journal ----------
-
-const JOURNAL = [
-  ['Date', 'Test and question', 'Question type', 'My answer', 'Right answer', 'Why I missed it', 'What to look for next time', 'Reviewed again?'],
-  ['Oct 12', 'PT 141, LR 1, Q14', 'Flaw', 'B', 'D', 'I picked an answer that described the argument instead of its mistake.', 'Name the flaw in my own words before I read the answers.', 'Yes'],
-];
-const csvCell = (v) => /[",\n]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v;
-
-$('journal-btn').addEventListener('click', () => {
-  const csv = JOURNAL.map(row => row.map(csvCell).join(',')).join('\r\n') + '\r\n';
-  const url = URL.createObjectURL(new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' }));
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'lsat-wrong-answer-journal.csv';
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-});
 
 // ---------- Caleb's video ----------
 

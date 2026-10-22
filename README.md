@@ -60,6 +60,15 @@ Until then, messages are still saved. To read them: Cloudflare dashboard → **S
 
 **Add it to your calendar** saves the plan in KV (keys start with `cal:`, kept for about a year) and gives it a URL like `/api/calendar/<id>.ics`. Google Calendar, Apple Calendar and Outlook subscribe to that URL in one click. **Download the file** returns the same calendar as a file.
 
+## Wrong answer journal templates
+
+`public/templates/` holds the spreadsheet (.xlsx) and document (.docx) versions. To change their text, edit `scripts/make-journal-templates.py`, then run:
+
+```bash
+python3 -m venv .venv && .venv/bin/pip install python-docx openpyxl
+.venv/bin/python scripts/make-journal-templates.py
+```
+
 ## Caleb's video
 
 Set `VIDEO_URL` near the bottom of `public/index.html` to a YouTube embed link (`https://www.youtube.com/embed/...`). The video then shows in the "How I'd study for the LSAT" section.

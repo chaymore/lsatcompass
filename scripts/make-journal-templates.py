@@ -1,0 +1,148 @@
+"""Builds the two wrong answer journal templates in public/templates/.
+
+Run after editing the text below:
+    python3 -m venv .venv && .venv/bin/pip install python-docx openpyxl
+    .venv/bin/python scripts/make-journal-templates.py
+"""
+from pathlib import Path
+
+from docx import Document
+from docx.enum.table import WD_TABLE_ALIGNMENT
+from docx.oxml import OxmlElement
+from docx.oxml.ns import qn
+from docx.shared import Inches, Pt, RGBColor
+from openpyxl import Workbook
+from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
+
+OUT = Path(__file__).resolve().parent.parent / "public" / "templates"
+INK = RGBColor(0x0F, 0x0E, 0x0C)
+MUTED = RGBColor(0x75, 0x6B, 0x5B)
+
+FIELDS = [
+    "Date",
+    "Test and question",
+    "Question type",
+    "My answer",
+    "Right answer",
+    "Why I missed it",
+    "What to look for next time",
+    "Reviewed again?",
+]
+EXAMPLE = [
+    "Oct 12",
+    "PT 141, LR 1, Q14",
+    "Flaw",
+    "B",
+    "D",
+    "I picked an answer that described the argument instead of its mistake.",
+    "Name the flaw in my own words before I read the answers.",
+    "Yes",
+]
+HOW_TO = [
+    "Log every question you miss, and every one you guessed on, even if you got it right.",
+    "Write why you picked your answer and why the right one is right. Ask AI if you are not sure.",
+    "Review the journal once a week. Look for the mistakes that keep coming back, and drill those question types.",
+]
+
+
+def shade(cell, hex_fill):
+    props = cell._tc.get_or_add_tcPr()
+    fill = OxmlElement("w:shd")
+    fill.set(qn("w:val"), "clear")
+    fill.set(qn("w:color"), "auto")
+    fill.set(qn("w:fill"), hex_fill)
+    props.append(fill)
+
+
+def entry_table(doc, values):
+    table = doc.add_table(rows=len(FIELDS), cols=2)
+    table.style = "Table Grid"
+    table.alignment = WD_TABLE_ALIGNMENT.CENTER
+    for row, (field, value) in zip(table.rows, zip(FIELDS, values)):
+        row.cells[0].width = Inches(1.9)
+        row.cells[1].width = Inches(4.6)
+        shade(row.cells[0], "EDE7D9")
+        label = row.cells[0].paragraphs[0].add_run(field)
+        label.bold = True
+        label.font.size = Pt(10)
+        text = row.cells[1].paragraphs[0].add_run(value)
+        text.font.size = Pt(10)
+        if value:
+            text.font.color.rgb = MUTED
+        else:
+            row.height = Inches(0.32 if field not in ("Why I missed it", "What to look for next time") else 0.6)
+    doc.add_paragraph()
+
+
+def build_docx():
+    doc = Document()
+    for section in doc.sections:
+        section.left_margin = section.right_margin = Inches(1)
+        section.top_margin = section.bottom_margin = Inches(0.9)
+    normal = doc.styles["Normal"]
+    normal.font.name = "Arial"
+    normal.font.size = Pt(11)
+    normal.font.color.rgb = INK
+
+    title = doc.add_paragraph()
+    run = title.add_run("LSAT Wrong Answer Journal")
+    run.font.name = "Georgia"
+    run.font.size = Pt(24)
+    sub = doc.add_paragraph()
+    sub.add_run("From LSAT Compass, lsatcompass.com").font.color.rgb = MUTED
+
+    doc.add_paragraph().add_run("How to use it").bold = True
+    for line in HOW_TO:
+        doc.add_paragraph(line, style="List Number")
+
+    doc.add_paragraph().add_run("Example").bold = True
+    entry_table(doc, EXAMPLE)
+
+    doc.add_paragraph().add_run("Your entries").bold = True
+    for _ in range(10):
+        entry_table(doc, [""] * len(FIELDS))
+    doc.add_paragraph("Copy a blank table to add more entries.").runs[0].font.color.rgb = MUTED
+    doc.save(OUT / "lsat-wrong-answer-journal.docx")
+
+
+def build_xlsx():
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Journal"
+    widths = [12, 20, 18, 11, 12, 44, 44, 15]
+    thin = Side(style="thin", color="DDD5C6")
+    border = Border(left=thin, right=thin, top=thin, bottom=thin)
+    ws.append(FIELDS)
+    ws.append(EXAMPLE)
+    for col, width in enumerate(widths, start=1):
+        letter = ws.cell(row=1, column=col).column_letter
+        ws.column_dimensions[letter].width = width
+        head = ws.cell(row=1, column=col)
+        head.font = Font(bold=True, color="0F0E0C")
+        head.fill = PatternFill("solid", fgColor="EDE7D9")
+        head.alignment = Alignment(vertical="center", wrap_text=True)
+        head.border = border
+        for row in range(2, 102):
+            cell = ws.cell(row=row, column=col)
+            cell.alignment = Alignment(vertical="top", wrap_text=True)
+            cell.border = border
+            if row == 2:
+                cell.font = Font(italic=True, color="756B5B")
+    ws.row_dimensions[1].height = 30
+    ws.freeze_panes = "A2"
+
+    tips = wb.create_sheet("How to use it")
+    tips.column_dimensions["A"].width = 100
+    tips.append(["LSAT Wrong Answer Journal, from LSAT Compass (lsatcompass.com)"])
+    tips["A1"].font = Font(bold=True, size=14)
+    for i, line in enumerate(HOW_TO, start=1):
+        tips.append([f"{i}. {line}"])
+    tips.append(["Row 2 on the Journal sheet is an example. Replace it with your own first entry."])
+    wb.save(OUT / "lsat-wrong-answer-journal.xlsx")
+
+
+if __name__ == "__main__":
+    OUT.mkdir(parents=True, exist_ok=True)
+    build_docx()
+    build_xlsx()
+    print("Wrote", *sorted(p.name for p in OUT.iterdir()))
