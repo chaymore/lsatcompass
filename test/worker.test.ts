@@ -302,3 +302,13 @@ test('contact: still succeeds when email fails, and ignores bots', async () => {
   const bad = await post('/api/contact', { name: 'Ana', email: 'not-an-email', message: 'Hi' });
   assert.equal(bad.status, 400);
 });
+
+test('plan prompt: foundation first below 160, practice focus at 160+', async () => {
+  for (const [score, pattern] of [[150, /still building the reasoning foundation/], [165, /already has the foundation/]] as const) {
+    const calls = fakeFetch({ modelReply: planReply });
+    await post('/api/plan', { profile: { ...profile, scaledScore: score, targetScore: 172 } });
+    const prompt = calls.find((c) => c.url.includes('openrouter'))!.body.messages[1].content;
+    assert.match(prompt, pattern);
+    assert.match(calls.find((c) => c.url.includes('openrouter'))!.body.messages[0].content, /full-length timed practice test every week/);
+  }
+});

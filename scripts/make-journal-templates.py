@@ -20,28 +20,34 @@ MUTED = RGBColor(0x75, 0x6B, 0x5B)
 
 FIELDS = [
     "Date",
-    "Test and question",
+    "The question (test, section, number)",
     "Question type",
-    "My answer",
-    "Right answer",
-    "Why I missed it",
-    "What to look for next time",
-    "Reviewed again?",
+    "My answer, and why I picked it",
+    "Right answer, and why it's right",
+    "What went wrong",
+    "How I'll get it right next time",
+    "Redid it? (date, right or wrong)",
 ]
 EXAMPLE = [
     "Oct 12",
-    "PT 141, LR 1, Q14",
+    "PT 141, LR section 1, question 14",
     "Flaw",
-    "B",
-    "D",
-    "I picked an answer that described the argument instead of its mistake.",
+    "B. It sounded like the argument's conclusion, so it felt safe.",
+    "D. It names the mistake: the argument treats a correlation as a cause.",
+    "Fell for a trap. I picked an answer that described the argument instead of its flaw.",
     "Name the flaw in my own words before I read the answers.",
-    "Yes",
+    "Oct 19, right",
 ]
+# Shown as a hint in the document version, where there is room to paste the question itself.
+DOC_FIELD_HINTS = {
+    "The question (test, section, number)": "Paste the question here or add a screenshot, so you can redo it later.",
+    "What went wrong": "Misread it, fell for a trap, missing a concept, or ran out of time?",
+}
 HOW_TO = [
     "Log every question you miss, and every one you guessed on, even if you got it right.",
-    "Write why you picked your answer and why the right one is right. Ask AI if you are not sure.",
-    "Review the journal once a week. Look for the mistakes that keep coming back, and drill those question types.",
+    "Be honest about why your answer was tempting. That is the habit you are training out.",
+    "Write one rule for next time. Ask AI to explain the question if you are not sure why the right answer is right.",
+    "Redo each question a week later without looking at your notes. Review the journal every week and drill the question types that keep showing up.",
 ]
 
 
@@ -65,12 +71,13 @@ def entry_table(doc, values):
         label = row.cells[0].paragraphs[0].add_run(field)
         label.bold = True
         label.font.size = Pt(10)
-        text = row.cells[1].paragraphs[0].add_run(value)
+        text = row.cells[1].paragraphs[0].add_run(value or DOC_FIELD_HINTS.get(field, ""))
         text.font.size = Pt(10)
-        if value:
-            text.font.color.rgb = MUTED
-        else:
-            row.height = Inches(0.32 if field not in ("Why I missed it", "What to look for next time") else 0.6)
+        text.font.color.rgb = MUTED
+        if not value:
+            text.italic = True
+            tall = field.startswith(("The question", "My answer", "Right answer", "How I'll"))
+            row.height = Inches(1.4 if field.startswith("The question") else 0.6 if tall else 0.35)
     doc.add_paragraph()
 
 
@@ -109,7 +116,7 @@ def build_xlsx():
     wb = Workbook()
     ws = wb.active
     ws.title = "Journal"
-    widths = [12, 20, 18, 11, 12, 44, 44, 15]
+    widths = [11, 24, 16, 36, 36, 32, 36, 18]
     thin = Side(style="thin", color="DDD5C6")
     border = Border(left=thin, right=thin, top=thin, bottom=thin)
     ws.append(FIELDS)

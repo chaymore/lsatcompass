@@ -71,7 +71,7 @@ python3 -m venv .venv && .venv/bin/pip install python-docx openpyxl
 
 ## Caleb's video
 
-Set `VIDEO_URL` near the bottom of `public/index.html` to a YouTube embed link (`https://www.youtube.com/embed/...`). The video then shows in the "How I'd study for the LSAT" section.
+Set `VIDEO_URL` near the bottom of `public/index.html` to a YouTube embed link (`https://www.youtube.com/embed/...`). The video then shows at the top of the "Your path to a higher score" section.
 
 ## Changing things
 

@@ -45,8 +45,8 @@ Reply with ONLY a JSON object, no markdown, in exactly this shape:
 {"diagnosis": "string", "weeks": [{"week": 1, "title": "string", "focus": "string", "tasks": [{"day": "Mon", "task": "string"}]}], "picks": [{"id": "resource id from the list", "why": "string"}]}
 
 Rules:
-- diagnosis: 1-2 short, friendly paragraphs speaking to the student as "you". Start with something encouraging and true about where they are. Be honest about whether the target is realistic for the timeline and weekly hours, and name the single most important thing to focus on first.
-- weeks: one entry per week. Give exactly one task for each of the student's study days, and no tasks on other days. Write the day as Mon, Tue, Wed, Thu, Fri, Sat or Sun. Size each task to fit the weekly hours split across those days. Each task under 15 words, specific and actionable, and names a resource when relevant.
+- diagnosis: 2-3 short, friendly sentences speaking to the student as "you". The page already shows their percentile and a headline, so do not repeat those. Say honestly whether the target is realistic for the timeline and weekly hours, and name the single most important thing to focus on first.
+- weeks: one entry per week. Give exactly one task for each of the student's study days, and no tasks on other days. Write the day as Mon, Tue, Wed, Thu, Fri, Sat or Sun. Size each task to fit the weekly hours split across those days. Keep tasks simple, under 15 words, for example "Take a timed LR section, then review every miss in your journal." Schedule a full-length timed practice test every week if they study 10 or more hours a week, otherwise every two weeks, on their last study day of the week, and make the next study day a review of that test.
 - picks: the 4-6 most useful resources for this student, each with a one-sentence reason tied to their profile.`;
 
 export function planPrompt(profile: Profile, resources: Resource[]): string {
@@ -65,7 +65,7 @@ export function planPrompt(profile: Profile, resources: Resource[]): string {
 - ${sections.length ? sections.join('\n- ') : 'No section breakdown given'}
 - Biggest concern: ${profile.concern || 'none given'}
 
-Write a ${weeks}-week plan.${longer}
+Write a ${weeks}-week plan.${longer}${profile.scaledScore < 160 ? ' This student is still building the reasoning foundation, so spend the first 2 to 3 weeks on learning question types with a course or lessons, with short drills, before starting full practice tests.' : ' This student already has the foundation, so focus on timed sections, full practice tests, review and drilling weak question types.'}
 
 Resources you may recommend:
 ${formatResources(resources)}`;

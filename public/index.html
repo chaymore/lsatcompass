@@ -194,6 +194,15 @@
       box-shadow: 0 0 0 3px var(--gold-wash);
     }
     textarea { resize: vertical; min-height: 84px; }
+    select {
+      appearance: none;
+      -webkit-appearance: none;
+      padding-right: 42px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%233a362f' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      background-size: 12px 8px;
+    }
     .big-input {
       font-family: var(--mono);
       font-size: 2rem !important;
@@ -382,17 +391,66 @@
     .chat-form input { flex: 1; min-width: 0; border-radius: 999px; }
     .chat-form .btn { padding: 10px 18px; }
 
-    /* Result tabs */
-    .tabs { display: flex; gap: 4px; margin-top: 40px; border-bottom: 1px solid var(--line); overflow-x: auto; scrollbar-width: none; }
-    .tabs button { flex: 0 0 auto; padding: 12px 12px; background: none; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; color: var(--muted); font-weight: 500; }
-    .tabs button[aria-selected=true] { color: var(--ink); border-bottom-color: var(--ink); }
-    .tab-panel { padding-top: 28px; animation: rise 0.25s ease both; }
-    .tab-panel h2.spaced { margin-top: 40px; }
-    .tab-panel .sub { margin-top: 8px; color: var(--ink-soft); }
-    .calendar-box { margin-top: 32px; padding: 20px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
-    .calendar-box h3 { font-size: 1.05rem; font-weight: 600; }
-    .cal-buttons { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 16px; }
-    .cal-buttons .btn { padding: 10px 16px; font-size: 0.95rem; }
+    /* Results */
+    .headline { margin-top: 28px; font-size: 2rem; }
+    .headline-sub { margin-top: 10px; font-size: 1.0625rem; color: var(--ink); max-width: 58ch; }
+    .sub { margin-top: 8px; color: var(--ink-soft); }
+    h3.spaced { margin-top: 28px; }
+
+    /* Study path */
+    .path { list-style: none; counter-reset: step; display: grid; gap: 12px; margin-top: 28px; }
+    .path > li { counter-increment: step; }
+    .path-step { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+    .path-step > summary { display: grid; grid-template-columns: 36px 1fr auto; gap: 14px; align-items: start; padding: 18px 20px; cursor: pointer; list-style: none; }
+    .path-step > summary::-webkit-details-marker { display: none; }
+    .path-step > summary::after { content: '+'; color: var(--muted); font-size: 1.3rem; line-height: 1.2; }
+    .path-step[open] > summary::after { content: '−'; }
+    .step-num { width: 32px; height: 32px; border-radius: 50%; background: var(--ink); color: var(--paper); display: grid; place-items: center; font-family: var(--mono); font-size: 0.9rem; }
+    .step-num::before { content: counter(step); }
+    .step-head strong { display: block; font-size: 1.05rem; font-weight: 600; }
+    .step-head span { display: block; margin-top: 2px; font-size: 0.925rem; color: var(--ink-soft); }
+    .step-body { padding: 0 20px 22px 70px; display: grid; gap: 14px; color: var(--ink-soft); }
+    .step-body h3 { margin-top: 8px; font-size: 1rem; font-weight: 600; color: var(--ink); }
+    .note { font-size: 0.925rem; }
+    .note a, .links a, .step-body p a { color: var(--ink); text-underline-offset: 3px; }
+    .options { display: grid; gap: 8px; }
+    .option-card { display: block; padding: 14px 16px; background: #fff; border: 1px solid var(--line); border-radius: var(--radius-sm); text-decoration: none; color: var(--ink-soft); font-size: 0.925rem; transition: border-color 0.15s; }
+    a.option-card:hover, details.option-card > summary:hover { border-color: var(--ink); }
+    .option-card > span:last-child, .option-card summary > span:last-child { display: block; margin-top: 2px; }
+    .option-top { display: flex !important; justify-content: space-between; align-items: baseline; gap: 12px; margin-top: 0 !important; }
+    .option-top strong { color: var(--ink); font-weight: 600; font-size: 1rem; }
+    .price { font-family: var(--mono); font-size: 0.85rem; color: var(--muted); white-space: nowrap; }
+    .price.free { color: var(--forest); }
+    details.option-card > summary { list-style: none; cursor: pointer; }
+    details.option-card > summary::-webkit-details-marker { display: none; }
+    details.option-card[open] { border-color: var(--ink); }
+    details.option-card > p { margin-top: 10px; }
+    .links { display: flex; flex-wrap: wrap; gap: 6px 18px; font-weight: 500; }
+    .checklist { list-style: none; display: grid; gap: 8px; }
+    .checklist li { display: grid; grid-template-columns: 20px 1fr; gap: 8px; }
+    .checklist li::before { content: '✓'; color: var(--forest); font-weight: 600; }
+    .ai-logos { display: flex; flex-wrap: wrap; gap: 8px; }
+    .ai-logo { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; background: #fff; border: 1px solid var(--line); border-radius: 999px; text-decoration: none; color: var(--ink); font-weight: 500; font-size: 0.925rem; }
+    .ai-logo:hover { border-color: var(--ink); }
+    .ai-logo svg { width: 18px; height: 18px; }
+    .coach-card { display: flex; gap: 14px; align-items: flex-start; margin-top: 10px; padding-top: 18px; border-top: 1px solid var(--line); }
+    .coach-card img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; object-position: 50% 22%; flex: none; }
+    .coach-card h3 { margin-top: 0; }
+    .coach-card p { margin-top: 4px; }
+    .contact-toggle > summary { list-style: none; width: fit-content; }
+    .contact-toggle > summary::-webkit-details-marker { display: none; }
+    .contact-toggle[open] > summary { display: none; }
+    .contact-toggle .panel { margin-top: 0; background: #fff; }
+    .step-body .weeks { margin-top: 0; }
+    .step-body .chat { margin-top: 0; }
+    .step-body .calendar-box { margin-top: 4px; background: #fff; }
+    .browse > summary { list-style: none; cursor: pointer; padding: 18px 20px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+    .browse > summary::-webkit-details-marker { display: none; }
+    .browse > summary h2 { font-size: 1.35rem; }
+    .browse > summary span { display: block; margin-top: 4px; color: var(--ink-soft); }
+    .browse > summary:hover { border-color: var(--ink); }
+    .browse[open] > summary { margin-bottom: 20px; }
+    .browse h3 { font-size: 1.05rem; font-weight: 600; }
 
     /* Caleb */
     .author { display: flex; align-items: center; gap: 16px; }
@@ -400,19 +458,7 @@
     .author-line { margin-top: 6px; color: var(--ink-soft); }
     .video { margin-top: 24px; aspect-ratio: 16 / 9; border-radius: var(--radius); overflow: hidden; background: var(--cream); }
     .video iframe { width: 100%; height: 100%; border: 0; }
-    .method { list-style: none; counter-reset: m; display: grid; gap: 14px; margin-top: 20px; max-width: 62ch; }
-    .method li { counter-increment: m; display: grid; grid-template-columns: 28px 1fr; gap: 10px; color: var(--ink-soft); }
-    .method li::before { content: counter(m); font-family: var(--mono); color: var(--gold-deep); }
-    .method strong { color: var(--ink); font-weight: 600; }
-
     /* Journal */
-    .journal { margin-top: 20px; overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
-    .journal table { border-collapse: collapse; min-width: 760px; font-size: 0.875rem; }
-    .journal th, .journal td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--line); }
-    .journal th { font-weight: 600; background: var(--cream); white-space: nowrap; }
-    .journal td { color: var(--ink-soft); }
-    .journal tr:last-child td { border-bottom: 0; }
-
     .journal-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
     .journal-option { display: block; padding: 16px 18px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); text-decoration: none; transition: border-color 0.15s; }
     .journal-option:hover { border-color: var(--ink); }
@@ -436,7 +482,10 @@
       .segmented.days button { font-size: 0.8rem; padding: 10px 0; }
       .week summary { grid-template-columns: 56px 1fr auto; }
       .tasks { padding-left: 0; }
-      .tabs button { padding: 12px 8px; font-size: 0.925rem; }
+      .path-step > summary { grid-template-columns: 32px 1fr auto; gap: 12px; padding: 16px; }
+      .step-num { width: 28px; height: 28px; font-size: 0.85rem; }
+      .step-body { padding: 0 16px 18px; }
+      .headline { font-size: 1.7rem; }
     }
   </style>
 </head>
@@ -611,153 +660,220 @@
         <span class="num target" id="out-target"></span>
       </div>
       <p class="gap-note" id="out-gap"></p>
-      <div class="bars" id="out-bars"></div>
-    </div>
-
-    <div class="tabs" role="tablist" aria-label="Your results" id="result-tabs">
-      <button type="button" role="tab" id="t-plan" aria-controls="tab-plan" aria-selected="true">Your plan</button>
-      <button type="button" role="tab" id="t-picks" aria-controls="tab-picks" aria-selected="false" tabindex="-1">Picked for you</button>
-      <button type="button" role="tab" id="t-all" aria-controls="tab-all" aria-selected="false" tabindex="-1">All resources</button>
-    </div>
-
-    <div class="tab-panel" id="tab-plan" role="tabpanel" aria-labelledby="t-plan">
-      <h2>Your starting point</h2>
+      <h2 class="headline" id="out-headline"></h2>
+      <p class="headline-sub" id="out-headline-sub"></p>
       <div class="prose" id="out-diagnosis"></div>
-
-      <h2 class="spaced">Your weekly plan</h2>
-      <p class="sub">Tap a week to see what to do each day.</p>
-      <div class="weeks" id="out-weeks"></div>
-
-      <div id="calendar-box" class="calendar-box" hidden>
-        <h3>Add it to your calendar</h3>
-        <p class="sub">Each study day shows up as its own event, starting <span id="calendar-start"></span>.</p>
-        <div class="cal-buttons">
-          <button class="btn secondary" type="button" data-cal="google">Google Calendar</button>
-          <button class="btn secondary" type="button" data-cal="apple">Apple Calendar</button>
-          <button class="btn secondary" type="button" data-cal="outlook">Outlook</button>
-          <button class="link-btn" type="button" data-cal="download">Download the file</button>
-        </div>
-        <p class="error" id="calendar-error" role="alert"></p>
-      </div>
-    </div>
-
-    <div class="tab-panel" id="tab-picks" role="tabpanel" aria-labelledby="t-picks" hidden>
-      <h2>Picked for you</h2>
-      <p class="sub">These fit your score, your goal and your schedule. Start here.</p>
-      <div class="resource-list" id="out-picks"></div>
-    </div>
-
-    <div class="tab-panel" id="tab-all" role="tabpanel" aria-labelledby="t-all" hidden>
-      <h2>All resources</h2>
-      <p class="sub">Everything we've found, free and paid. Prices change, so double-check before you buy.</p>
-      <div class="filters">
-        <div class="chips" id="category-chips" role="group" aria-label="Category">
-          <button class="chip" type="button" data-category="all" aria-pressed="true">All</button>
-          <button class="chip" type="button" data-category="courses" aria-pressed="false">Courses and tutors</button>
-          <button class="chip" type="button" data-category="practice" aria-pressed="false">Practice and tools</button>
-          <button class="chip" type="button" data-category="books" aria-pressed="false">Books</button>
-          <button class="chip" type="button" data-category="media" aria-pressed="false">Videos and podcasts</button>
-        </div>
-        <div class="chips" id="budget-chips" role="group" aria-label="Budget">
-          <button class="chip" type="button" data-budget="Infinity" aria-pressed="true">Any price</button>
-          <button class="chip" type="button" data-budget="500" aria-pressed="false">Under $500</button>
-          <button class="chip" type="button" data-budget="100" aria-pressed="false">Under $100</button>
-          <button class="chip" type="button" data-budget="0" aria-pressed="false">Free</button>
-        </div>
-      </div>
-      <p class="count" id="library-count"></p>
-      <div class="resource-list" id="out-library"></div>
-      <button class="btn secondary more-btn" type="button" id="library-more" hidden>Show more</button>
-    </div>
-
-    <div class="section">
-      <h2>Ask a question</h2>
-      <p>Stuck on a question? Paste it in with the answer you picked, and I'll walk you through where it went wrong. You can also ask about your plan or any resource.</p>
-      <div class="chat">
-        <div class="messages" id="messages" aria-live="polite"></div>
-        <form class="chat-form" id="chat-form">
-          <input type="text" id="chat-input" placeholder="Example: I picked B on a flaw question. Why is D right?" aria-label="Your question" maxlength="800" autocomplete="off" />
-          <button class="btn" type="submit">Send</button>
-        </form>
-      </div>
+      <div class="bars" id="out-bars"></div>
     </div>
 
     <div class="section">
       <div class="author">
         <img src="/caleb.jpg" alt="Caleb Haymore" width="72" height="72" />
         <div>
-          <h2>How I'd study for the LSAT</h2>
-          <p class="author-line">Hi, I'm Caleb. I scored a 180 on the LSAT, and I built LSAT Compass to share what worked for me.</p>
+          <h2>Your path to a higher score</h2>
+          <p class="author-line">Hi, I'm Caleb. I scored a 180, and this is the path I followed. Open each step to see what to do.</p>
         </div>
       </div>
       <div class="video" id="caleb-video" hidden></div>
-      <div class="prose">
-        <p>The LSAT isn't really a test of what you know. It tests whether your brain spots the pattern in each question and thinks about it the right way. The good news is that you can train that, and the training is simple.</p>
-      </div>
-      <ol class="method">
-        <li><span><strong>Take practice tests and drill questions.</strong> Every miss shows you a pattern you don't see yet.</span></li>
-        <li><span><strong>Figure out exactly why you missed it.</strong> Ask AI to explain the right answer and where your thinking went wrong. It's good enough now that you don't need a tutor or hours of videos for this.</span></li>
-        <li><span><strong>Write it down in a wrong answer journal.</strong> Seeing your misses in one place shows you which mistakes keep coming back.</span></li>
-        <li><span><strong>Go after your weak spots.</strong> Drill your weakest question types until they stop being weak. Then find the next one.</span></li>
-        <li><span><strong>Stay consistent.</strong> A little bit most days beats a big cram once a week.</span></li>
+
+      <ol class="path" id="path">
+        <li id="step-foundation" hidden>
+          <details class="path-step" open>
+            <summary><span class="step-num"></span><span class="step-head"><strong>Build your reasoning foundation</strong><span>Learn how the LSAT wants you to think before you grind practice tests.</span></span></summary>
+            <div class="step-body">
+              <p>Start by learning each question type and how to approach it. A good course gets you there in a few weeks. These are the ones I'd look at first.</p>
+              <div class="options">
+                <a class="option-card" href="https://testprep.byu.edu/lsat" target="_blank" rel="noopener"><span class="option-top"><strong>BYU LSAT Prep</strong><span class="price">$715</span></span><span>A 9-week course with live Saturday lectures and about 57 hours of lessons.</span></a>
+                <a class="option-card" href="https://7sage.com/self-study/pricing" target="_blank" rel="noopener"><span class="option-top"><strong>7Sage</strong><span class="price">from $69/mo</span></span><span>Video lessons for every question type, plus an explanation for every official question.</span></a>
+                <a class="option-card" href="https://www.lsatlab.com/" target="_blank" rel="noopener"><span class="option-top"><strong>LSAT Lab</strong><span class="price free">Free plan</span></span><span>A full library of video lessons on the free plan. Paid plans start around $65/mo.</span></a>
+                <a class="option-card" href="https://blueprintprep.com/lsat/online-anytime" target="_blank" rel="noopener"><span class="option-top"><strong>Blueprint</strong><span class="price">from $99/mo</span></span><span>Polished, engaging lessons with a study plan that adjusts to your results.</span></a>
+                <a class="option-card" href="https://www.lsac.org/lsat/prep" target="_blank" rel="noopener"><span class="option-top"><strong>LawHub lessons</strong><span class="price free">Free</span></span><span>LSAC's own lessons on every question type. These used to be on Khan Academy.</span></a>
+              </div>
+              <p class="note">Rather learn with a person? <a href="#coach" data-open="coach-step">A coach</a> can teach you the fundamentals one on one. You can also <a href="#browse" data-open="browse">see more resources picked for you</a>.</p>
+            </div>
+          </details>
+        </li>
+
+        <li>
+          <details class="path-step">
+            <summary><span class="step-num"></span><span class="step-head"><strong>Get access to practice questions</strong><span>Official questions from past LSATs are what you'll practice with.</span></span></summary>
+            <div class="step-body">
+              <p>Here are the main ways to get official questions. Tap one to see what you get.</p>
+              <div class="options">
+                <details class="option-card">
+                  <summary><span class="option-top"><strong>LawHub Advantage</strong><span class="price">$124/year</span></span><span>The cheapest way to get every official test.</span></summary>
+                  <p>LSAC's own library of official PrepTests, in the real digital test format. It's free with an LSAC fee waiver, and almost every course below also requires it.</p>
+                  <p class="links"><a href="https://www.lawhub.org/prepare-for-the-lsat/prepare-with-lawhub" target="_blank" rel="noopener">Get LawHub Advantage</a><a href="https://www.lsac.org/lsat/register-lsat/lsat-cas-fees/fee-waiver" target="_blank" rel="noopener">See if you qualify for a fee waiver</a></p>
+                </details>
+                <details class="option-card">
+                  <summary><span class="option-top"><strong>LSAT Demon</strong><span class="price">from $95/mo</span></span><span>Questions at your level, with every miss saved.</span></summary>
+                  <p>It picks questions at the right difficulty for you, saves every question you miss, and explains each one on video. It's easier to use than LawHub but costs more, and you still need LawHub Advantage.</p>
+                  <p class="links"><a href="https://lsatdemon.com/" target="_blank" rel="noopener">Visit LSAT Demon</a></p>
+                </details>
+                <details class="option-card">
+                  <summary><span class="option-top"><strong>7Sage</strong><span class="price">from $69/mo</span></span><span>An explanation for every official question.</span></summary>
+                  <p>Video explanations for every official question, score analytics and tools that save your misses for review. It's $1/month with an LSAC fee waiver. You still need LawHub Advantage.</p>
+                  <p class="links"><a href="https://7sage.com/self-study/pricing" target="_blank" rel="noopener">Visit 7Sage</a></p>
+                </details>
+                <details class="option-card">
+                  <summary><span class="option-top"><strong>LSAT Lab</strong><span class="price free">Free plan</span></span><span>A free plan to start, with paid plans from $65/mo.</span></summary>
+                  <p>The free plan includes 2 practice tests with analytics. Paid plans add 81 official tests, a large question bank and live classes, and they need LawHub Advantage.</p>
+                  <p class="links"><a href="https://www.lsatlab.com/" target="_blank" rel="noopener">Visit LSAT Lab</a></p>
+                </details>
+                <details class="option-card">
+                  <summary><span class="option-top"><strong>Leland</strong><span class="price">coaches from ~$50/hr</span></span><span>1:1 coaches and a live LSAT bootcamp.</span></summary>
+                  <p>Pick a high-scoring coach who fits your budget, or join the 12-session live bootcamp. Pair it with LawHub Advantage for practice tests.</p>
+                  <p class="links"><a href="https://www.joinleland.com/search/test/lsat" target="_blank" rel="noopener">Visit Leland</a></p>
+                </details>
+                <details class="option-card">
+                  <summary><span class="option-top"><strong>Full LSAT courses</strong><span class="price">$799 and up</span></span><span>Lots of live teaching, at a higher price.</span></summary>
+                  <p>The Princeton Review (which includes LawHub Advantage), Kaplan, Manhattan Prep and PowerScore all offer full courses with live classes and practice tests.</p>
+                  <p class="links"><a href="#browse" data-open="browse">Compare them in all resources</a></p>
+                </details>
+              </div>
+              <p class="note">Not sure yet? Start with the 4 free PrepTests on <a href="https://app.lawhub.org/library" target="_blank" rel="noopener">LawHub</a>, and upgrade once you've used them.</p>
+            </div>
+          </details>
+        </li>
+
+        <li>
+          <details class="path-step">
+            <summary><span class="step-num"></span><span class="step-head"><strong>Keep a wrong answer journal</strong><span>Write down every miss, so the same mistakes stop coming back.</span></span></summary>
+            <div class="step-body">
+              <p>For every question you miss, or guess on, write down:</p>
+              <ul class="checklist">
+                <li>The question: the test, section and number, or a screenshot</li>
+                <li>The answer you picked, and why it was tempting</li>
+                <li>Why the right answer is right</li>
+                <li>How you'll get it right next time</li>
+              </ul>
+              <p>A week later, redo each question without looking at your notes. Every week, look for the mistakes that keep showing up, and drill those question types.</p>
+              <div class="journal-options">
+                <a class="journal-option" href="/templates/lsat-wrong-answer-journal.xlsx" download>
+                  <strong>Spreadsheet</strong>
+                  <span>One row per question. Easy to sort and filter. Opens in Google Sheets, Excel or Numbers.</span>
+                </a>
+                <a class="journal-option" href="/templates/lsat-wrong-answer-journal.docx" download>
+                  <strong>Document</strong>
+                  <span>One box per question, with room to paste the question. Opens in Google Docs, Word or Pages.</span>
+                </a>
+              </div>
+            </div>
+          </details>
+        </li>
+
+        <li id="coach-step">
+          <details class="path-step">
+            <summary><span class="step-num"></span><span class="step-head"><strong>Correct your reasoning</strong><span>For every miss, find out exactly where your thinking went off.</span></span></summary>
+            <div class="step-body">
+              <h3>Use the explanations</h3>
+              <p>7Sage and LSAT Demon explain every official question, step by step.</p>
+
+              <h3>Ask an AI model</h3>
+              <div class="ai-logos">
+                <a href="https://gemini.google.com/" target="_blank" rel="noopener" class="ai-logo"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#8E75B2" d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81"/></svg>Gemini</a>
+                <a href="https://claude.ai/" target="_blank" rel="noopener" class="ai-logo"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#D97757" d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/></svg>Claude</a>
+                <a href="https://chatgpt.com/" target="_blank" rel="noopener" class="ai-logo">ChatGPT</a>
+              </div>
+              <p>Today's top AI models score at or near a perfect 180 on the LSAT (<a href="https://arxiv.org/abs/2604.10034" target="_blank" rel="noopener">see the study</a>), so they can teach you the reasoning. Paste in the question, the answer you picked and why, and ask where your thinking went wrong.</p>
+              <p>Or ask right here:</p>
+              <div class="chat">
+                <div class="messages" id="messages" aria-live="polite"></div>
+                <form class="chat-form" id="chat-form">
+                  <input type="text" id="chat-input" placeholder="Example: I picked B on a flaw question. Why is D right?" aria-label="Your question" maxlength="800" autocomplete="off" />
+                  <button class="btn" type="submit">Send</button>
+                </form>
+              </div>
+
+              <div class="coach-card" id="coach">
+                <img src="/caleb.jpg" alt="" width="56" height="56" />
+                <div>
+                  <h3>Work with a coach</h3>
+                  <p>I scored a 180, and I coach a small number of students. If you want someone to review your misses with you and keep you on track, send me a note.</p>
+                </div>
+              </div>
+              <details class="contact-toggle" id="contact-toggle">
+                <summary class="btn secondary">Send Caleb a message</summary>
+                <form class="panel" id="contact-form" novalidate>
+                  <div class="row">
+                    <div class="field">
+                      <label for="c-name">Your name</label>
+                      <input type="text" id="c-name" autocomplete="name" maxlength="100" required />
+                    </div>
+                    <div class="field">
+                      <label for="c-email">Your email</label>
+                      <input type="text" id="c-email" inputmode="email" autocomplete="email" maxlength="200" required />
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label for="c-score">Your current practice score <span class="optional">(optional)</span></label>
+                    <input type="number" id="c-score" inputmode="numeric" min="120" max="180" />
+                  </div>
+                  <div class="field">
+                    <label for="c-message">What would you like help with?</label>
+                    <textarea id="c-message" rows="4" maxlength="3000" required></textarea>
+                  </div>
+                  <div class="hp" aria-hidden="true"><label for="c-website">Website</label><input type="text" id="c-website" tabindex="-1" autocomplete="off" /></div>
+                  <p class="error" id="contact-error" role="alert"></p>
+                  <div class="actions">
+                    <button class="btn" type="submit" id="contact-btn">Send to Caleb</button>
+                  </div>
+                </form>
+              </details>
+              <p class="sent" id="contact-sent" hidden>Thanks! Your message is on its way. I'll reply by email soon.</p>
+            </div>
+          </details>
+        </li>
+
+        <li>
+          <details class="path-step" id="schedule-step">
+            <summary><span class="step-num"></span><span class="step-head"><strong>Study on a consistent schedule</strong><span>A little most days beats a big cram once a week.</span></span></summary>
+            <div class="step-body">
+              <p>Here's your week-by-week plan, built around the days you picked. Every week or two, take a full practice test with the timer on, in a quiet place, like the real thing.</p>
+              <div class="weeks" id="out-weeks"></div>
+              <div id="calendar-box" class="calendar-box" hidden>
+                <h3>Add it to your calendar</h3>
+                <p class="sub">Each study day shows up as its own event, starting <span id="calendar-start"></span>.</p>
+                <div class="cal-buttons">
+                  <button class="btn secondary" type="button" data-cal="google">Google Calendar</button>
+                  <button class="btn secondary" type="button" data-cal="apple">Apple Calendar</button>
+                  <button class="btn secondary" type="button" data-cal="outlook">Outlook</button>
+                  <button class="link-btn" type="button" data-cal="download">Download the file</button>
+                </div>
+                <p class="error" id="calendar-error" role="alert"></p>
+              </div>
+            </div>
+          </details>
+        </li>
       </ol>
-      <div class="prose">
-        <p>Repeat that loop, and the right way of thinking becomes automatic. That's when your score really moves.</p>
-      </div>
     </div>
 
     <div class="section">
-      <h2>Your wrong answer journal</h2>
-      <p>Log every question you miss, and every one you guessed on. Review it once a week. You'll see the same few mistakes come up again and again, and those are exactly what to work on.</p>
-      <div class="journal" role="region" aria-label="Wrong answer journal example" tabindex="0">
-        <table>
-          <thead><tr><th>Date</th><th>Test and question</th><th>Question type</th><th>My answer</th><th>Right answer</th><th>Why I missed it</th><th>What to look for next time</th></tr></thead>
-          <tbody><tr><td>Oct 12</td><td>PT 141, LR 1, Q14</td><td>Flaw</td><td>B</td><td>D</td><td>I picked an answer that described the argument instead of its mistake.</td><td>Name the flaw in my own words before I read the answers.</td></tr></tbody>
-        </table>
-      </div>
-      <p class="sub">Pick the format you like better. Both have the same columns and an example.</p>
-      <div class="journal-options">
-        <a class="journal-option" href="/templates/lsat-wrong-answer-journal.xlsx" download>
-          <strong>Spreadsheet</strong>
-          <span>One row per question. Easy to sort and filter. Opens in Google Sheets, Excel or Numbers.</span>
-        </a>
-        <a class="journal-option" href="/templates/lsat-wrong-answer-journal.docx" download>
-          <strong>Document</strong>
-          <span>One box per question, with room to write. Opens in Google Docs, Word or Pages.</span>
-        </a>
-      </div>
-      <p class="hint">Stuck on why you missed one? Paste it into the chat above.</p>
-    </div>
-
-    <div class="section" id="coach">
-      <h2>Want a coach?</h2>
-      <p>Most people can do this on their own with the steps above. If you'd like someone in your corner to review your misses with you and keep you on track, I also coach a small number of students. Send me a note and I'll get back to you.</p>
-      <form class="panel" id="contact-form" novalidate>
-        <div class="row">
-          <div class="field">
-            <label for="c-name">Your name</label>
-            <input type="text" id="c-name" autocomplete="name" maxlength="100" required />
+      <details class="browse" id="browse">
+        <summary><h2>Browse all resources</h2><span>Everything we've found, free and paid, with the ones picked for you first.</span></summary>
+        <h3>Picked for you</h3>
+        <div class="resource-list" id="out-picks"></div>
+        <h3 class="spaced">All resources</h3>
+        <p class="sub">Prices change, so double-check before you buy.</p>
+        <div class="filters">
+          <div class="chips" id="category-chips" role="group" aria-label="Category">
+            <button class="chip" type="button" data-category="all" aria-pressed="true">All</button>
+            <button class="chip" type="button" data-category="courses" aria-pressed="false">Courses and tutors</button>
+            <button class="chip" type="button" data-category="practice" aria-pressed="false">Practice and tools</button>
+            <button class="chip" type="button" data-category="books" aria-pressed="false">Books</button>
+            <button class="chip" type="button" data-category="media" aria-pressed="false">Videos and podcasts</button>
           </div>
-          <div class="field">
-            <label for="c-email">Your email</label>
-            <input type="text" id="c-email" inputmode="email" autocomplete="email" maxlength="200" required />
+          <div class="chips" id="budget-chips" role="group" aria-label="Budget">
+            <button class="chip" type="button" data-budget="Infinity" aria-pressed="true">Any price</button>
+            <button class="chip" type="button" data-budget="500" aria-pressed="false">Under $500</button>
+            <button class="chip" type="button" data-budget="100" aria-pressed="false">Under $100</button>
+            <button class="chip" type="button" data-budget="0" aria-pressed="false">Free</button>
           </div>
         </div>
-        <div class="field">
-          <label for="c-score">Your current practice score <span class="optional">(optional)</span></label>
-          <input type="number" id="c-score" inputmode="numeric" min="120" max="180" />
-        </div>
-        <div class="field">
-          <label for="c-message">What would you like help with?</label>
-          <textarea id="c-message" rows="4" maxlength="3000" required></textarea>
-        </div>
-        <div class="hp" aria-hidden="true"><label for="c-website">Website</label><input type="text" id="c-website" tabindex="-1" autocomplete="off" /></div>
-        <p class="error" id="contact-error" role="alert"></p>
-        <div class="actions">
-          <button class="btn" type="submit" id="contact-btn">Send to Caleb</button>
-        </div>
-      </form>
-      <p class="sent" id="contact-sent" hidden>Thanks! Your message is on its way. I'll reply by email soon.</p>
+        <p class="count" id="library-count"></p>
+        <div class="resource-list" id="out-library"></div>
+        <button class="btn secondary more-btn" type="button" id="library-more" hidden>Show more</button>
+      </details>
     </div>
 
     <p class="fineprint">LSAT Compass is not part of LSAC.</p>
@@ -906,8 +1022,19 @@ function renderResults(data) {
   $('out-target').textContent = state.targetScore;
   const months = state.timeline === 1 ? '1 month' : `${state.timeline} months`;
   $('out-gap').textContent = gap > 0
-    ? `You're ${gap} points from your goal, with ${months} to get there. Here's your plan.`
+    ? `You're ${gap} points from your goal, with ${months} to get there.`
     : `Your score is at your target. This plan helps you maintain or improve that score up till test day.`;
+
+  // 160 and up already has the reasoning foundation. Below that, the path starts with it.
+  const strong = state.scaledScore >= 160;
+  const pct = percentBelow(state.scaledScore);
+  const ahead = pct === null ? null : Math.round(pct);
+  $('out-headline').textContent = strong ? "You're doing great work." : "Let's build your foundation first.";
+  $('out-headline-sub').textContent = strong
+    ? `A ${state.scaledScore} is better than about ${ahead}% of test takers. You already have the reasoning foundation, so your path is all about practice, review and consistency.`
+    : `${ahead === null ? `A ${state.scaledScore} is a real starting point, and everyone starts somewhere.` : `A ${state.scaledScore} puts you ahead of about ${ahead}% of test takers, and it's a solid place to start.`} The fastest way up is to learn how the LSAT wants you to reason. Once that clicks, you'll follow the same path as top scorers.`;
+  $('step-foundation').hidden = strong;
+  document.querySelectorAll('#path > li:not([hidden]) > details').forEach((d, i) => { d.open = i === 0; });
 
   const sections = [
     { name: 'Logical Reasoning', score: state.lrScore, max: 52 },
@@ -928,7 +1055,7 @@ function renderResults(data) {
   const paragraphs = String(data.diagnosis || '').split(/\n\s*\n/).filter(Boolean);
   $('out-diagnosis').innerHTML = paragraphs.length
     ? paragraphs.map(p => `<p>${escapeHtml(p)}</p>`).join('')
-    : "<p>We couldn't write your summary this time, but your weekly plan is below.</p>";
+    : '';
 
   const weeks = data.weeks || [];
   $('out-weeks').innerHTML = weeks.length
@@ -942,7 +1069,7 @@ function renderResults(data) {
           ${(w.tasks || []).map(t => `<li><span class="day">${escapeHtml(t.day)}</span><span>${escapeHtml(t.task)}</span></li>`).join('')}
         </ul>
       </details>`).join('')
-    : '<p class="empty">We couldn\'t build your weekly plan this time. Try again, or ask a question below.</p>';
+    : '<p class="empty">We couldn\'t build your weekly plan this time. Go back and try again.</p>';
 
   state.weeks = weeks;
   calendarLink = null;
@@ -952,39 +1079,41 @@ function renderResults(data) {
   const picks = data.picks || [];
   $('out-picks').innerHTML = picks.length
     ? picks.map(p => resourceCard(p.resource, p.why)).join('')
-    : '<p class="empty">No picks this time. Browse all resources, or ask a question below.</p>';
-  selectTab('t-plan', false);
+    : '<p class="empty">No picks this time. Browse the full list below.</p>';
   if (state.scaledScore) $('c-score').value = state.scaledScore;
 
   renderLibrary();
 
   const opener = gap > 0
-    ? `Hey! Want to change anything about your plan? I can work around your schedule, dig into a section, or walk you through a question you missed.`
-    : `Hey! What do you want to work on? I can help with timing, test day, or a question type that keeps tripping you up.`;
+    ? `Hey! Paste in a question you missed, with the answer you picked, and I'll show you where the reasoning went off. You can also ask about your plan.`
+    : `Hey! Paste in a question you missed, with the answer you picked, and I'll show you where the reasoning went off. I can also help with timing or test day.`;
   addMessage('assistant', opener);
 }
 
-// ---------- tabs ----------
+// ---------- percentiles ----------
 
-function selectTab(id, focus = true) {
-  document.querySelectorAll('#result-tabs [role=tab]').forEach(tab => {
-    const on = tab.id === id;
-    tab.setAttribute('aria-selected', String(on));
-    tab.tabIndex = on ? 0 : -1;
-    $(tab.getAttribute('aria-controls')).hidden = !on;
-    if (on && focus) tab.focus();
-  });
+// LSAC's percent of test takers scoring below each score, 2023-2026 testing years.
+// Scores between the listed ones are filled in proportionally.
+const PERCENT_BELOW = { 140: 11.00, 145: 21.48, 148: 30.07, 150: 36.56, 152: 43.37, 154: 50.43, 155: 54.03, 156: 57.62, 157: 61.04, 158: 64.48, 159: 67.93, 160: 71.06, 161: 74.22, 162: 77.20, 163: 80.05, 164: 82.75, 165: 85.17, 166: 87.49, 167: 89.53, 168: 91.36, 169: 93.03, 170: 94.48, 171: 95.77, 172: 96.72, 173: 97.59, 174: 98.24, 175: 98.72, 176: 99.08, 177: 99.34, 178: 99.57, 179: 99.74, 180: 99.85 };
+function percentBelow(score) {
+  if (score < 140) return null;
+  if (PERCENT_BELOW[score] !== undefined) return PERCENT_BELOW[score];
+  const keys = Object.keys(PERCENT_BELOW).map(Number);
+  const lo = Math.max(...keys.filter(k => k < score));
+  const hi = Math.min(...keys.filter(k => k > score));
+  return PERCENT_BELOW[lo] + (PERCENT_BELOW[hi] - PERCENT_BELOW[lo]) * (score - lo) / (hi - lo);
 }
-$('result-tabs').addEventListener('click', (e) => {
-  const tab = e.target.closest('[role=tab]');
-  if (tab) selectTab(tab.id);
-});
-$('result-tabs').addEventListener('keydown', (e) => {
-  if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
-  const tabs = [...document.querySelectorAll('#result-tabs [role=tab]')];
-  const i = tabs.indexOf(document.activeElement);
-  if (i === -1) return;
-  selectTab(tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length].id);
+
+// ---------- opening steps from links ----------
+
+document.addEventListener('click', (e) => {
+  const link = e.target.closest('[data-open]');
+  if (!link) return;
+  e.preventDefault();
+  const target = $(link.dataset.open);
+  const details = target.matches('details') ? target : target.querySelector('details');
+  if (details) details.open = true;
+  target.scrollIntoView({ behavior: 'smooth', block: 'start' });
 });
 
 // ---------- calendar links ----------
