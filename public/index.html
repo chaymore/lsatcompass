@@ -397,19 +397,19 @@
     .sub { margin-top: 8px; color: var(--ink-soft); }
     h3.spaced { margin-top: 28px; }
 
-    /* Study path */
-    .path { list-style: none; counter-reset: step; display: grid; gap: 12px; margin-top: 28px; }
-    .path > li { counter-increment: step; }
-    .path-step { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
-    .path-step > summary { display: grid; grid-template-columns: 36px 1fr auto; gap: 14px; align-items: start; padding: 18px 20px; cursor: pointer; list-style: none; }
-    .path-step > summary::-webkit-details-marker { display: none; }
-    .path-step > summary::after { content: '+'; color: var(--muted); font-size: 1.3rem; line-height: 1.2; }
-    .path-step[open] > summary::after { content: '−'; }
-    .step-num { width: 32px; height: 32px; border-radius: 50%; background: var(--ink); color: var(--paper); display: grid; place-items: center; font-family: var(--mono); font-size: 0.9rem; }
-    .step-num::before { content: counter(step); }
-    .step-head strong { display: block; font-size: 1.05rem; font-weight: 600; }
-    .step-head span { display: block; margin-top: 2px; font-size: 0.925rem; color: var(--ink-soft); }
-    .step-body { padding: 0 20px 22px 70px; display: grid; gap: 14px; color: var(--ink-soft); }
+    /* Study path: a row of steps, with the selected step's details below */
+    .stepper { display: grid; grid-template-columns: repeat(5, 1fr); margin-top: 28px; position: relative; }
+    .stepper::before { content: ''; position: absolute; top: 17px; left: 10%; right: 10%; height: 2px; background: var(--line); }
+    .stepper button { position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 0 4px 14px; background: none; border: 0; border-bottom: 2px solid transparent; color: var(--muted); text-align: center; }
+    .stepper button[aria-selected=true] { color: var(--ink); border-bottom-color: var(--ink); }
+    .stepper .step-num { width: 36px; height: 36px; border-radius: 50%; background: var(--paper); border: 2px solid var(--line); color: var(--muted); display: grid; place-items: center; font-family: var(--mono); font-size: 0.9rem; transition: background 0.15s, color 0.15s, border-color 0.15s; }
+    .stepper button:hover .step-num { border-color: var(--ink); color: var(--ink); }
+    .stepper button[aria-selected=true] .step-num { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+    .step-label { font-size: 0.875rem; font-weight: 500; line-height: 1.3; max-width: 14ch; }
+    .step-panel { margin-top: 20px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); animation: rise 0.25s ease both; }
+    .panel-title { margin-top: 0 !important; font-family: var(--serif); font-size: 1.5rem !important; font-weight: 500 !important; }
+    .panel-sub { margin-top: -8px; }
+    .step-body { padding: 24px; display: grid; gap: 14px; color: var(--ink-soft); }
     .step-body h3 { margin-top: 8px; font-size: 1rem; font-weight: 600; color: var(--ink); }
     .note { font-size: 0.925rem; }
     .note a, .links a, .step-body p a { color: var(--ink); text-underline-offset: 3px; }
@@ -444,13 +444,6 @@
     .step-body .weeks { margin-top: 0; }
     .step-body .chat { margin-top: 0; }
     .step-body .calendar-box { margin-top: 4px; background: #fff; }
-    .browse > summary { list-style: none; cursor: pointer; padding: 18px 20px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
-    .browse > summary::-webkit-details-marker { display: none; }
-    .browse > summary h2 { font-size: 1.35rem; }
-    .browse > summary span { display: block; margin-top: 4px; color: var(--ink-soft); }
-    .browse > summary:hover { border-color: var(--ink); }
-    .browse[open] > summary { margin-bottom: 20px; }
-    .browse h3 { font-size: 1.05rem; font-weight: 600; }
 
     /* Caleb */
     .author { display: flex; align-items: center; gap: 16px; }
@@ -482,9 +475,12 @@
       .segmented.days button { font-size: 0.8rem; padding: 10px 0; }
       .week summary { grid-template-columns: 56px 1fr auto; }
       .tasks { padding-left: 0; }
-      .path-step > summary { grid-template-columns: 32px 1fr auto; gap: 12px; padding: 16px; }
-      .step-num { width: 28px; height: 28px; font-size: 0.85rem; }
-      .step-body { padding: 0 16px 18px; }
+      .stepper::before { top: 15px; }
+      .stepper button { padding: 0 2px 12px; gap: 6px; }
+      .stepper .step-num { width: 32px; height: 32px; font-size: 0.85rem; }
+      .step-label { font-size: 0.72rem; }
+      .step-body { padding: 18px 16px; }
+      .panel-title { font-size: 1.3rem !important; }
       .headline { font-size: 1.7rem; }
     }
   </style>
@@ -524,7 +520,7 @@
         <div><strong>Yes</strong><span>I have a score.</span></div>
       </button>
       <button class="choice" type="button" data-go="step-lawhub">
-        <div><strong>No</strong><span>Show me a free official test.</span></div>
+        <div><strong>No</strong><span>Take me to a free diagnostic test.</span></div>
       </button>
     </div>
   </section>
@@ -671,16 +667,22 @@
         <img src="/caleb.jpg" alt="Caleb Haymore" width="72" height="72" />
         <div>
           <h2>Your path to a higher score</h2>
-          <p class="author-line">Hi, I'm Caleb. I scored a 180, and this is the path I followed. Open each step to see what to do.</p>
+          <p class="author-line">Hi, I'm Caleb. I scored a 180, and this is the path I followed. Select a step to see what to do.</p>
         </div>
       </div>
       <div class="video" id="caleb-video" hidden></div>
 
-      <ol class="path" id="path">
-        <li id="step-foundation">
-          <details class="path-step" open>
-            <summary><span class="step-num"></span><span class="step-head"><strong>Learn the foundations</strong><span id="foundation-sub">Learn how the LSAT wants you to think before you grind practice tests.</span></span></summary>
+      <div class="stepper" role="tablist" aria-label="Your path" id="stepper">
+        <button type="button" role="tab" id="tab-step-foundation" aria-controls="step-foundation" aria-selected="false" tabindex="-1"><span class="step-num">1</span><span class="step-label">Learn the foundations</span></button>
+        <button type="button" role="tab" id="tab-step-practice" aria-controls="step-practice" aria-selected="false" tabindex="-1"><span class="step-num">2</span><span class="step-label">Start practicing questions</span></button>
+        <button type="button" role="tab" id="tab-step-journal" aria-controls="step-journal" aria-selected="false" tabindex="-1"><span class="step-num">3</span><span class="step-label">Keep a wrong answer journal</span></button>
+        <button type="button" role="tab" id="tab-step-reasoning" aria-controls="step-reasoning" aria-selected="false" tabindex="-1"><span class="step-num">4</span><span class="step-label">Correct your reasoning</span></button>
+        <button type="button" role="tab" id="tab-step-schedule" aria-controls="step-schedule" aria-selected="false" tabindex="-1"><span class="step-num">5</span><span class="step-label">Keep a consistent schedule</span></button>
+      </div>
+      <div class="step-panel" role="tabpanel" id="step-foundation" aria-labelledby="tab-step-foundation" hidden>
             <div class="step-body">
+              <h3 class="panel-title">Step 1: Learn the foundations</h3>
+              <p class="panel-sub" id="foundation-sub">Learn how the LSAT wants you to think before you grind practice tests.</p>
               <p>Start by learning each question type and how to approach it. A good course gets you there in a few weeks. These are the ones I'd look at first.</p>
               <div class="options">
                 <a class="option-card" href="https://www.lsac.org/lsat/prep" target="_blank" rel="noopener"><span class="option-top"><strong>LawHub lessons</strong><span class="price free">Free</span></span><span>LSAC's own lessons on every question type. These used to be on Khan Academy.</span></a>
@@ -689,15 +691,17 @@
                 <a class="option-card" href="https://blueprintprep.com/lsat/online-anytime" target="_blank" rel="noopener"><span class="option-top"><strong>Blueprint</strong><span class="price">from $99/mo</span></span><span>Polished, engaging lessons with a study plan that adjusts to your results.</span></a>
                 <a class="option-card" href="https://testprep.byu.edu/lsat" target="_blank" rel="noopener"><span class="option-top"><strong>BYU LSAT Prep</strong><span class="price">$715</span></span><span>A 9-week course with live Saturday lectures and about 57 hours of lessons.</span></a>
               </div>
-              <p class="note">Rather learn with a person? <a href="#coach" data-open="coach-step">A coach</a> can teach you the fundamentals one on one. You can also <a href="#browse" data-open="browse">see more resources picked for you</a>.</p>
+              <p class="note">Rather learn with a person? <a href="#coach" data-open="step-reasoning">A coach</a> can teach you the fundamentals one on one.</p>
+              <div id="picks-box" hidden>
+                <h3>Also picked for you</h3>
+                <div class="resource-list" id="out-picks"></div>
+              </div>
             </div>
-          </details>
-        </li>
-
-        <li>
-          <details class="path-step">
-            <summary><span class="step-num"></span><span class="step-head"><strong>Start practicing questions</strong><span>Official questions from past LSATs are what you'll practice with.</span></span></summary>
+      </div>
+      <div class="step-panel" role="tabpanel" id="step-practice" aria-labelledby="tab-step-practice" hidden>
             <div class="step-body">
+              <h3 class="panel-title">Step 2: Start practicing questions</h3>
+              <p class="panel-sub">Official questions from past LSATs are what you'll practice with.</p>
               <p>Here are the main ways to get official questions. Tap one to see what you get.</p>
               <div class="options">
                 <details class="option-card">
@@ -728,18 +732,15 @@
                 <details class="option-card">
                   <summary><span class="option-top"><strong>Full LSAT courses</strong><span class="price">$799 and up</span></span><span>Lots of live teaching, at a higher price.</span></summary>
                   <p>The Princeton Review (which includes LawHub Advantage), Kaplan, Manhattan Prep and PowerScore all offer full courses with live classes and practice tests.</p>
-                  <p class="links"><a href="#browse" data-open="browse">Compare them in all resources</a></p>
                 </details>
               </div>
               <p class="note">Not sure yet? Start with the 4 free PrepTests on <a href="https://app.lawhub.org/library" target="_blank" rel="noopener">LawHub</a>, and upgrade once you've used them.</p>
             </div>
-          </details>
-        </li>
-
-        <li>
-          <details class="path-step">
-            <summary><span class="step-num"></span><span class="step-head"><strong>Keep a wrong answer journal</strong><span>Write down every miss, so the same mistakes stop coming back.</span></span></summary>
+      </div>
+      <div class="step-panel" role="tabpanel" id="step-journal" aria-labelledby="tab-step-journal" hidden>
             <div class="step-body">
+              <h3 class="panel-title">Step 3: Keep a wrong answer journal</h3>
+              <p class="panel-sub">Write down every miss, so the same mistakes stop coming back.</p>
               <p>For every question you miss, or guess on, write down:</p>
               <ul class="checklist">
                 <li>The question: the test, section and number, or a screenshot</li>
@@ -759,13 +760,11 @@
                 </a>
               </div>
             </div>
-          </details>
-        </li>
-
-        <li id="coach-step">
-          <details class="path-step">
-            <summary><span class="step-num"></span><span class="step-head"><strong>Correct your reasoning</strong><span>For every miss, find out exactly where your thinking went off.</span></span></summary>
+      </div>
+      <div class="step-panel" role="tabpanel" id="step-reasoning" aria-labelledby="tab-step-reasoning" hidden>
             <div class="step-body">
+              <h3 class="panel-title">Step 4: Correct your reasoning</h3>
+              <p class="panel-sub">For every miss, find out exactly where your thinking went off.</p>
               <h3>Use the explanations</h3>
               <p>7Sage and LSAT Demon explain every official question, step by step.</p>
 
@@ -822,13 +821,11 @@
               </details>
               <p class="sent" id="contact-sent" hidden>Thanks! Your message is on its way. I'll reply by email soon.</p>
             </div>
-          </details>
-        </li>
-
-        <li>
-          <details class="path-step" id="schedule-step">
-            <summary><span class="step-num"></span><span class="step-head"><strong>Keep a consistent schedule</strong><span>A little most days beats a big cram once a week.</span></span></summary>
+      </div>
+      <div class="step-panel" role="tabpanel" id="step-schedule" aria-labelledby="tab-step-schedule" hidden>
             <div class="step-body">
+              <h3 class="panel-title">Step 5: Keep a consistent schedule</h3>
+              <p class="panel-sub">A little most days beats a big cram once a week.</p>
               <p>Here's your week-by-week plan, built around the days you picked. Every week or two, take a full practice test with the timer on, in a quiet place, like the real thing.</p>
               <div class="weeks" id="out-weeks"></div>
               <div id="calendar-box" class="calendar-box" hidden>
@@ -843,38 +840,9 @@
                 <p class="error" id="calendar-error" role="alert"></p>
               </div>
             </div>
-          </details>
-        </li>
-      </ol>
+      </div>
     </div>
 
-    <div class="section">
-      <details class="browse" id="browse">
-        <summary><h2>Browse all resources</h2><span>Everything we've found, from cheapest to most expensive, with the ones picked for you first.</span></summary>
-        <h3>Picked for you</h3>
-        <div class="resource-list" id="out-picks"></div>
-        <h3 class="spaced">All resources</h3>
-        <p class="sub">Prices change, so double-check before you buy.</p>
-        <div class="filters">
-          <div class="chips" id="category-chips" role="group" aria-label="Category">
-            <button class="chip" type="button" data-category="all" aria-pressed="true">All</button>
-            <button class="chip" type="button" data-category="courses" aria-pressed="false">Courses and tutors</button>
-            <button class="chip" type="button" data-category="practice" aria-pressed="false">Practice and tools</button>
-            <button class="chip" type="button" data-category="books" aria-pressed="false">Books</button>
-            <button class="chip" type="button" data-category="media" aria-pressed="false">Videos and podcasts</button>
-          </div>
-          <div class="chips" id="budget-chips" role="group" aria-label="Budget">
-            <button class="chip" type="button" data-budget="Infinity" aria-pressed="true">Any price</button>
-            <button class="chip" type="button" data-budget="500" aria-pressed="false">Under $500</button>
-            <button class="chip" type="button" data-budget="100" aria-pressed="false">Under $100</button>
-            <button class="chip" type="button" data-budget="0" aria-pressed="false">Free</button>
-          </div>
-        </div>
-        <p class="count" id="library-count"></p>
-        <div class="resource-list" id="out-library"></div>
-        <button class="btn secondary more-btn" type="button" id="library-more" hidden>Show more</button>
-      </details>
-    </div>
 
     <p class="fineprint">LSAT Compass is not part of LSAC.</p>
   </section>
@@ -1036,8 +1004,8 @@ function renderResults(data) {
   $('foundation-sub').textContent = strong
     ? "You've already got this down. Open it if you want a refresher."
     : 'Learn how the LSAT wants you to think before you grind practice tests.';
-  // Open the first step this student needs: the foundations below 160, practice questions at 160+.
-  document.querySelectorAll('#path > li > details').forEach((d, i) => { d.open = i === (strong ? 1 : 0); });
+  // Show the first step this student needs: the foundations below 160, practice questions at 160+.
+  selectStep(strong ? 'step-practice' : 'step-foundation', false);
 
   const sections = [
     { name: 'Logical Reasoning', score: state.lrScore, max: 52 },
@@ -1080,12 +1048,9 @@ function renderResults(data) {
   $('calendar-start').textContent = planStart().toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
 
   const picks = [...(data.picks || [])].sort((a, b) => byPrice(a.resource, b.resource));
-  $('out-picks').innerHTML = picks.length
-    ? picks.map(p => resourceCard(p.resource, p.why)).join('')
-    : '<p class="empty">No picks this time. Browse the full list below.</p>';
+  $('out-picks').innerHTML = picks.map(p => resourceCard(p.resource, p.why)).join('');
+  $('picks-box').hidden = picks.length === 0;
   if (state.scaledScore) $('c-score').value = state.scaledScore;
-
-  renderLibrary();
 
   const opener = gap > 0
     ? `Hey! Paste in a question you missed, with the answer you picked, and I'll show you where the reasoning went off. You can also ask about your plan.`
@@ -1107,16 +1072,38 @@ function percentBelow(score) {
   return PERCENT_BELOW[lo] + (PERCENT_BELOW[hi] - PERCENT_BELOW[lo]) * (score - lo) / (hi - lo);
 }
 
-// ---------- opening steps from links ----------
+// ---------- path steps ----------
 
+function selectStep(id, focus = true) {
+  document.querySelectorAll('#stepper [role=tab]').forEach(tab => {
+    const on = tab.getAttribute('aria-controls') === id;
+    tab.setAttribute('aria-selected', String(on));
+    tab.tabIndex = on ? 0 : -1;
+    $(tab.getAttribute('aria-controls')).hidden = !on;
+    if (on && focus) tab.focus();
+  });
+}
+$('stepper').addEventListener('click', (e) => {
+  const tab = e.target.closest('[role=tab]');
+  if (tab) selectStep(tab.getAttribute('aria-controls'));
+});
+$('stepper').addEventListener('keydown', (e) => {
+  if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+  const tabs = [...document.querySelectorAll('#stepper [role=tab]')];
+  const i = tabs.indexOf(document.activeElement);
+  if (i === -1) return;
+  selectStep(tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length].getAttribute('aria-controls'));
+});
+
+// Links like "A coach" jump to another step.
 document.addEventListener('click', (e) => {
   const link = e.target.closest('[data-open]');
   if (!link) return;
   e.preventDefault();
-  const target = $(link.dataset.open);
-  const details = target.matches('details') ? target : target.querySelector('details');
-  if (details) details.open = true;
-  target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  selectStep(link.dataset.open, false);
+  const anchor = link.getAttribute('href');
+  const target = anchor && anchor.length > 1 ? document.querySelector(anchor) : $('stepper');
+  (target || $('stepper')).scrollIntoView({ behavior: 'smooth', block: 'start' });
 });
 
 // ---------- calendar links ----------
@@ -1218,24 +1205,7 @@ $('contact-form').addEventListener('submit', async (e) => {
 
 // ---------- resource library ----------
 
-const library = [];
-const CATEGORY_GROUP = {
-  course: 'courses', tutoring: 'courses', program: 'courses',
-  practice: 'practice', official: 'practice', tool: 'practice', app: 'practice', community: 'practice',
-  book: 'books',
-  video: 'media', podcast: 'media',
-};
-let activeCategory = 'all';
-let activeBudget = Infinity;
-const PAGE_SIZE = 8;
-let libraryLimit = PAGE_SIZE;
-
-fetch('/api/resources')
-  .then(r => r.json())
-  .then(data => { library.push(...data.resources.filter(r => CATEGORY_GROUP[r.category])); renderLibrary(); })
-  .catch(err => console.warn('Could not load resources', err));
-
-// Unknown prices (like tutoring marketplaces) count as paid for the price filter.
+// Unknown prices (like tutoring marketplaces) sort after every known price.
 function priceOf(r) {
   if (r.cost === 'free') return 0;
   return r.price_usd ?? Infinity;
@@ -1263,36 +1233,6 @@ function resourceCard(r, why) {
     <p class="resource-why">${escapeHtml(why || r.best_for)}</p>
   </a>`;
 }
-
-function renderLibrary() {
-  const items = library
-    .filter(r => activeCategory === 'all' || CATEGORY_GROUP[r.category] === activeCategory)
-    .filter(r => priceOf(r) <= activeBudget)
-    .sort(byPrice);
-  $('library-count').textContent = library.length ? `${items.length} ${items.length === 1 ? 'resource' : 'resources'}` : '';
-  const visible = items.slice(0, libraryLimit);
-  $('out-library').innerHTML = items.length
-    ? visible.map(r => resourceCard(r)).join('')
-    : library.length ? '<p class="empty">No resources match this price. Select a higher price.</p>' : '';
-  const more = $('library-more');
-  more.hidden = items.length <= libraryLimit;
-  more.textContent = `Show ${Math.min(PAGE_SIZE, items.length - libraryLimit)} more`;
-}
-
-$('library-more').addEventListener('click', () => { libraryLimit += PAGE_SIZE; renderLibrary(); });
-
-function chipGroup(groupId, attr, onPick) {
-  $(groupId).addEventListener('click', (e) => {
-    const chip = e.target.closest('.chip');
-    if (!chip) return;
-    $(groupId).querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c === chip)));
-    onPick(chip.dataset[attr]);
-    libraryLimit = PAGE_SIZE;
-    renderLibrary();
-  });
-}
-chipGroup('category-chips', 'category', v => { activeCategory = v; });
-chipGroup('budget-chips', 'budget', v => { activeBudget = v === 'Infinity' ? Infinity : Number(v); });
 
 // ---------- chat ----------
 
